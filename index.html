@@ -15,18 +15,34 @@
   <meta name="apple-mobile-web-app-title" content="Helplines">
   <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
   
-  <link rel="stylesheet" href="css/styles.css?v=2">
+  <link rel="stylesheet" href="css/styles.css?v=3">
 </head>
 <body>
 
   <!-- Top App Header -->
   <header class="app-header">
     <div class="container header-inner">
-      <a href="#" class="logo-area">
-        <div class="logo-icon">🚨</div>
+      <a href="#" class="logo-area" title="Helplines - Emergency Response">
+        <div class="logo-beacon-wrap">
+          <div class="beacon-pulse-ring"></div>
+          <div class="logo-icon-svg">
+            <svg viewBox="0 0 32 32" width="22" height="22" fill="none">
+              <!-- Emergency Siren Beacon Light -->
+              <path d="M16 4C10.48 4 6 8.48 6 14V22H26V14C26 8.48 21.52 4 16 4Z" fill="#ffffff" opacity="0.95"/>
+              <path d="M16 7C12.13 7 9 10.13 9 14V20H23V14C23 10.13 19.87 7 16 7Z" fill="#dc2626"/>
+              <!-- Phone Receiver Inside -->
+              <path d="M13.5 12C13.2 12 12.8 12.2 12.6 12.5L11.8 13.5C11.5 13.9 11.4 14.4 11.6 14.9C12.2 16.5 13.5 17.8 15.1 18.4C15.6 18.6 16.1 18.5 16.5 18.2L17.5 17.4C17.8 17.2 18 16.8 18 16.5V15.2C18 14.7 17.6 14.2 17 14.1L15.6 13.8C15.2 13.7 14.7 13.9 14.5 14.2L14.2 14.5C13.6 14.2 13.1 13.7 12.8 13.1L13.1 12.8C13.4 12.6 13.6 12.1 13.5 11.7L13.5 12Z" fill="#ffffff"/>
+              <!-- Base and light rays -->
+              <rect x="4" y="22" width="24" height="4" rx="2" fill="#ffffff"/>
+              <line x1="16" y1="1" x2="16" y2="3" stroke="#fef08a" stroke-width="2" stroke-linecap="round"/>
+              <line x1="6" y1="5" x2="8" y2="7" stroke="#fef08a" stroke-width="2" stroke-linecap="round"/>
+              <line x1="26" y1="5" x2="24" y2="7" stroke="#fef08a" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
         <div class="brand-text">
           <h1>Helplines</h1>
-          <span>Emergency Helpline Hub</span>
+          <span>Emergency Hub</span>
         </div>
       </a>
 
@@ -63,51 +79,70 @@
       <div class="fast-dial-grid">
         <!-- 112 Unified / Police -->
         <a id="fast112Btn" href="tel:112" class="fast-btn btn-police">
-          <div class="fast-btn-left">
+          <div class="fast-btn-header">
             <span class="fast-btn-icon">🚨</span>
-            <div>
-              <div class="fast-btn-name">POLICE / ALL EMERGENCY</div>
-              <div class="fast-btn-sub">ERSS Unified Patrol (All-in-One)</div>
-            </div>
+            <div class="fast-btn-num">112</div>
           </div>
-          <div class="fast-btn-num">112 <span>📞</span></div>
+          <div class="fast-btn-info">
+            <div class="fast-btn-name">POLICE</div>
+            <div class="fast-btn-sub">Emergency & Patrol</div>
+          </div>
         </a>
 
         <!-- Ambulance -->
         <a id="fastAmbulanceBtn" href="tel:108" class="fast-btn btn-ambulance">
-          <div class="fast-btn-left">
+          <div class="fast-btn-header">
             <span class="fast-btn-icon">🚑</span>
-            <div>
-              <div class="fast-btn-name">AMBULANCE / MEDICAL</div>
-              <div class="fast-btn-sub">Trauma, ICU & Hospital Transit</div>
-            </div>
+            <div class="fast-btn-num">108</div>
           </div>
-          <div class="fast-btn-num">108 <span>📞</span></div>
+          <div class="fast-btn-info">
+            <div class="fast-btn-name">AMBULANCE</div>
+            <div class="fast-btn-sub">Medical & Hospital</div>
+          </div>
         </a>
 
         <!-- Women Safety (State-Specific Override e.g. UP 1090) -->
         <a id="fastWomenBtn" href="tel:1090" class="fast-btn btn-women">
-          <div class="fast-btn-left">
+          <div class="fast-btn-header">
             <span class="fast-btn-icon">🌸</span>
-            <div>
-              <div id="fastWomenName" class="fast-btn-name">UP 1090 WOMEN POWER LINE</div>
-              <div id="fastWomenSub" class="fast-btn-sub">Dedicated 24x7 Force Against Harassment</div>
-            </div>
+            <div id="fastWomenNum" class="fast-btn-num">1090</div>
           </div>
-          <div id="fastWomenNum" class="fast-btn-num">1090 <span>📞</span></div>
+          <div class="fast-btn-info">
+            <div id="fastWomenName" class="fast-btn-name">WOMEN SAFETY</div>
+            <div id="fastWomenSub" class="fast-btn-sub">Anti-Harassment</div>
+          </div>
         </a>
 
         <!-- Fire Brigade -->
         <a id="fastFireBtn" href="tel:101" class="fast-btn btn-fire">
-          <div class="fast-btn-left">
+          <div class="fast-btn-header">
             <span class="fast-btn-icon">🔥</span>
-            <div>
-              <div class="fast-btn-name">FIRE & RESCUE SERVICE</div>
-              <div class="fast-btn-sub">Building Fire, Gas Leak, Entrapment</div>
-            </div>
+            <div class="fast-btn-num">101</div>
           </div>
-          <div class="fast-btn-num">101 <span>📞</span></div>
+          <div class="fast-btn-info">
+            <div class="fast-btn-name">FIRE</div>
+            <div class="fast-btn-sub">Rescue & Gas Leak</div>
+          </div>
         </a>
+      </div>
+    </section>
+
+    <!-- SMART TEXT SEARCH SECTION (Immediate Discovery) -->
+    <section class="search-hero">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+        <h2>Describe what help you need:</h2>
+      </div>
+      <p>Type in English or Hindi (e.g., "chori ho gayi", "accident", "fire", "fraud").</p>
+
+      <div class="search-input-wrap">
+        <span class="search-icon">🔍</span>
+        <input 
+          type="text" 
+          id="needInput" 
+          class="search-input" 
+          placeholder="Type what happened (police, accident, hospital, crime)..."
+          autocomplete="off"
+        >
       </div>
     </section>
 
@@ -116,7 +151,7 @@
       <div class="loc-card-left">
         <span class="loc-pin-icon">📍</span>
         <div>
-          <div class="loc-label">YOUR EXACT LOCATION (SHARE WITH POLICE/AMBULANCE):</div>
+          <div class="loc-label">YOUR EXACT LOCATION (FOR POLICE / AMBULANCE):</div>
           <div id="exactAddressText" class="loc-address">Detecting street & GPS coordinates...</div>
           <div id="exactCoordsText" class="loc-coords">Lat: --, Lng: --</div>
         </div>
@@ -131,22 +166,22 @@
       </div>
     </div>
 
-    <!-- Region Banner (Shows state specialty details like UP 1090, 1076, etc.) -->
-    <div id="regionBanner" class="region-banner">
+    <!-- Hidden region banner (kept in DOM for JS updates without pushing UI) -->
+    <div id="regionBanner" class="region-banner" style="display: none;">
       <div class="region-banner-icon">📍</div>
       <div class="region-banner-content">
-        <h4 id="regionBannerTitle">Uttar Pradesh Emergency Grid Active</h4>
-        <p id="regionBannerText">UP 112 Patrol, UP 1090 Women Power Line, 1076 CM Helpline & Expressway Emergency are prioritized.</p>
+        <h4 id="regionBannerTitle">State Emergency Active</h4>
+        <p id="regionBannerText"></p>
       </div>
     </div>
 
     <!-- 1-TAP SCENARIO EMERGENCY BUTTONS (Zero Typing Needed!) -->
     <section class="scenario-section">
-      <div class="scenario-title">⚡ COMMON EMERGENCY SCENARIOS (1-TAP TO RESOLVE):</div>
+      <div class="scenario-title">⚡ QUICK SCENARIOS (1-TAP TO RESOLVE):</div>
       <div class="scenario-grid">
         <button class="scenario-btn" data-query="Someone is following me and harassing girl women">
           <span class="sc-icon">🏃‍♀️</span>
-          <span class="sc-text">Stalker / Girl Harassed</span>
+          <span class="sc-text">Stalker / Harassed</span>
         </button>
         <button class="scenario-btn" data-query="Heart attack chest pain uncle unconscious collapsed">
           <span class="sc-icon">💔</span>
@@ -158,7 +193,7 @@
         </button>
         <button class="scenario-btn" data-query="Fire in kitchen building cylinder blast smoke">
           <span class="sc-icon">🔥</span>
-          <span class="sc-text">Fire / Gas Cylinder Leak</span>
+          <span class="sc-text">Fire / Cylinder Leak</span>
         </button>
         <button class="scenario-btn" data-query="Money stolen from bank account online fraud UPI scam">
           <span class="sc-icon">💳</span>
@@ -166,7 +201,7 @@
         </button>
         <button class="scenario-btn" data-query="Feeling suicidal depressed want to end life help">
           <span class="sc-icon">🧠</span>
-          <span class="sc-text">Suicide / Mental Crisis</span>
+          <span class="sc-text">Suicide / Mental Help</span>
         </button>
         <button class="scenario-btn" data-query="Highway car breakdown flat tyre towing accident">
           <span class="sc-icon">🚗</span>
@@ -174,27 +209,8 @@
         </button>
         <button class="scenario-btn" data-query="Child abuse minor kid lost orphan baby">
           <span class="sc-icon">👶</span>
-          <span class="sc-text">Lost Child / Child Abuse</span>
+          <span class="sc-text">Child in Danger (1098)</span>
         </button>
-      </div>
-    </section>
-
-    <!-- SMART TEXT SEARCH SECTION -->
-    <section class="search-hero">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-        <h2>Describe what help you need:</h2>
-      </div>
-      <p>Type in English or Hindi (e.g., "chori ho gayi", "accident in lucknow", "fire in building").</p>
-
-      <div class="search-input-wrap">
-        <span class="search-icon">🔍</span>
-        <input 
-          type="text" 
-          id="needInput" 
-          class="search-input" 
-          placeholder="Type what happened (e.g. accident, fire, police, fraud)..."
-          autocomplete="off"
-        >
       </div>
     </section>
 
@@ -349,6 +365,6 @@
   <a id="emergencyAutoDialLink" href="tel:112" style="display: none;"></a>
 
   <!-- Core App Logic -->
-  <script type="module" src="js/app.js?v=2"></script>
+  <script type="module" src="js/app.js?v=3"></script>
 </body>
 </html>

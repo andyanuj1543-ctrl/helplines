@@ -1,5 +1,5 @@
 // Service Worker for Helplines Emergency App
-const CACHE_NAME = 'helplines-cache-v2';
+const CACHE_NAME = 'helplines-cache-v3';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

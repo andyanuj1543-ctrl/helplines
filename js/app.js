@@ -417,29 +417,29 @@ class HelplinesApp {
    */
   updateFastDialWomenButton(stateName) {
     if (stateName === "Uttar Pradesh") {
-      this.fastWomenName.textContent = "UP 1090 WOMEN POWER LINE";
-      this.fastWomenSub.textContent = "Specialized 24x7 Force Against Stalking & Abuse";
-      this.fastWomenNum.innerHTML = "1090 <span>📞</span>";
+      this.fastWomenName.textContent = "UP WOMEN 1090";
+      this.fastWomenSub.textContent = "Power Line & Anti-Harassment";
+      this.fastWomenNum.textContent = "1090";
       this.fastWomenBtn.href = "tel:1090";
     } else if (stateName === "Delhi") {
-      this.fastWomenName.textContent = "DELHI 181 DCW WOMEN RESCUE";
-      this.fastWomenSub.textContent = "Delhi Commission for Women Rapid 24x7 Dispatch";
-      this.fastWomenNum.innerHTML = "181 <span>📞</span>";
+      this.fastWomenName.textContent = "DELHI DCW 181";
+      this.fastWomenSub.textContent = "Women Rescue & Dispatch";
+      this.fastWomenNum.textContent = "181";
       this.fastWomenBtn.href = "tel:181";
     } else if (stateName === "Gujarat") {
-      this.fastWomenName.textContent = "GUJARAT 181 ABHAYAM";
-      this.fastWomenSub.textContent = "24x7 Mobile Rescue Van & Counselor Dispatch";
-      this.fastWomenNum.innerHTML = "181 <span>📞</span>";
+      this.fastWomenName.textContent = "GUJARAT 181";
+      this.fastWomenSub.textContent = "Abhayam Rescue Van";
+      this.fastWomenNum.textContent = "181";
       this.fastWomenBtn.href = "tel:181";
     } else if (stateName === "Maharashtra") {
-      this.fastWomenName.textContent = "MAHARASHTRA 103 / 181 WOMEN";
-      this.fastWomenSub.textContent = "Mumbai Police & State Women Assistance";
-      this.fastWomenNum.innerHTML = "103 <span>📞</span>";
+      this.fastWomenName.textContent = "MUMBAI WOMEN 103";
+      this.fastWomenSub.textContent = "Police Women Helpline";
+      this.fastWomenNum.textContent = "103";
       this.fastWomenBtn.href = "tel:103";
     } else {
-      this.fastWomenName.textContent = "WOMEN IN DISTRESS (1091 / 181)";
-      this.fastWomenSub.textContent = "National 24x7 Rapid Women Safety & Support";
-      this.fastWomenNum.innerHTML = "1091 <span>📞</span>";
+      this.fastWomenName.textContent = "WOMEN SAFETY";
+      this.fastWomenSub.textContent = "National Distress (1091)";
+      this.fastWomenNum.textContent = "1091";
       this.fastWomenBtn.href = "tel:1091";
     }
   }
