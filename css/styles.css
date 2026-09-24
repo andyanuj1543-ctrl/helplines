@@ -100,20 +100,29 @@ body {
   letter-spacing: 0.5px;
 }
 
+/* Header Controls on right */
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
 /* Location Bar in Header */
 .location-pill-btn {
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: #f1f5f9;
+  gap: 6px;
+  background: #f8fafc;
   border: 1px solid #cbd5e1;
   border-radius: 30px;
-  padding: 6px 14px;
+  padding: 6px 12px;
   cursor: pointer;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 600;
   color: #1e293b;
   transition: all 0.2s ease;
+  max-width: 170px;
 }
 
 .location-pill-btn:hover {
@@ -121,38 +130,13 @@ body {
   border-color: #94a3b8;
 }
 
-/* Header Voice Emergency Button */
-.header-voice-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
-  color: #ffffff;
-  border: none;
-  border-radius: 30px;
-  padding: 6px 14px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
-  transition: all 0.2s ease;
-  white-space: nowrap;
+.location-chevron {
+  font-size: 0.7rem;
+  color: #64748b;
+  flex-shrink: 0;
 }
 
-.header-voice-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.5);
-  background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
-}
 
-.header-voice-btn:active {
-  transform: translateY(1px);
-}
-
-.header-voice-mic {
-  font-size: 1rem;
-  line-height: 1;
-}
 
 .pwa-install-btn {
   display: inline-flex;
@@ -1217,13 +1201,14 @@ body {
   }
   .brand-text span {
     display: none;
+  }
   .location-pill-btn {
     padding: 6px 10px;
     font-size: 0.75rem;
-    max-width: 130px;
+    max-width: 140px;
   }
   .pwa-install-btn {
-    padding: 5px 10px;
+    padding: 6px 12px;
     font-size: 0.75rem;
     white-space: nowrap;
   }
@@ -1232,24 +1217,58 @@ body {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+  /* Fast Dial Cards on Mobile */
   .fast-dial-grid {
-    grid-template-columns: 1fr;
-    gap: 8px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
   }
   .fast-btn {
-    padding: 10px 12px;
+    padding: 14px 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    min-height: 120px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  .fast-btn-left {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    width: 100%;
   }
   .fast-btn-icon {
-    font-size: 1.5rem;
+    font-size: 2rem;
+    line-height: 1;
   }
   .fast-btn-name {
     font-size: 0.85rem;
+    font-weight: 800;
+    line-height: 1.2;
   }
   .fast-btn-sub {
-    font-size: 0.72rem;
+    font-size: 0.68rem;
+    opacity: 0.85;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
   .fast-btn-num {
-    font-size: 1.3rem;
+    font-size: 1.45rem;
+    font-weight: 900;
+    align-self: flex-end;
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(0, 0, 0, 0.15);
+    padding: 3px 8px;
+    border-radius: 20px;
+  }
+  .fast-btn-num span {
+    font-size: 1rem;
   }
   .scenario-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1258,13 +1277,18 @@ body {
   .live-location-card {
     flex-direction: column;
     align-items: flex-start;
+    padding: 12px 14px;
+    border-radius: 14px;
   }
   .loc-card-actions {
     width: 100%;
+    margin-top: 8px;
   }
   .quick-share-btn {
     flex: 1;
     justify-content: center;
+    padding: 8px 12px;
+    font-size: 0.8rem;
   }
   .primary-match-box {
     flex-direction: column;
@@ -1278,33 +1302,56 @@ body {
     font-size: 1.8rem;
   }
   .bottom-dock {
-    padding: 8px 10px;
+    padding: 8px 12px;
+    border-top: 1px solid rgba(226, 232, 240, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
   .dock-inner {
-    gap: 6px;
+    gap: 8px;
   }
   .dock-sos-btn {
-    padding: 10px 12px;
-    font-size: 0.88rem;
+    padding: 10px 14px;
+    font-size: 0.9rem;
     flex: 1.4;
-    white-space: nowrap;
+    border-radius: 25px;
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.35);
   }
   .dock-action-btn {
     min-width: 52px;
     padding: 6px 8px;
     font-size: 0.72rem;
+    border-radius: 14px;
   }
 }
 
 @media (max-width: 380px) {
+  .fast-dial-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .fast-btn {
+    flex-direction: row;
+    align-items: center;
+    min-height: auto;
+    padding: 12px 14px;
+  }
+  .fast-btn-left {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+  .fast-btn-num {
+    align-self: center;
+  }
   .dock-sos-btn {
-    font-size: 0.8rem;
+    font-size: 0.82rem;
     padding: 8px 10px;
   }
   .dock-action-btn {
-    min-width: 48px;
-    padding: 6px 6px;
-    font-size: 0.68rem;
+    min-width: 46px;
+    padding: 6px 4px;
+    font-size: 0.65rem;
   }
 }
 
