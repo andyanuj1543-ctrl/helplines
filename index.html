@@ -15,7 +15,7 @@
   <meta name="apple-mobile-web-app-title" content="Helplines">
   <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
   
-  <link rel="stylesheet" href="css/styles.css?v=5">
+  <link rel="stylesheet" href="css/styles.css?v=6">
 </head>
 <body>
 
@@ -25,6 +25,21 @@
     <div>
       <div class="silent-toast-text" id="silentToastTitle">Emergency Trigger: Dialing 112</div>
       <div class="silent-toast-sub" id="silentToastSub">Silent emergency call initiated without siren</div>
+    </div>
+  </div>
+
+  <!-- Hold Screen Emergency Indicator (2s Circular Countdown) -->
+  <div id="holdProgressOverlay" class="hold-progress-overlay">
+    <div class="hold-progress-box">
+      <svg class="hold-progress-svg" viewBox="0 0 100 100">
+        <circle class="hold-circle-bg" cx="50" cy="50" r="42"></circle>
+        <circle id="holdCircleBar" class="hold-circle-bar" cx="50" cy="50" r="42"></circle>
+      </svg>
+      <div class="hold-content">
+        <span class="hold-icon">⚡</span>
+        <div class="hold-title" id="holdProgressText">HOLD FOR 112</div>
+        <div class="hold-sub">Release to cancel</div>
+      </div>
     </div>
   </div>
 
@@ -136,10 +151,10 @@
       </div>
     </section>
 
-    <!-- ⚡ VOLUME SHORTCUT TIP: Press Volume Up + Down together to auto-dial 112 silently -->
+    <!-- ⚡ EMERGENCY SHORTCUT TIP: Hold Screen for 2s or Shake Phone to auto-dial 112 silently -->
     <div class="volume-shortcut-bar" id="volumeShortcutBar">
       <span class="volume-shortcut-icon">⚡</span>
-      <span id="volumeShortcutText" class="volume-shortcut-text"><strong>Emergency Shortcut:</strong> Press <strong>Volume Up + Volume Down</strong> together to dial <strong>112</strong> instantly without siren.</span>
+      <span id="volumeShortcutText" class="volume-shortcut-text"><strong>Emergency Shortcuts:</strong> <strong>Hold screen anywhere for 2s</strong> or <strong>Shake phone</strong> to dial <strong>112</strong> instantly without sirens. <em>(On Lock Screen: Press Power button 5 times)</em></span>
     </div>
 
     <!-- SMART TEXT SEARCH SECTION (Immediate Discovery) -->
@@ -380,6 +395,6 @@
   <a id="emergencyAutoDialLink" href="tel:112" style="display: none;"></a>
 
   <!-- Core App Logic -->
-  <script type="module" src="js/app.js?v=5"></script>
+  <script type="module" src="js/app.js?v=6"></script>
 </body>
 </html>

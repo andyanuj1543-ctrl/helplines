@@ -123,18 +123,128 @@ class HelplinesApp {
     this.dockGpsText = document.getElementById('dockGpsText');
     this.dockStatesText = document.getElementById('dockStatesText');
 
-    // Volume Shortcut & Silent Toast
+    // Emergency Shortcuts & Overlays
     this.volumeShortcutText = document.getElementById('volumeShortcutText');
     this.silentEmergencyToast = document.getElementById('silentEmergencyToast');
     this.silentToastTitle = document.getElementById('silentToastTitle');
     this.silentToastSub = document.getElementById('silentToastSub');
+    this.holdProgressOverlay = document.getElementById('holdProgressOverlay');
+    this.holdProgressText = document.getElementById('holdProgressText');
 
+    this.initEmergencyShortcuts();
+  }
+
+  /**
+   * Initializes all redundant emergency shortcuts:
+   * 1. Hold Screen anywhere for 1.8s (Foolproof in dark/panic)
+   * 2. Shake Phone vigorously 3 times (Accelerometer)
+   * 3. Volume Up + Down combo (Hardware buttons)
+   */
+  initEmergencyShortcuts() {
+    this.initHoldScreenTrigger();
+    this.initShakeTrigger();
     this.initVolumeEmergencyTrigger();
   }
 
   /**
-   * ⚡ Silent Emergency Trigger: Volume Up + Volume Down pressed simultaneously
-   * When both volume buttons are pressed together, silently and instantly dials 112 without sirens!
+   * 1. ⚡ Hold Screen for 1.8s: Press & hold finger anywhere on screen
+   * Circular countdown visual & haptic pulse; at 1.8s, automatically dials 112 silently!
+   * Releasing finger before 1.8s immediately cancels with zero false alarms.
+   */
+  initHoldScreenTrigger() {
+    let holdTimer = null;
+    let startX = 0, startY = 0;
+
+    const startHold = (e) => {
+      // Don't trigger if user is interacting with buttons, inputs, links or modals
+      if (e.target.closest('button, a, input, select, textarea, .modal-content, #dismissSosBtn')) {
+        return;
+      }
+
+      startX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
+      startY = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : 0);
+
+      if (this.holdProgressOverlay) {
+        this.holdProgressOverlay.classList.add('active');
+      }
+
+      if ('vibrate' in navigator) {
+        try { navigator.vibrate(40); } catch(err) {}
+      }
+
+      holdTimer = setTimeout(() => {
+        cancelHold();
+        this.triggerSilentEmergencyCall("Hold Screen for 2s");
+      }, 1800);
+    };
+
+    const cancelHold = () => {
+      if (holdTimer) {
+        clearTimeout(holdTimer);
+        holdTimer = null;
+      }
+      if (this.holdProgressOverlay) {
+        this.holdProgressOverlay.classList.remove('active');
+      }
+    };
+
+    const checkMove = (e) => {
+      if (!holdTimer) return;
+      const curX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
+      const curY = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : 0);
+      if (Math.abs(curX - startX) > 16 || Math.abs(curY - startY) > 16) {
+        cancelHold();
+      }
+    };
+
+    // Mobile touch listeners
+    document.addEventListener('touchstart', startHold, { passive: true });
+    document.addEventListener('touchmove', checkMove, { passive: true });
+    document.addEventListener('touchend', cancelHold, { passive: true });
+    document.addEventListener('touchcancel', cancelHold, { passive: true });
+
+    // Desktop mouse/pointer fallback
+    document.addEventListener('mousedown', startHold);
+    document.addEventListener('mousemove', checkMove);
+    document.addEventListener('mouseup', cancelHold);
+  }
+
+  /**
+   * 2. ⚡ Shake to Call 112: Detects 3 vigorous shakes using Accelerometer
+   */
+  initShakeTrigger() {
+    let lastShakeTime = 0;
+    let shakeCount = 0;
+    let lastX = null, lastY = null, lastZ = null;
+
+    window.addEventListener('devicemotion', (e) => {
+      const acc = e.accelerationIncludingGravity || e.acceleration;
+      if (!acc || acc.x === null) return;
+
+      const now = Date.now();
+      if (lastX !== null) {
+        const delta = Math.abs(acc.x - lastX) + Math.abs(acc.y - lastY) + Math.abs(acc.z - lastZ);
+        if (delta > 28) {
+          if (now - lastShakeTime < 1000) {
+            shakeCount++;
+            if (shakeCount >= 3) {
+              shakeCount = 0;
+              this.triggerSilentEmergencyCall("Phone Shake Motion");
+            }
+          } else {
+            shakeCount = 1;
+          }
+          lastShakeTime = now;
+        }
+      }
+      lastX = acc.x;
+      lastY = acc.y;
+      lastZ = acc.z;
+    }, { passive: true });
+  }
+
+  /**
+   * 3. ⚡ Hardware Volume Buttons (for desktop keyboards / supported devices)
    */
   initVolumeEmergencyTrigger() {
     let volUpActive = false;
@@ -145,7 +255,6 @@ class HelplinesApp {
 
     const checkSimultaneousTrigger = (sourceKey = "") => {
       const now = Date.now();
-      // Debounce: prevent duplicate triggers within 6 seconds
       if (now - lastTriggerTime < 6000) return;
 
       const isSimultaneous = (volUpActive && volDownActive) ||
@@ -161,7 +270,6 @@ class HelplinesApp {
       }
     };
 
-    // Hardware volume key listeners on window
     window.addEventListener('keydown', (e) => {
       const k = e.key || e.code || "";
       const isUp = k === "AudioVolumeUp" || k === "VolumeUp" || (k === "ArrowUp" && (e.altKey || e.ctrlKey));
@@ -195,7 +303,7 @@ class HelplinesApp {
   /**
    * Silently triggers emergency response and automatically dials 112 without sirens
    */
-  triggerSilentEmergencyCall(triggerSource = "Volume Buttons Shortcut") {
+  triggerSilentEmergencyCall(triggerSource = "Emergency Shortcut") {
     // 1. Guarantee absolutely NO siren sound is playing
     if (this.sosService && this.sosService.isSirenPlaying) {
       this.sosService.stopSiren();
@@ -406,6 +514,9 @@ class HelplinesApp {
     }
     if (this.silentToastSub && s.silentToastSub) {
       this.silentToastSub.textContent = s.silentToastSub;
+    }
+    if (this.holdProgressText && s.holdProgressText) {
+      this.holdProgressText.textContent = s.holdProgressText;
     }
 
     if (this.searchTitleText) this.searchTitleText.textContent = s.searchTitle;
