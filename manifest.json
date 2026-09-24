@@ -1,0 +1,39 @@
+{
+  "name": "Helplines - Emergency Response",
+  "short_name": "Helplines",
+  "description": "Fastest access to Police, Ambulance, Fire and Women Safety helplines across India.",
+  "start_url": "/",
+  "id": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#dc2626",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Call 112 Police",
+      "short_name": "Police",
+      "description": "Emergency Unified Police Helpline",
+      "url": "/#fast112Btn"
+    },
+    {
+      "name": "Call 108 Ambulance",
+      "short_name": "Ambulance",
+      "description": "Emergency Medical Response",
+      "url": "/#fast108Btn"
+    }
+  ]
+}

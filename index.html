@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Helplines • Instant Emergency Response</title>
+  <meta name="description" content="Fastest access to Police, Ambulance, Women Safety and Fire helplines with 1-tap calling, voice input, and GPS location dispatch.">
+  <meta name="theme-color" content="#dc2626">
+  
+  <!-- PWA & Mobile App Support -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Helplines">
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+  
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Top App Header -->
+  <header class="app-header">
+    <div class="container header-inner">
+      <a href="#" class="logo-area">
+        <div class="logo-icon">🚨</div>
+        <div class="brand-text">
+          <h1>Helplines</h1>
+          <span>Emergency Helpline Hub</span>
+        </div>
+      </a>
+
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <!-- State & GPS Pill -->
+        <button id="locationPillBtn" class="location-pill-btn" title="Click to change state or detect GPS">
+          <span id="gpsDot" class="gps-dot"></span>
+          <span id="locationText">Detecting Location...</span>
+          <span style="font-size: 0.75rem; color: #64748b;">▼</span>
+        </button>
+
+        <!-- Install App Button (Positioned at the side of location) -->
+        <button id="pwaInstallBtn" class="pwa-install-btn" title="Install Helplines as an App on your phone">
+          <span>📲</span> <strong>Install App</strong>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- ⚡ PANIC TRIGGER BANNER: 3 Clicks on Power/Side Button Trigger Automatic Emergency Call -->
+    <div id="panicBanner" class="panic-banner" title="Press side/power button or screen 3 times rapidly to trigger emergency call automatically">
+      <span class="panic-badge">⚡ 3-TAP AUTO-CALL</span>
+      <span class="panic-text">Tap <strong>Phone Side/Power Button</strong> or screen <strong>3 times quickly</strong> to auto-dial emergency <strong>112</strong>!</span>
+    </div>
+
+    <!-- FAST ACCESS HERO: 4 Instant Dial Emergency Buttons -->
+    <section class="fast-dial-section">
+      <div class="fast-dial-title">
+        <span>⚡ INSTANT 1-TAP EMERGENCY DIAL</span>
+        <span class="live-pulse-badge">TAP TO CALL NOW</span>
+      </div>
+      <div class="fast-dial-grid">
+        <!-- 112 Unified / Police -->
+        <a id="fast112Btn" href="tel:112" class="fast-btn btn-police">
+          <div class="fast-btn-left">
+            <span class="fast-btn-icon">🚨</span>
+            <div>
+              <div class="fast-btn-name">POLICE / ALL EMERGENCY</div>
+              <div class="fast-btn-sub">ERSS Unified Patrol (All-in-One)</div>
+            </div>
+          </div>
+          <div class="fast-btn-num">112 <span>📞</span></div>
+        </a>
+
+        <!-- Ambulance -->
+        <a id="fastAmbulanceBtn" href="tel:108" class="fast-btn btn-ambulance">
+          <div class="fast-btn-left">
+            <span class="fast-btn-icon">🚑</span>
+            <div>
+              <div class="fast-btn-name">AMBULANCE / MEDICAL</div>
+              <div class="fast-btn-sub">Trauma, ICU & Hospital Transit</div>
+            </div>
+          </div>
+          <div class="fast-btn-num">108 <span>📞</span></div>
+        </a>
+
+        <!-- Women Safety (State-Specific Override e.g. UP 1090) -->
+        <a id="fastWomenBtn" href="tel:1090" class="fast-btn btn-women">
+          <div class="fast-btn-left">
+            <span class="fast-btn-icon">🌸</span>
+            <div>
+              <div id="fastWomenName" class="fast-btn-name">UP 1090 WOMEN POWER LINE</div>
+              <div id="fastWomenSub" class="fast-btn-sub">Dedicated 24x7 Force Against Harassment</div>
+            </div>
+          </div>
+          <div id="fastWomenNum" class="fast-btn-num">1090 <span>📞</span></div>
+        </a>
+
+        <!-- Fire Brigade -->
+        <a id="fastFireBtn" href="tel:101" class="fast-btn btn-fire">
+          <div class="fast-btn-left">
+            <span class="fast-btn-icon">🔥</span>
+            <div>
+              <div class="fast-btn-name">FIRE & RESCUE SERVICE</div>
+              <div class="fast-btn-sub">Building Fire, Gas Leak, Entrapment</div>
+            </div>
+          </div>
+          <div class="fast-btn-num">101 <span>📞</span></div>
+        </a>
+      </div>
+    </section>
+
+    <!-- LIVE GPS LOCATION PIN BAR -->
+    <div class="live-location-card">
+      <div class="loc-card-left">
+        <span class="loc-pin-icon">📍</span>
+        <div>
+          <div class="loc-label">YOUR EXACT LOCATION (SHARE WITH POLICE/AMBULANCE):</div>
+          <div id="exactAddressText" class="loc-address">Detecting street & GPS coordinates...</div>
+          <div id="exactCoordsText" class="loc-coords">Lat: --, Lng: --</div>
+        </div>
+      </div>
+      <div class="loc-card-actions">
+        <button id="quickWhatsappShare" class="quick-share-btn whatsapp" title="Share live GPS pin on WhatsApp">
+          <span>💬</span> WhatsApp GPS
+        </button>
+        <button id="quickSmsShare" class="quick-share-btn sms" title="Send SMS with GPS coordinates">
+          <span>📱</span> SMS GPS
+        </button>
+      </div>
+    </div>
+
+    <!-- Region Banner (Shows state specialty details like UP 1090, 1076, etc.) -->
+    <div id="regionBanner" class="region-banner">
+      <div class="region-banner-icon">📍</div>
+      <div class="region-banner-content">
+        <h4 id="regionBannerTitle">Uttar Pradesh Emergency Grid Active</h4>
+        <p id="regionBannerText">UP 112 Patrol, UP 1090 Women Power Line, 1076 CM Helpline & Expressway Emergency are prioritized.</p>
+      </div>
+    </div>
+
+    <!-- 1-TAP SCENARIO EMERGENCY BUTTONS (Zero Typing Needed!) -->
+    <section class="scenario-section">
+      <div class="scenario-title">⚡ COMMON EMERGENCY SCENARIOS (1-TAP TO RESOLVE):</div>
+      <div class="scenario-grid">
+        <button class="scenario-btn" data-query="Someone is following me and harassing girl women">
+          <span class="sc-icon">🏃‍♀️</span>
+          <span class="sc-text">Stalker / Girl Harassed</span>
+        </button>
+        <button class="scenario-btn" data-query="Heart attack chest pain uncle unconscious collapsed">
+          <span class="sc-icon">💔</span>
+          <span class="sc-text">Heart Attack / Collapsed</span>
+        </button>
+        <button class="scenario-btn" data-query="Road accident severe bleeding injured on road">
+          <span class="sc-icon">🩸</span>
+          <span class="sc-text">Road Accident / Bleeding</span>
+        </button>
+        <button class="scenario-btn" data-query="Fire in kitchen building cylinder blast smoke">
+          <span class="sc-icon">🔥</span>
+          <span class="sc-text">Fire / Gas Cylinder Leak</span>
+        </button>
+        <button class="scenario-btn" data-query="Money stolen from bank account online fraud UPI scam">
+          <span class="sc-icon">💳</span>
+          <span class="sc-text">Bank / Cyber Fraud (1930)</span>
+        </button>
+        <button class="scenario-btn" data-query="Feeling suicidal depressed want to end life help">
+          <span class="sc-icon">🧠</span>
+          <span class="sc-text">Suicide / Mental Crisis</span>
+        </button>
+        <button class="scenario-btn" data-query="Highway car breakdown flat tyre towing accident">
+          <span class="sc-icon">🚗</span>
+          <span class="sc-text">Highway Breakdown (1033)</span>
+        </button>
+        <button class="scenario-btn" data-query="Child abuse minor kid lost orphan baby">
+          <span class="sc-icon">👶</span>
+          <span class="sc-text">Lost Child / Child Abuse</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- SMART TEXT SEARCH SECTION -->
+    <section class="search-hero">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+        <h2>Describe what help you need:</h2>
+      </div>
+      <p>Type in English or Hindi (e.g., "chori ho gayi", "accident in lucknow", "fire in building").</p>
+
+      <div class="search-input-wrap">
+        <span class="search-icon">🔍</span>
+        <input 
+          type="text" 
+          id="needInput" 
+          class="search-input" 
+          placeholder="Type what happened (e.g. accident, fire, police, fraud)..."
+          autocomplete="off"
+        >
+      </div>
+    </section>
+
+    <!-- Dynamic Smart Search Match Result -->
+    <section id="searchResultsSection" class="search-results-section">
+      <div class="match-card">
+        <div class="match-header">
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <span id="matchUrgencyBadge" class="urgency-badge">CRITICAL ACTION</span>
+            <span id="matchCategoryBadge" class="state-badge">Police & Safety</span>
+          </div>
+          <span id="matchStateBadge" class="state-badge" style="background: #f1f5f9; color: #475569;">Uttar Pradesh</span>
+        </div>
+
+        <!-- Primary Emergency Result Box -->
+        <div class="primary-match-box">
+          <div class="match-details">
+            <div id="matchTag" class="match-tag">UP Flagship Response</div>
+            <h3 id="matchName">UP 1090 Women Power Line</h3>
+            <p id="matchDesc" style="font-size: 0.86rem; color: #475569; max-width: 480px; margin-bottom: 8px;">Dedicated assistance for women facing violence, stalking, or harassment.</p>
+            <div id="matchNumber" class="match-number-display">1090</div>
+          </div>
+          <a id="primaryCallBtn" href="tel:1090" class="primary-call-btn">
+            <span>📞</span>
+            <span>CALL NOW</span>
+          </a>
+        </div>
+
+        <!-- Secondary / Alternative Numbers -->
+        <div id="altNumbersWrap" class="alt-numbers-wrap">
+          <div class="alt-numbers-title">Backup & Related Emergency Helplines:</div>
+          <div id="altNumbersGrid" class="alt-numbers-grid"></div>
+        </div>
+
+        <!-- Action Tips -->
+        <div id="actionTipsBox" class="action-tips-box">
+          <h4>⚠️ Immediate Safety Guidance:</h4>
+          <ul id="actionTipsList"></ul>
+        </div>
+
+        <!-- Share Live GPS Coordinates -->
+        <div class="share-gps-bar">
+          <button id="shareWhatsappBtn" class="gps-share-btn whatsapp">
+            <span>💬</span> Share Location via WhatsApp
+          </button>
+          <button id="shareSmsBtn" class="gps-share-btn sms">
+            <span>📱</span> Share Location via SMS
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Category Filter Bar -->
+    <section class="category-filter-section">
+      <div class="section-title-wrap">
+        <h3 class="section-title">Full Emergency Directory</h3>
+        <span id="directoryCount" style="font-size: 0.85rem; color: #64748b; font-weight: 600;">32 Helplines</span>
+      </div>
+
+      <div class="category-chips-list">
+        <button class="cat-chip active" data-category="all">All Helplines</button>
+        <button class="cat-chip" data-category="unified">🚨 ERSS 112</button>
+        <button class="cat-chip" data-category="police">👮 Police (100)</button>
+        <button class="cat-chip" data-category="women">🌸 Women (1090 / 181)</button>
+        <button class="cat-chip" data-category="ambulance">🚑 Ambulance (108 / 102)</button>
+        <button class="cat-chip" data-category="fire">🔥 Fire (101)</button>
+        <button class="cat-chip" data-category="cyber">💻 Cyber Crime (1930)</button>
+        <button class="cat-chip" data-category="mental_health">🧠 Mental Health (14416)</button>
+        <button class="cat-chip" data-category="child">👶 Childline (1098)</button>
+        <button class="cat-chip" data-category="road">🛣️ Highway & Road (1033)</button>
+        <button class="cat-chip" data-category="senior">👴 Senior Citizens (14567)</button>
+        <button class="cat-chip" data-category="disaster">🌪️ Disaster (1078)</button>
+        <button class="cat-chip" data-category="poison">☠️ Poison Control</button>
+        <button class="cat-chip" data-category="railway">🚆 Railway (139)</button>
+      </div>
+    </section>
+
+    <!-- Helpline Cards Grid -->
+    <section id="directoryGrid" class="directory-grid">
+      <!-- Populated via app.js -->
+    </section>
+
+  </main>
+
+  <!-- Floating Mobile Emergency Dock -->
+  <footer class="bottom-dock">
+    <div class="dock-inner">
+      <a href="tel:112" class="dock-sos-btn" title="Tap to call 112 immediately">
+        <span>🚨</span>
+        <span>CALL 112</span>
+      </a>
+
+      <button id="dockSirenBtn" class="dock-action-btn" title="Play loud siren to alert nearby public">
+        <span style="font-size: 1.2rem;">📢</span>
+        <span id="sirenLabel">Siren</span>
+      </button>
+
+      <button id="dockGpsBtn" class="dock-action-btn">
+        <span style="font-size: 1.2rem;">📍</span>
+        <span>My GPS</span>
+      </button>
+
+      <button id="dockStateBtn" class="dock-action-btn">
+        <span style="font-size: 1.2rem;">🗺️</span>
+        <span>States</span>
+      </button>
+    </div>
+  </footer>
+
+  <!-- State Selector Modal -->
+  <div id="stateModal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Select Region / State (28 States & 8 UTs)</h3>
+        <button id="closeStateModal" class="modal-close-btn">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="text" id="stateSearchInput" class="state-search-input" placeholder="Search state (e.g. Uttar Pradesh, Delhi, Maharashtra...)">
+        <button id="triggerGpsModalBtn" style="width: 100%; padding: 12px; margin-bottom: 12px; background: #eff6ff; color: #1d4ed8; border: 1px dashed #3b82f6; border-radius: 8px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+          🛰️ Auto-Detect My Live Location via GPS
+        </button>
+        <div id="stateListGrid" class="state-list-grid">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full-screen Emergency SOS Alert Overlay -->
+  <div id="sosOverlay" class="sos-overlay">
+    <div class="sos-overlay-title">🚨 EMERGENCY SOS 🚨</div>
+    <p class="sos-overlay-sub">Immediate All-in-One Emergency Response</p>
+    <a id="sosDirectCallLink" href="tel:112" class="sos-big-call">
+      <span>📞</span>
+      <span>CALL 112 NOW</span>
+    </a>
+    <div style="display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; justify-content: center;">
+      <button id="sosOverlayWhatsapp" class="gps-share-btn whatsapp" style="padding: 12px 20px;">
+        Share Live GPS on WhatsApp
+      </button>
+      <button id="sosOverlaySms" class="gps-share-btn sms" style="padding: 12px 20px;">
+        Send SOS SMS with Coordinates
+      </button>
+      <button id="sosOverlaySiren" class="gps-share-btn" style="padding: 12px 20px; background: #fef08a; color: #854d0e; border: 1px solid #facc15;">
+        📢 Play Siren
+      </button>
+    </div>
+    <button id="dismissSosBtn" class="sos-dismiss-btn">Cancel / Close</button>
+  </div>
+
+  <!-- Hidden Auto-Dial Anchor for 3-Tap Trigger -->
+  <a id="emergencyAutoDialLink" href="tel:112" style="display: none;"></a>
+
+  <!-- Core App Logic -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
