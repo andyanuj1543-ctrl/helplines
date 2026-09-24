@@ -1,15 +1,15 @@
 // Service Worker for Helplines Emergency App
 const CACHE_NAME = 'helplines-cache-v1';
 const ASSETS_TO_CACHE = [
-  '/',
-  '/index.html',
-  '/css/styles.css',
-  '/js/data.js',
-  '/js/location_service.js',
-  '/js/nlp_matcher.js',
-  '/js/sos_service.js',
-  '/js/app.js',
-  '/manifest.json'
+  './',
+  './index.html',
+  './css/styles.css',
+  './js/data.js',
+  './js/location_service.js',
+  './js/nlp_matcher.js',
+  './js/sos_service.js',
+  './js/app.js',
+  './manifest.json'
 ];
 
 self.addEventListener('install', (event) => {

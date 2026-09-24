@@ -321,7 +321,7 @@ class HelplinesApp {
     // Register Service Worker for offline emergency support
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').then((reg) => {
+        navigator.serviceWorker.register('sw.js').then((reg) => {
           console.log('⚡ Helplines Service Worker active (offline ready):', reg.scope);
         }).catch((err) => {
           console.warn('Service Worker registration note:', err);
