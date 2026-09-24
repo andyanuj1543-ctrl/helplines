@@ -15,7 +15,7 @@
   <meta name="apple-mobile-web-app-title" content="Helplines">
   <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
   
-  <link rel="stylesheet" href="css/styles.css?v=3">
+  <link rel="stylesheet" href="css/styles.css?v=4">
 </head>
 <body>
 
@@ -47,6 +47,12 @@
       </a>
 
       <div class="header-controls">
+        <!-- Language Switcher Button -->
+        <button id="langToggleBtn" class="lang-toggle-btn" title="हिंदी / English भाषा बदलें">
+          <span style="font-size: 0.95rem;">🌐</span>
+          <span id="langBtnText">हिंदी</span>
+        </button>
+
         <!-- State & GPS Pill -->
         <button id="locationPillBtn" class="location-pill-btn" title="Click to change state or detect GPS">
           <span id="gpsDot" class="gps-dot"></span>
@@ -56,7 +62,7 @@
 
         <!-- Install App Button (Positioned at the side of location) -->
         <button id="pwaInstallBtn" class="pwa-install-btn" title="Install Helplines as an App on your phone">
-          <span>📲</span> <strong>Install App</strong>
+          <span>📲</span> <strong id="installBtnText">Install App</strong>
         </button>
       </div>
     </div>
@@ -73,8 +79,8 @@
     <!-- FAST ACCESS HERO: 4 Instant Dial Emergency Buttons -->
     <section class="fast-dial-section">
       <div class="fast-dial-title">
-        <span>⚡ INSTANT 1-TAP EMERGENCY DIAL</span>
-        <span class="live-pulse-badge">TAP TO CALL NOW</span>
+        <span id="fastTitleText">⚡ INSTANT 1-TAP EMERGENCY DIAL</span>
+        <span id="fastBadgeText" class="live-pulse-badge">TAP TO CALL NOW</span>
       </div>
       <div class="fast-dial-grid">
         <!-- 112 Unified / Police -->
@@ -84,8 +90,8 @@
             <div class="fast-btn-num">112</div>
           </div>
           <div class="fast-btn-info">
-            <div class="fast-btn-name">POLICE</div>
-            <div class="fast-btn-sub">Emergency & Patrol</div>
+            <div id="policeName" class="fast-btn-name">POLICE</div>
+            <div id="policeSub" class="fast-btn-sub">Emergency & Patrol</div>
           </div>
         </a>
 
@@ -96,8 +102,8 @@
             <div class="fast-btn-num">108</div>
           </div>
           <div class="fast-btn-info">
-            <div class="fast-btn-name">AMBULANCE</div>
-            <div class="fast-btn-sub">Medical & Hospital</div>
+            <div id="ambulanceName" class="fast-btn-name">AMBULANCE</div>
+            <div id="ambulanceSub" class="fast-btn-sub">Medical & Hospital</div>
           </div>
         </a>
 
@@ -120,8 +126,8 @@
             <div class="fast-btn-num">101</div>
           </div>
           <div class="fast-btn-info">
-            <div class="fast-btn-name">FIRE</div>
-            <div class="fast-btn-sub">Rescue & Gas Leak</div>
+            <div id="fireName" class="fast-btn-name">FIRE</div>
+            <div id="fireSub" class="fast-btn-sub">Rescue & Gas Leak</div>
           </div>
         </a>
       </div>
@@ -130,9 +136,9 @@
     <!-- SMART TEXT SEARCH SECTION (Immediate Discovery) -->
     <section class="search-hero">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-        <h2>Describe what help you need:</h2>
+        <h2 id="searchTitleText">Describe what help you need:</h2>
       </div>
-      <p>Type in English or Hindi (e.g., "chori ho gayi", "accident", "fire", "fraud").</p>
+      <p id="searchSubText">Type in English or Hindi (e.g., "chori ho gayi", "accident", "fire", "fraud").</p>
 
       <div class="search-input-wrap">
         <span class="search-icon">🔍</span>
@@ -151,17 +157,17 @@
       <div class="loc-card-left">
         <span class="loc-pin-icon">📍</span>
         <div>
-          <div class="loc-label">YOUR EXACT LOCATION (FOR POLICE / AMBULANCE):</div>
+          <div id="locLabelText" class="loc-label">YOUR EXACT LOCATION (FOR POLICE / AMBULANCE):</div>
           <div id="exactAddressText" class="loc-address">Detecting street & GPS coordinates...</div>
           <div id="exactCoordsText" class="loc-coords">Lat: --, Lng: --</div>
         </div>
       </div>
       <div class="loc-card-actions">
         <button id="quickWhatsappShare" class="quick-share-btn whatsapp" title="Share live GPS pin on WhatsApp">
-          <span>💬</span> WhatsApp GPS
+          <span>💬</span> <span id="whatsappBtnText">WhatsApp GPS</span>
         </button>
         <button id="quickSmsShare" class="quick-share-btn sms" title="Send SMS with GPS coordinates">
-          <span>📱</span> SMS GPS
+          <span>📱</span> <span id="smsBtnText">SMS GPS</span>
         </button>
       </div>
     </div>
@@ -177,39 +183,39 @@
 
     <!-- 1-TAP SCENARIO EMERGENCY BUTTONS (Zero Typing Needed!) -->
     <section class="scenario-section">
-      <div class="scenario-title">⚡ QUICK SCENARIOS (1-TAP TO RESOLVE):</div>
+      <div id="scenarioTitleText" class="scenario-title">⚡ QUICK SCENARIOS (1-TAP TO RESOLVE):</div>
       <div class="scenario-grid">
         <button class="scenario-btn" data-query="Someone is following me and harassing girl women">
           <span class="sc-icon">🏃‍♀️</span>
-          <span class="sc-text">Stalker / Harassed</span>
+          <span id="scStalkerText" class="sc-text">Stalker / Harassed</span>
         </button>
         <button class="scenario-btn" data-query="Heart attack chest pain uncle unconscious collapsed">
           <span class="sc-icon">💔</span>
-          <span class="sc-text">Heart Attack / Collapsed</span>
+          <span id="scHeartText" class="sc-text">Heart Attack / Collapsed</span>
         </button>
         <button class="scenario-btn" data-query="Road accident severe bleeding injured on road">
           <span class="sc-icon">🩸</span>
-          <span class="sc-text">Road Accident / Bleeding</span>
+          <span id="scAccidentText" class="sc-text">Road Accident / Bleeding</span>
         </button>
         <button class="scenario-btn" data-query="Fire in kitchen building cylinder blast smoke">
           <span class="sc-icon">🔥</span>
-          <span class="sc-text">Fire / Cylinder Leak</span>
+          <span id="scFireText" class="sc-text">Fire / Cylinder Leak</span>
         </button>
         <button class="scenario-btn" data-query="Money stolen from bank account online fraud UPI scam">
           <span class="sc-icon">💳</span>
-          <span class="sc-text">Bank / Cyber Fraud (1930)</span>
+          <span id="scFraudText" class="sc-text">Bank / Cyber Fraud (1930)</span>
         </button>
         <button class="scenario-btn" data-query="Feeling suicidal depressed want to end life help">
           <span class="sc-icon">🧠</span>
-          <span class="sc-text">Suicide / Mental Help</span>
+          <span id="scSuicideText" class="sc-text">Suicide / Mental Help</span>
         </button>
         <button class="scenario-btn" data-query="Highway car breakdown flat tyre towing accident">
           <span class="sc-icon">🚗</span>
-          <span class="sc-text">Highway Breakdown (1033)</span>
+          <span id="scHighwayText" class="sc-text">Highway Breakdown (1033)</span>
         </button>
         <button class="scenario-btn" data-query="Child abuse minor kid lost orphan baby">
           <span class="sc-icon">👶</span>
-          <span class="sc-text">Child in Danger (1098)</span>
+          <span id="scChildText" class="sc-text">Child in Danger (1098)</span>
         </button>
       </div>
     </section>
@@ -300,7 +306,7 @@
     <div class="dock-inner">
       <a href="tel:112" class="dock-sos-btn" title="Tap to call 112 immediately">
         <span>🚨</span>
-        <span>CALL 112</span>
+        <span id="dockSosText">CALL 112</span>
       </a>
 
       <button id="dockSirenBtn" class="dock-action-btn" title="Play loud siren to alert nearby public">
@@ -310,12 +316,12 @@
 
       <button id="dockGpsBtn" class="dock-action-btn">
         <span style="font-size: 1.2rem;">📍</span>
-        <span>My GPS</span>
+        <span id="dockGpsText">My GPS</span>
       </button>
 
       <button id="dockStateBtn" class="dock-action-btn">
         <span style="font-size: 1.2rem;">🗺️</span>
-        <span>States</span>
+        <span id="dockStatesText">States</span>
       </button>
     </div>
   </footer>
@@ -365,6 +371,6 @@
   <a id="emergencyAutoDialLink" href="tel:112" style="display: none;"></a>
 
   <!-- Core App Logic -->
-  <script type="module" src="js/app.js?v=3"></script>
+  <script type="module" src="js/app.js?v=4"></script>
 </body>
 </html>

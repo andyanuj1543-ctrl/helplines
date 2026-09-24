@@ -155,8 +155,35 @@ body {
 .header-controls {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   flex-shrink: 0;
+}
+
+/* Language Toggle Button */
+.lang-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 20px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #1e293b;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.lang-toggle-btn:hover {
+  background: #e2e8f0;
+  border-color: #94a3b8;
+  transform: translateY(-1px);
+}
+
+.lang-toggle-btn:active {
+  transform: translateY(1px);
 }
 
 /* Location Bar in Header */
@@ -1260,14 +1287,18 @@ body {
   .brand-text span {
     display: none;
   }
+  .lang-toggle-btn {
+    padding: 4px 8px;
+    font-size: 0.72rem;
+  }
   .location-pill-btn {
-    padding: 6px 10px;
-    font-size: 0.75rem;
-    max-width: 140px;
+    padding: 5px 8px;
+    font-size: 0.72rem;
+    max-width: 110px;
   }
   .pwa-install-btn {
-    padding: 6px 12px;
-    font-size: 0.75rem;
+    padding: 5px 10px;
+    font-size: 0.72rem;
     white-space: nowrap;
   }
   #locationText {

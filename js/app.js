@@ -3,15 +3,18 @@ import { NATIONAL_HELPLINES, INDIA_STATES_DATA } from './data.js';
 import { SmartNLPService } from './nlp_matcher.js';
 import { LocationService } from './location_service.js';
 import { SOSService } from './sos_service.js';
+import { I18N_STRINGS } from './i18n.js';
 
 class HelplinesApp {
   constructor() {
     this.locationService = new LocationService();
     this.sosService = new SOSService();
     this.activeCategory = 'all';
+    this.currentLang = localStorage.getItem('helplines_lang') || 'en';
 
     this.initDOMElements();
     this.bindEvents();
+    this.applyLanguage(this.currentLang);
     this.renderDirectory();
     this.renderStateModalList();
     this.updateLocationUI(this.locationService.currentLocation);
@@ -90,8 +93,35 @@ class HelplinesApp {
     this.sosDirectCallLink = document.getElementById('sosDirectCallLink');
     this.emergencyAutoDialLink = document.getElementById('emergencyAutoDialLink');
 
-    // Panic Banner
-    this.panicBanner = document.getElementById('panicBanner');
+    // Language Switcher
+    this.langToggleBtn = document.getElementById('langToggleBtn');
+    this.langBtnText = document.getElementById('langBtnText');
+    this.installBtnText = document.getElementById('installBtnText');
+    this.fastTitleText = document.getElementById('fastTitleText');
+    this.fastBadgeText = document.getElementById('fastBadgeText');
+    this.policeName = document.getElementById('policeName');
+    this.policeSub = document.getElementById('policeSub');
+    this.ambulanceName = document.getElementById('ambulanceName');
+    this.ambulanceSub = document.getElementById('ambulanceSub');
+    this.fireName = document.getElementById('fireName');
+    this.fireSub = document.getElementById('fireSub');
+    this.searchTitleText = document.getElementById('searchTitleText');
+    this.searchSubText = document.getElementById('searchSubText');
+    this.locLabelText = document.getElementById('locLabelText');
+    this.whatsappBtnText = document.getElementById('whatsappBtnText');
+    this.smsBtnText = document.getElementById('smsBtnText');
+    this.scenarioTitleText = document.getElementById('scenarioTitleText');
+    this.scStalkerText = document.getElementById('scStalkerText');
+    this.scHeartText = document.getElementById('scHeartText');
+    this.scAccidentText = document.getElementById('scAccidentText');
+    this.scFireText = document.getElementById('scFireText');
+    this.scFraudText = document.getElementById('scFraudText');
+    this.scSuicideText = document.getElementById('scSuicideText');
+    this.scHighwayText = document.getElementById('scHighwayText');
+    this.scChildText = document.getElementById('scChildText');
+    this.dockSosText = document.getElementById('dockSosText');
+    this.dockGpsText = document.getElementById('dockGpsText');
+    this.dockStatesText = document.getElementById('dockStatesText');
 
     this.initPanicTrigger();
   }
@@ -310,8 +340,60 @@ class HelplinesApp {
       this.sosService.sendSmsSOS(this.locationService.currentLocation);
     });
 
+    // Language Toggle Click
+    if (this.langToggleBtn) {
+      this.langToggleBtn.addEventListener('click', () => {
+        this.currentLang = this.currentLang === 'en' ? 'hi' : 'en';
+        localStorage.setItem('helplines_lang', this.currentLang);
+        this.applyLanguage(this.currentLang);
+      });
+    }
+
     // PWA App Installation Handler
     this.initPWAInstallation();
+  }
+
+  /**
+   * Applies selected language strings across the entire user interface
+   */
+  applyLanguage(lang = 'en') {
+    const s = I18N_STRINGS[lang] || I18N_STRINGS.en;
+
+    if (this.langBtnText) this.langBtnText.textContent = s.langBtn;
+    if (this.installBtnText) this.installBtnText.textContent = s.installBtn;
+    if (this.fastTitleText) this.fastTitleText.textContent = s.fastTitle;
+    if (this.fastBadgeText) this.fastBadgeText.textContent = s.fastBadge;
+    if (this.policeName) this.policeName.textContent = s.policeTitle;
+    if (this.policeSub) this.policeSub.textContent = s.policeSub;
+    if (this.ambulanceName) this.ambulanceName.textContent = s.ambulanceTitle;
+    if (this.ambulanceSub) this.ambulanceSub.textContent = s.ambulanceSub;
+    if (this.fireName) this.fireName.textContent = s.fireTitle;
+    if (this.fireSub) this.fireSub.textContent = s.fireSub;
+
+    if (this.searchTitleText) this.searchTitleText.textContent = s.searchTitle;
+    if (this.searchSubText) this.searchSubText.textContent = s.searchSub;
+    if (this.needInput) this.needInput.placeholder = s.searchPlaceholder;
+
+    if (this.locLabelText) this.locLabelText.textContent = s.locLabel;
+    if (this.whatsappBtnText) this.whatsappBtnText.textContent = s.whatsappBtn;
+    if (this.smsBtnText) this.smsBtnText.textContent = s.smsBtn;
+
+    if (this.scenarioTitleText) this.scenarioTitleText.textContent = s.scenarioTitle;
+    if (this.scStalkerText) this.scStalkerText.textContent = s.scStalker;
+    if (this.scHeartText) this.scHeartText.textContent = s.scHeart;
+    if (this.scAccidentText) this.scAccidentText.textContent = s.scAccident;
+    if (this.scFireText) this.scFireText.textContent = s.scFire;
+    if (this.scFraudText) this.scFraudText.textContent = s.scFraud;
+    if (this.scSuicideText) this.scSuicideText.textContent = s.scSuicide;
+    if (this.scHighwayText) this.scHighwayText.textContent = s.scHighway;
+    if (this.scChildText) this.scChildText.textContent = s.scChild;
+
+    if (this.dockSosText) this.dockSosText.textContent = s.dockSos;
+    if (this.dockGpsText) this.dockGpsText.textContent = s.dockGps;
+    if (this.dockStatesText) this.dockStatesText.textContent = s.dockStates;
+
+    // Update state-specific women line with proper language
+    this.updateFastDialWomenButton(this.locationService.currentLocation.state);
   }
 
   initPWAInstallation() {
@@ -416,29 +498,30 @@ class HelplinesApp {
    * e.g. UP 1090 vs Delhi DCW 181 vs Gujarat 181 Abhayam vs General 1091
    */
   updateFastDialWomenButton(stateName) {
+    const isHi = this.currentLang === 'hi';
     if (stateName === "Uttar Pradesh") {
-      this.fastWomenName.textContent = "UP WOMEN 1090";
-      this.fastWomenSub.textContent = "Power Line & Anti-Harassment";
+      this.fastWomenName.textContent = isHi ? "यूपी महिला 1090" : "UP WOMEN 1090";
+      this.fastWomenSub.textContent = isHi ? "पावर लाइन व सुरक्षा" : "Power Line & Anti-Harassment";
       this.fastWomenNum.textContent = "1090";
       this.fastWomenBtn.href = "tel:1090";
     } else if (stateName === "Delhi") {
-      this.fastWomenName.textContent = "DELHI DCW 181";
-      this.fastWomenSub.textContent = "Women Rescue & Dispatch";
+      this.fastWomenName.textContent = isHi ? "दिल्ली 181 DCW" : "DELHI DCW 181";
+      this.fastWomenSub.textContent = isHi ? "महिला हेल्पलाइन व रेस्क्यू" : "Women Rescue & Dispatch";
       this.fastWomenNum.textContent = "181";
       this.fastWomenBtn.href = "tel:181";
     } else if (stateName === "Gujarat") {
-      this.fastWomenName.textContent = "GUJARAT 181";
-      this.fastWomenSub.textContent = "Abhayam Rescue Van";
+      this.fastWomenName.textContent = isHi ? "गुजरात 181" : "GUJARAT 181";
+      this.fastWomenSub.textContent = isHi ? "अभयम रेस्क्यू वैन" : "Abhayam Rescue Van";
       this.fastWomenNum.textContent = "181";
       this.fastWomenBtn.href = "tel:181";
     } else if (stateName === "Maharashtra") {
-      this.fastWomenName.textContent = "MUMBAI WOMEN 103";
-      this.fastWomenSub.textContent = "Police Women Helpline";
+      this.fastWomenName.textContent = isHi ? "मुंबई महिला 103" : "MUMBAI WOMEN 103";
+      this.fastWomenSub.textContent = isHi ? "पुलिस महिला हेल्पलाइन" : "Police Women Helpline";
       this.fastWomenNum.textContent = "103";
       this.fastWomenBtn.href = "tel:103";
     } else {
-      this.fastWomenName.textContent = "WOMEN SAFETY";
-      this.fastWomenSub.textContent = "National Distress (1091)";
+      this.fastWomenName.textContent = isHi ? "महिला सुरक्षा" : "WOMEN SAFETY";
+      this.fastWomenSub.textContent = isHi ? "राष्ट्रीय हेल्पलाइन (1091)" : "National Distress (1091)";
       this.fastWomenNum.textContent = "1091";
       this.fastWomenBtn.href = "tel:1091";
     }
