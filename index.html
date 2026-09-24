@@ -15,9 +15,18 @@
   <meta name="apple-mobile-web-app-title" content="Helplines">
   <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
   
-  <link rel="stylesheet" href="css/styles.css?v=4">
+  <link rel="stylesheet" href="css/styles.css?v=5">
 </head>
 <body>
+
+  <!-- Silent Emergency Dial Toast Notification -->
+  <div id="silentEmergencyToast" class="silent-emergency-toast" role="status" aria-live="assertive">
+    <div class="silent-toast-badge">⚡</div>
+    <div>
+      <div class="silent-toast-text" id="silentToastTitle">Emergency Trigger: Dialing 112</div>
+      <div class="silent-toast-sub" id="silentToastSub">Silent emergency call initiated without siren</div>
+    </div>
+  </div>
 
   <!-- Top App Header -->
   <header class="app-header">
@@ -69,12 +78,6 @@
   </header>
 
   <main class="container">
-
-    <!-- ⚡ PANIC TRIGGER BANNER: 3 Clicks on Power/Side Button Trigger Automatic Emergency Call -->
-    <div id="panicBanner" class="panic-banner" title="Press side/power button or screen 3 times rapidly to trigger emergency call automatically">
-      <span class="panic-badge">⚡ 3-TAP AUTO-CALL</span>
-      <span class="panic-text">Tap <strong>Phone Side/Power Button</strong> or screen <strong>3 times quickly</strong> to auto-dial emergency <strong>112</strong>!</span>
-    </div>
 
     <!-- FAST ACCESS HERO: 4 Instant Dial Emergency Buttons -->
     <section class="fast-dial-section">
@@ -132,6 +135,12 @@
         </a>
       </div>
     </section>
+
+    <!-- ⚡ VOLUME SHORTCUT TIP: Press Volume Up + Down together to auto-dial 112 silently -->
+    <div class="volume-shortcut-bar" id="volumeShortcutBar">
+      <span class="volume-shortcut-icon">⚡</span>
+      <span id="volumeShortcutText" class="volume-shortcut-text"><strong>Emergency Shortcut:</strong> Press <strong>Volume Up + Volume Down</strong> together to dial <strong>112</strong> instantly without siren.</span>
+    </div>
 
     <!-- SMART TEXT SEARCH SECTION (Immediate Discovery) -->
     <section class="search-hero">
@@ -367,10 +376,10 @@
     <button id="dismissSosBtn" class="sos-dismiss-btn">Cancel / Close</button>
   </div>
 
-  <!-- Hidden Auto-Dial Anchor for 3-Tap Trigger -->
+  <!-- Hidden Auto-Dial Anchor for Silent Emergency Shortcut Trigger -->
   <a id="emergencyAutoDialLink" href="tel:112" style="display: none;"></a>
 
   <!-- Core App Logic -->
-  <script type="module" src="js/app.js?v=4"></script>
+  <script type="module" src="js/app.js?v=5"></script>
 </body>
 </html>

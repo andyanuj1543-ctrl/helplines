@@ -20,7 +20,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   EmergencyMatchResult? _matchResult;
   String _selectedCategory = 'all';
-  final List<int> _tapTimestamps = [];
 
   final List<Map<String, String>> _categories = [
     {"key": "all", "label": "All Helplines"},
@@ -87,15 +86,17 @@ class _HomeScreenState extends State<HomeScreen> {
     _onSearchChanged(query);
   }
 
-  void _recordScreenTap() {
-    final now = DateTime.now().millisecondsSinceEpoch;
-    _tapTimestamps.add(now);
-    _tapTimestamps.removeWhere((t) => now - t > 1400);
+  static const MethodChannel _shortcutChannel = MethodChannel('com.emergency.helplines/shortcut');
 
-    if (_tapTimestamps.length >= 3) {
-      _tapTimestamps.clear();
-      HapticFeedback.heavyImpact();
-      _showSosConfirmation();
+  Future<void> _openAccessibilitySettings() async {
+    try {
+      await _shortcutChannel.invokeMethod('openAccessibilitySettings');
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Enable 'Helplines 112' in Phone Settings -> Accessibility")),
+        );
+      }
     }
   }
 
@@ -328,42 +329,54 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onTap: _recordScreenTap,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // ⚡ PANIC 3X TRIGGER BANNER
-              InkWell(
-                onTap: () {
-                  HapticFeedback.heavyImpact();
-                  _showSosConfirmation();
-                },
-                child: Container(
-                  margin: const EdgeInsets.fromLTRB(16, 8, 16, 4),
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFEE2E2),
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: const Color(0xFFEF4444)),
-                  ),
-                  child: const Row(
-                    children: [
-                      Text("⚡ PANIC 3X TRIGGER: ", style: TextStyle(color: Color(0xFFDC2626), fontWeight: FontWeight.w900, fontSize: 10)),
-                      Expanded(
-                        child: Text(
-                          "Tap screen 3 times rapidly or say 'HELP' to call 112 SOS!",
-                          style: TextStyle(color: Color(0xFF991B1B), fontSize: 11, fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // ⚡ SILENT EMERGENCY SHORTCUT (Volume Up + Down)
+            Container(
+              margin: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF8FAFC),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: const Color(0xFFCBD5E1)),
               ),
+              child: Row(
+                children: [
+                  const Text("⚡", style: TextStyle(fontSize: 16)),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Silent Shortcut: Volume Up + Down",
+                          style: TextStyle(color: Color(0xFF0F172A), fontWeight: FontWeight.w800, fontSize: 12),
+                        ),
+                        const SizedBox(height: 2),
+                        const Text(
+                          "Press both volume buttons simultaneously to silently dial 112 without sirens (even on lock screen).",
+                          style: TextStyle(color: Color(0xFF475569), fontSize: 10),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      backgroundColor: const Color(0xFFEFF6FF),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+                    ),
+                    onPressed: _openAccessibilitySettings,
+                    child: const Text("Settings", style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF1D4ED8))),
+                  ),
+                ],
+              ),
+            ),
 
-              // ⚡ FAST ACCESS HERO: 4 Instant Dial Buttons
+            // ⚡ FAST ACCESS HERO: 4 Instant Dial Buttons
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 12, 16, 6),
               child: Row(
@@ -697,7 +710,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
             const SizedBox(height: 90),
           ],
-        ),
         ),
       ),
 

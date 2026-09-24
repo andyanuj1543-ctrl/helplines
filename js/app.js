@@ -123,80 +123,95 @@ class HelplinesApp {
     this.dockGpsText = document.getElementById('dockGpsText');
     this.dockStatesText = document.getElementById('dockStatesText');
 
-    this.initPanicTrigger();
+    // Volume Shortcut & Silent Toast
+    this.volumeShortcutText = document.getElementById('volumeShortcutText');
+    this.silentEmergencyToast = document.getElementById('silentEmergencyToast');
+    this.silentToastTitle = document.getElementById('silentToastTitle');
+    this.silentToastSub = document.getElementById('silentToastSub');
+
+    this.initVolumeEmergencyTrigger();
   }
 
   /**
-   * ⚡ Panic Mode: Detects 3 rapid taps on side/power button, screen, or keyboard
-   * When triggered, automatically dials 112 directly!
+   * ⚡ Silent Emergency Trigger: Volume Up + Volume Down pressed simultaneously
+   * When both volume buttons are pressed together, silently and instantly dials 112 without sirens!
    */
-  initPanicTrigger() {
-    let tapTimestamps = [];
-    const recordPanicTap = (source = "Tap") => {
-      const now = Date.now();
-      tapTimestamps.push(now);
-      // Keep only taps within last 1800ms
-      tapTimestamps = tapTimestamps.filter(t => now - t <= 1800);
+  initVolumeEmergencyTrigger() {
+    let volUpActive = false;
+    let volDownActive = false;
+    let lastVolUpTime = 0;
+    let lastVolDownTime = 0;
+    let lastTriggerTime = 0;
 
-      if (tapTimestamps.length >= 3) {
-        tapTimestamps = [];
-        this.triggerPanicSOS(`3x Side/Power or Screen Tap (${source})`);
+    const checkSimultaneousTrigger = (sourceKey = "") => {
+      const now = Date.now();
+      // Debounce: prevent duplicate triggers within 6 seconds
+      if (now - lastTriggerTime < 6000) return;
+
+      const isSimultaneous = (volUpActive && volDownActive) ||
+        (Math.abs(lastVolUpTime - lastVolDownTime) < 550 && lastVolUpTime > 0 && lastVolDownTime > 0);
+
+      if (isSimultaneous) {
+        lastTriggerTime = now;
+        volUpActive = false;
+        volDownActive = false;
+        lastVolUpTime = 0;
+        lastVolDownTime = 0;
+        this.triggerSilentEmergencyCall(`Simultaneous Volume Up + Down (${sourceKey})`);
       }
     };
 
-    // 1. Screen triple tap (even in panic/pocket touch)
-    document.addEventListener('click', (e) => {
-      if (e.target.closest('#dismissSosBtn')) return;
-      recordPanicTap("Screen Tap");
+    // Hardware volume key listeners on window
+    window.addEventListener('keydown', (e) => {
+      const k = e.key || e.code || "";
+      const isUp = k === "AudioVolumeUp" || k === "VolumeUp" || (k === "ArrowUp" && (e.altKey || e.ctrlKey));
+      const isDown = k === "AudioVolumeDown" || k === "VolumeDown" || (k === "ArrowDown" && (e.altKey || e.ctrlKey));
+
+      if (isUp) {
+        volUpActive = true;
+        lastVolUpTime = Date.now();
+        checkSimultaneousTrigger(k);
+      } else if (isDown) {
+        volDownActive = true;
+        lastVolDownTime = Date.now();
+        checkSimultaneousTrigger(k);
+      }
     }, { passive: true });
 
-    // 2. Mobile Side/Power Button & Hardware Key Detection (Visibility / Focus / Blur cycles)
-    // When a user taps the power/side button quickly 3 times while phone is internally on,
-    // the screen locks/unlocks or changes visibility rapidly.
-    let visibilityChanges = [];
-    document.addEventListener('visibilitychange', () => {
-      const now = Date.now();
-      visibilityChanges.push(now);
-      visibilityChanges = visibilityChanges.filter(t => now - t <= 2500);
-      if (visibilityChanges.length >= 3) {
-        visibilityChanges = [];
-        this.triggerPanicSOS("3x Side Button Power Toggle");
+    window.addEventListener('keyup', (e) => {
+      const k = e.key || e.code || "";
+      const isUp = k === "AudioVolumeUp" || k === "VolumeUp" || (k === "ArrowUp" && (e.altKey || e.ctrlKey));
+      const isDown = k === "AudioVolumeDown" || k === "VolumeDown" || (k === "ArrowDown" && (e.altKey || e.ctrlKey));
+
+      if (isUp) {
+        setTimeout(() => { volUpActive = false; }, 400);
       }
-    });
-
-    window.addEventListener('blur', () => {
-      recordPanicTap("Power Button Screen Off/On");
-    });
-
-    // 3. Hardware keys (Volume, Power, Space, Escape, Enter)
-    document.addEventListener('keydown', (e) => {
-      recordPanicTap(`Key: ${e.key || e.code}`);
-    });
-
-    if (this.panicBanner) {
-      this.panicBanner.addEventListener('click', () => {
-        this.triggerPanicSOS("Panic Banner Click");
-      });
-    }
+      if (isDown) {
+        setTimeout(() => { volDownActive = false; }, 400);
+      }
+    }, { passive: true });
   }
 
   /**
-   * Directly triggers emergency response and automatically dials 112
+   * Silently triggers emergency response and automatically dials 112 without sirens
    */
-  triggerPanicSOS(triggerSource = "Emergency Trigger") {
-    // Vibrate device with SOS pattern (... --- ...)
+  triggerSilentEmergencyCall(triggerSource = "Volume Buttons Shortcut") {
+    // 1. Guarantee absolutely NO siren sound is playing
+    if (this.sosService && this.sosService.isSirenPlaying) {
+      this.sosService.stopSiren();
+    }
+
+    // 2. Subtle confirmation vibration (2 short pulses)
     if ('vibrate' in navigator) {
-      try { navigator.vibrate([200, 100, 200, 100, 200, 300, 400, 100, 400, 100, 400, 300, 200, 100, 200, 100, 200]); } catch(e) {}
+      try { navigator.vibrate([150, 80, 150]); } catch(e) {}
     }
 
-    // Show SOS Emergency Overlay
-    if (this.sosOverlay) {
-      this.sosOverlay.classList.add('active');
-    }
+    // 3. Show top toast notification
+    this.showSilentEmergencyToast();
 
-    console.warn(`🚨 EMERGENCY SOS TRIGGERED via: ${triggerSource}. Initiating automatic emergency dial to 112...`);
+    console.warn(`🚨 SILENT EMERGENCY TRIGGERED via: ${triggerSource}. Initiating direct dial to 112 (No sirens)...`);
 
-    // Automatically trigger phone dialer to 112
+    // 4. Automatically trigger phone dialer to 112
     try {
       if (this.emergencyAutoDialLink) {
         this.emergencyAutoDialLink.click();
@@ -207,6 +222,19 @@ class HelplinesApp {
       console.warn("Auto-dial fallback:", err);
       window.location.href = "tel:112";
     }
+  }
+
+  /**
+   * Displays non-intrusive toast indicating silent 112 dial is underway
+   */
+  showSilentEmergencyToast() {
+    if (!this.silentEmergencyToast) return;
+    this.silentEmergencyToast.classList.add('active');
+    setTimeout(() => {
+      if (this.silentEmergencyToast) {
+        this.silentEmergencyToast.classList.remove('active');
+      }
+    }, 4500);
   }
 
   bindEvents() {
@@ -369,6 +397,16 @@ class HelplinesApp {
     if (this.ambulanceSub) this.ambulanceSub.textContent = s.ambulanceSub;
     if (this.fireName) this.fireName.textContent = s.fireTitle;
     if (this.fireSub) this.fireSub.textContent = s.fireSub;
+
+    if (this.volumeShortcutText && s.volumeShortcutText) {
+      this.volumeShortcutText.innerHTML = s.volumeShortcutText;
+    }
+    if (this.silentToastTitle && s.silentToastTitle) {
+      this.silentToastTitle.textContent = s.silentToastTitle;
+    }
+    if (this.silentToastSub && s.silentToastSub) {
+      this.silentToastSub.textContent = s.silentToastSub;
+    }
 
     if (this.searchTitleText) this.searchTitleText.textContent = s.searchTitle;
     if (this.searchSubText) this.searchSubText.textContent = s.searchSub;
