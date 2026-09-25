@@ -43,7 +43,17 @@ export const I18N_STRINGS = {
     stateDetectBtn: "🛰️ Auto-Detect My Live Location via GPS",
     sosModalTitle: "🚨 EMERGENCY SOS 🚨",
     sosModalSub: "Immediate All-in-One Emergency Response",
-    sosCloseBtn: "Cancel / Close"
+    sosCloseBtn: "Cancel / Close",
+    guardianBarLabel: "Trusted Emergency Guardians:",
+    guardianBarSub: "Register numbers with OTP for 1-Tap Live SOS alerts",
+    alertGuardiansText: "1-Tap Alert Guardians",
+    manageGuardiansText: "Manage",
+    guardianModalTitle: "Trusted Emergency Guardians",
+    guardianModalHint: "Register your family, parents, or friends. In an emergency, tapping <strong>'1-Tap Alert Guardians'</strong> sends them your exact GPS coordinates and live map tracking link.",
+    savedGuardiansLabel: "Registered Guardians",
+    addNewGuardianLabel: "Register Trusted Contact (With Mobile OTP)",
+    sendOtpBtnText: "Send OTP to Verify Number",
+    showQrBtnText: "Share / Scan Emergency Contact QR"
   },
   hi: {
     langBtn: "English",
@@ -88,6 +98,16 @@ export const I18N_STRINGS = {
     stateDetectBtn: "🛰️ GPS द्वारा मेरी लाइव लोकेशन पता करें",
     sosModalTitle: "🚨 आपातकालीन एसओएस (SOS) 🚨",
     sosModalSub: "तत्काल आपातकालीन सहायता केंद्र",
-    sosCloseBtn: "बंद करें"
+    sosCloseBtn: "बंद करें",
+    guardianBarLabel: "विश्वसनीय आपातकालीन संरक्षक (Guardians):",
+    guardianBarSub: "1-टैप लाइव SOS अलर्ट के लिए OTP से नंबर जोड़ें",
+    alertGuardiansText: "1-टैप संरक्षकों को अलर्ट भेजें",
+    manageGuardiansText: "प्रबंधन करें",
+    guardianModalTitle: "विश्वसनीय आपातकालीन संरक्षक (Guardians)",
+    guardianModalHint: "अपने परिवार, माता-पिता या दोस्तों के नंबर जोड़ें। आपातकाल में <strong>'1-टैप संरक्षकों को अलर्ट भेजें'</strong> दबाने पर आपकी लाइव लोकेशन व मैप लिंक तुरंत पहुंच जाएगा।",
+    savedGuardiansLabel: "पंजीकृत संरक्षक",
+    addNewGuardianLabel: "नया संपर्क जोड़ें (मोबाइल OTP द्वारा)",
+    sendOtpBtnText: "सत्यापन हेतु OTP भेजें",
+    showQrBtnText: "आपातकालीन संपर्क QR कोड देखें / स्कैन करें"
   }
 };

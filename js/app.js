@@ -3,12 +3,14 @@ import { NATIONAL_HELPLINES, INDIA_STATES_DATA } from './data.js';
 import { SmartNLPService } from './nlp_matcher.js';
 import { LocationService } from './location_service.js';
 import { SOSService } from './sos_service.js';
+import { GuardianService } from './guardian_service.js';
 import { I18N_STRINGS } from './i18n.js';
 
 class HelplinesApp {
   constructor() {
     this.locationService = new LocationService();
     this.sosService = new SOSService();
+    this.guardianService = new GuardianService();
     this.activeCategory = 'all';
     this.currentLang = localStorage.getItem('helplines_lang') || 'en';
 
@@ -18,6 +20,8 @@ class HelplinesApp {
     this.renderDirectory();
     this.renderStateModalList();
     this.updateLocationUI(this.locationService.currentLocation);
+    this.initGuardianFeatures();
+    this.checkIncomingSosUrl();
 
     // Auto-detect GPS on startup
     this.detectGPS(false);
@@ -130,6 +134,51 @@ class HelplinesApp {
     this.silentToastSub = document.getElementById('silentToastSub');
     this.holdProgressOverlay = document.getElementById('holdProgressOverlay');
     this.holdProgressText = document.getElementById('holdProgressText');
+
+    // Guardians, OTP Modal & Incoming SOS Banner
+    this.guardianBarLabel = document.getElementById('guardianBarLabel');
+    this.guardianCountBadge = document.getElementById('guardianCountBadge');
+    this.guardianBarSub = document.getElementById('guardianBarSub');
+    this.alertGuardiansBtn = document.getElementById('alertGuardiansBtn');
+    this.manageGuardiansBtn = document.getElementById('manageGuardiansBtn');
+    this.alertGuardiansText = document.getElementById('alertGuardiansText');
+    this.manageGuardiansText = document.getElementById('manageGuardiansText');
+
+    this.guardiansModal = document.getElementById('guardiansModal');
+    this.closeGuardiansModal = document.getElementById('closeGuardiansModal');
+    this.guardianModalTitle = document.getElementById('guardianModalTitle');
+    this.guardianModalHint = document.getElementById('guardianModalHint');
+    this.savedGuardiansLabel = document.getElementById('savedGuardiansLabel');
+    this.addNewGuardianLabel = document.getElementById('addNewGuardianLabel');
+    this.sendOtpBtnText = document.getElementById('sendOtpBtnText');
+    this.showQrBtnText = document.getElementById('showQrBtnText');
+
+    this.guardianMainView = document.getElementById('guardianMainView');
+    this.guardianOtpView = document.getElementById('guardianOtpView');
+    this.guardiansList = document.getElementById('guardiansList');
+    this.guardianListCount = document.getElementById('guardianListCount');
+    this.addGuardianForm = document.getElementById('addGuardianForm');
+    this.guardianNameInput = document.getElementById('guardianNameInput');
+    this.guardianPhoneInput = document.getElementById('guardianPhoneInput');
+    this.guardianRelationSelect = document.getElementById('guardianRelationSelect');
+    this.sendOtpBtn = document.getElementById('sendOtpBtn');
+
+    this.otpTargetPhone = document.getElementById('otpTargetPhone');
+    this.simulatedOtpCode = document.getElementById('simulatedOtpCode');
+    this.autoFillOtpBtn = document.getElementById('autoFillOtpBtn');
+    this.otpInput = document.getElementById('otpInput');
+    this.confirmOtpBtn = document.getElementById('confirmOtpBtn');
+    this.cancelOtpBtn = document.getElementById('cancelOtpBtn');
+
+    this.showQrBtn = document.getElementById('showQrBtn');
+    this.qrContainer = document.getElementById('qrContainer');
+    this.qrCodeTarget = document.getElementById('qrCodeTarget');
+
+    this.incomingSosBanner = document.getElementById('incomingSosBanner');
+    this.sosSenderName = document.getElementById('sosSenderName');
+    this.sosLocationDesc = document.getElementById('sosLocationDesc');
+    this.sosGoogleMapsBtn = document.getElementById('sosGoogleMapsBtn');
+    this.dismissIncomingSos = document.getElementById('dismissIncomingSos');
 
     this.initEmergencyShortcuts();
   }
@@ -543,6 +592,18 @@ class HelplinesApp {
 
     // Update state-specific women line with proper language
     this.updateFastDialWomenButton(this.locationService.currentLocation.state);
+
+    // Guardian Action Bar & Modal strings
+    if (this.guardianBarLabel && s.guardianBarLabel) this.guardianBarLabel.textContent = s.guardianBarLabel;
+    if (this.guardianBarSub && s.guardianBarSub) this.guardianBarSub.textContent = s.guardianBarSub;
+    if (this.alertGuardiansText && s.alertGuardiansText) this.alertGuardiansText.textContent = s.alertGuardiansText;
+    if (this.manageGuardiansText && s.manageGuardiansText) this.manageGuardiansText.textContent = s.manageGuardiansText;
+    if (this.guardianModalTitle && s.guardianModalTitle) this.guardianModalTitle.textContent = s.guardianModalTitle;
+    if (this.guardianModalHint && s.guardianModalHint) this.guardianModalHint.innerHTML = s.guardianModalHint;
+    if (this.savedGuardiansLabel && s.savedGuardiansLabel) this.savedGuardiansLabel.textContent = s.savedGuardiansLabel;
+    if (this.addNewGuardianLabel && s.addNewGuardianLabel) this.addNewGuardianLabel.innerHTML = s.addNewGuardianLabel;
+    if (this.sendOtpBtnText && s.sendOtpBtnText) this.sendOtpBtnText.textContent = s.sendOtpBtnText;
+    if (this.showQrBtnText && s.showQrBtnText) this.showQrBtnText.textContent = s.showQrBtnText;
   }
 
   initPWAInstallation() {
@@ -829,6 +890,282 @@ class HelplinesApp {
 
   closeStateModalBox() {
     this.stateModal.style.display = 'none';
+  }
+
+  // --- Trusted Emergency Guardians & Live SOS Methods ---
+
+  initGuardianFeatures() {
+    this.updateGuardianUI();
+
+    // Alert Guardians Button (1-Tap)
+    if (this.alertGuardiansBtn) {
+      this.alertGuardiansBtn.addEventListener('click', () => {
+        this.handleAlertGuardians();
+      });
+    }
+
+    // Manage Guardians Button
+    if (this.manageGuardiansBtn) {
+      this.manageGuardiansBtn.addEventListener('click', () => {
+        this.openGuardiansModal();
+      });
+    }
+
+    // Modal Close
+    if (this.closeGuardiansModal) {
+      this.closeGuardiansModal.addEventListener('click', () => {
+        this.closeGuardiansModalBox();
+      });
+    }
+
+    if (this.guardiansModal) {
+      this.guardiansModal.addEventListener('click', (e) => {
+        if (e.target === this.guardiansModal) this.closeGuardiansModalBox();
+      });
+    }
+
+    // Form submit -> Initiate registration & OTP
+    if (this.addGuardianForm) {
+      this.addGuardianForm.addEventListener('submit', (e) => {
+        this.handleInitiateRegistration(e);
+      });
+    }
+
+    // OTP Verify button
+    if (this.confirmOtpBtn) {
+      this.confirmOtpBtn.addEventListener('click', () => {
+        this.handleVerifyOtp();
+      });
+    }
+
+    // OTP Auto-fill button
+    if (this.autoFillOtpBtn) {
+      this.autoFillOtpBtn.addEventListener('click', () => {
+        if (this.guardianService.pendingVerification && this.otpInput) {
+          this.otpInput.value = this.guardianService.pendingVerification.otp;
+        }
+      });
+    }
+
+    // OTP Cancel button
+    if (this.cancelOtpBtn) {
+      this.cancelOtpBtn.addEventListener('click', () => {
+        this.cancelOtpVerification();
+      });
+    }
+
+    // Show / Hide QR code button
+    if (this.showQrBtn) {
+      this.showQrBtn.addEventListener('click', () => {
+        this.toggleGuardianQr();
+      });
+    }
+  }
+
+  updateGuardianUI() {
+    const guardians = this.guardianService.getGuardians();
+    const count = guardians.length;
+
+    if (this.guardianCountBadge) {
+      this.guardianCountBadge.textContent = this.currentLang === 'hi'
+        ? `${count} सुरक्षित`
+        : `${count} Saved`;
+    }
+
+    if (this.guardianListCount) {
+      this.guardianListCount.textContent = `${count} / 5`;
+    }
+
+    if (!this.guardiansList) return;
+    this.guardiansList.innerHTML = '';
+
+    if (count === 0) {
+      this.guardiansList.innerHTML = `
+        <div style="text-align: center; padding: 18px; color: #94a3b8; font-size: 0.85rem; border: 1px dashed #cbd5e1; border-radius: 8px;">
+          ${this.currentLang === 'hi' 
+            ? 'कोई भी संपर्क नहीं जुड़ा है। नीचे अपना परिवार या मित्र का नंबर जोड़ें।' 
+            : 'No emergency contacts saved yet. Add your family or trusted friends below.'}
+        </div>
+      `;
+      return;
+    }
+
+    guardians.forEach(g => {
+      const item = document.createElement('div');
+      item.className = 'guardian-item-card';
+      item.innerHTML = `
+        <div class="guardian-item-info">
+          <div class="guardian-item-name">
+            <strong>${g.name}</strong>
+            <span class="guardian-relation-tag">${g.relation || 'Contact'}</span>
+          </div>
+          <div class="guardian-item-phone">
+            📞 +91 ${g.phone} <span class="verified-tag">✓ OTP Verified</span>
+          </div>
+        </div>
+        <div class="guardian-item-actions">
+          <a href="tel:${g.phone}" class="guardian-call-btn" title="Call">📞</a>
+          <button type="button" class="guardian-delete-btn" data-id="${g.id}" title="Remove">✕</button>
+        </div>
+      `;
+
+      const deleteBtn = item.querySelector('.guardian-delete-btn');
+      deleteBtn.addEventListener('click', () => {
+        this.guardianService.removeGuardian(g.id);
+        this.updateGuardianUI();
+      });
+
+      this.guardiansList.appendChild(item);
+    });
+  }
+
+  handleAlertGuardians() {
+    const guardians = this.guardianService.getGuardians();
+    if (guardians.length === 0) {
+      alert(this.currentLang === 'hi'
+        ? 'कृपया पहले कम से कम 1 आपातकालीन संपर्क (Guardian) जोड़ें!'
+        : 'Please register at least 1 emergency contact (Guardian) first!');
+      this.openGuardiansModal();
+      return;
+    }
+
+    if ('vibrate' in navigator) {
+      try { navigator.vibrate([150, 75, 150]); } catch(e) {}
+    }
+
+    // Trigger multi-recipient native SMS
+    const sent = this.guardianService.dispatchSMSToGuardians(this.locationService.currentLocation);
+    if (sent) {
+      this.showSilentEmergencyToast();
+    }
+  }
+
+  handleInitiateRegistration(e) {
+    e.preventDefault();
+    const name = this.guardianNameInput ? this.guardianNameInput.value.trim() : '';
+    const phone = this.guardianPhoneInput ? this.guardianPhoneInput.value.trim() : '';
+    const relation = this.guardianRelationSelect ? this.guardianRelationSelect.value : 'Family';
+
+    try {
+      const pending = this.guardianService.initiateRegistration(name, phone, relation);
+      
+      // Update OTP view
+      if (this.otpTargetPhone) {
+        this.otpTargetPhone.textContent = `+91 ${pending.phone}`;
+      }
+      if (this.simulatedOtpCode) {
+        this.simulatedOtpCode.textContent = pending.otp;
+      }
+      if (this.otpInput) {
+        this.otpInput.value = '';
+      }
+
+      // Switch views
+      if (this.guardianMainView) this.guardianMainView.style.display = 'none';
+      if (this.guardianOtpView) this.guardianOtpView.style.display = 'block';
+      if (this.otpInput) this.otpInput.focus();
+    } catch (err) {
+      alert(err.message || "Invalid contact details");
+    }
+  }
+
+  handleVerifyOtp() {
+    if (!this.otpInput) return;
+    const code = this.otpInput.value.trim();
+    const result = this.guardianService.verifyOTP(code);
+
+    if (result.success) {
+      alert(this.currentLang === 'hi'
+        ? `✅ ${result.contact.name} को आपातकालीन संपर्क में सफलतापूर्वक जोड़ा गया!`
+        : `✅ ${result.contact.name} successfully registered as Emergency Guardian!`);
+      
+      // Reset form
+      if (this.addGuardianForm) this.addGuardianForm.reset();
+      
+      // Switch back to main view
+      if (this.guardianOtpView) this.guardianOtpView.style.display = 'none';
+      if (this.guardianMainView) this.guardianMainView.style.display = 'block';
+      
+      this.updateGuardianUI();
+    } else {
+      alert(result.message || "Verification failed");
+    }
+  }
+
+  cancelOtpVerification() {
+    this.guardianService.pendingVerification = null;
+    if (this.guardianOtpView) this.guardianOtpView.style.display = 'none';
+    if (this.guardianMainView) this.guardianMainView.style.display = 'block';
+  }
+
+  openGuardiansModal() {
+    if (this.guardianOtpView) this.guardianOtpView.style.display = 'none';
+    if (this.guardianMainView) this.guardianMainView.style.display = 'block';
+    this.updateGuardianUI();
+    if (this.guardiansModal) this.guardiansModal.style.display = 'flex';
+  }
+
+  closeGuardiansModalBox() {
+    if (this.guardiansModal) this.guardiansModal.style.display = 'none';
+  }
+
+  toggleGuardianQr() {
+    if (!this.qrContainer) return;
+    const isHidden = this.qrContainer.style.display === 'none' || !this.qrContainer.style.display;
+    if (isHidden) {
+      this.qrContainer.style.display = 'block';
+      this.renderGuardianQR();
+    } else {
+      this.qrContainer.style.display = 'none';
+    }
+  }
+
+  renderGuardianQR() {
+    if (!this.qrCodeTarget) return;
+    const guardians = this.guardianService.getGuardians();
+    const primary = guardians.length > 0 ? guardians[0] : { name: "Me", phone: "112" };
+    const mecard = this.guardianService.generateContactQRData(primary);
+    
+    // Generate QR using lightweight API
+    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(mecard)}`;
+    this.qrCodeTarget.innerHTML = `
+      <img src="${qrUrl}" alt="Emergency Contact QR Code" style="width: 170px; height: 170px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin: 0 auto; display: block;" loading="lazy" />
+      <p style="margin-top: 8px; font-weight: 700; color: #1e293b; font-size: 0.8rem; text-align: center;">${primary.name}: +91 ${primary.phone}</p>
+    `;
+  }
+
+  checkIncomingSosUrl() {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('sos') === '1') {
+        const lat = urlParams.get('lat');
+        const lng = urlParams.get('lng');
+        const name = urlParams.get('name') || 'Family / Friend';
+
+        if (this.incomingSosBanner) {
+          this.incomingSosBanner.style.display = 'flex';
+        }
+        if (this.sosSenderName) {
+          this.sosSenderName.textContent = name;
+        }
+        if (this.sosLocationDesc) {
+          this.sosLocationDesc.textContent = lat && lng 
+            ? `📍 Coordinates: ${lat}, ${lng} (Emergency Distress Signal)` 
+            : '📍 Emergency location alert received';
+        }
+        if (this.sosGoogleMapsBtn && lat && lng) {
+          this.sosGoogleMapsBtn.href = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+          this.sosGoogleMapsBtn.target = '_blank';
+        }
+        if (this.dismissIncomingSos) {
+          this.dismissIncomingSos.addEventListener('click', () => {
+            if (this.incomingSosBanner) this.incomingSosBanner.style.display = 'none';
+          });
+        }
+      }
+    } catch (e) {
+      console.warn("Could not parse incoming SOS url:", e);
+    }
   }
 }
 

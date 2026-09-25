@@ -1616,5 +1616,557 @@ body {
   margin-top: 2px;
 }
 
+/* ==========================================================================
+   🚨 INCOMING EMERGENCY SOS RESCUE BANNER (Triggered via ?sos=1 link)
+   ========================================================================== */
+.incoming-sos-banner {
+  background: linear-gradient(90deg, #991b1b 0%, #dc2626 50%, #b91c1c 100%);
+  color: #ffffff;
+  padding: 12px 0;
+  border-bottom: 3px solid #facc15;
+  box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);
+  position: relative;
+  z-index: 1000;
+  animation: pulse-ring 2s infinite ease-in-out;
+}
+
+.incoming-sos-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.incoming-sos-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 260px;
+}
+
+.incoming-sos-beacon {
+  font-size: 1.8rem;
+  animation: beaconSwing 1.5s infinite;
+}
+
+.incoming-sos-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.live-blink-tag {
+  background: #facc15;
+  color: #854d0e;
+  font-size: 0.65rem;
+  font-weight: 900;
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+  animation: beaconPulse 1.2s infinite;
+}
+
+.incoming-sos-desc {
+  font-size: 0.8rem;
+  color: #fee2e2;
+  margin-top: 2px;
+}
+
+.incoming-sos-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.sos-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.15s ease;
+}
+
+.sos-action-btn:hover {
+  transform: translateY(-1px);
+}
+
+.sos-action-btn.maps {
+  background: #ffffff;
+  color: #1e293b;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.sos-action-btn.call {
+  background: #fef08a;
+  color: #854d0e;
+  border: 1px solid #facc15;
+}
+
+.sos-dismiss-pill {
+  background: rgba(0, 0, 0, 0.2);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+}
+
+/* ==========================================================================
+   🛡️ GUARDIAN ACTION BAR (Inside Location Card)
+   ========================================================================== */
+.guardian-action-bar {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.guardian-bar-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 220px;
+}
+
+.guardian-shield-icon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.guardian-bar-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.guardian-count-pill {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 12px;
+}
+
+.guardian-bar-sub {
+  font-size: 0.73rem;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.guardian-btn-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.guardian-alert-btn {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 8px 14px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 6px rgba(220, 38, 38, 0.3);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.guardian-alert-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(220, 38, 38, 0.4);
+}
+
+.guardian-manage-btn {
+  background: #ffffff;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.15s ease;
+}
+
+.guardian-manage-btn:hover {
+  background: #f1f5f9;
+}
+
+/* ==========================================================================
+   🛡️ GUARDIANS & OTP MODAL
+   ========================================================================== */
+.guardian-modal-content {
+  max-width: 480px;
+  width: 92%;
+}
+
+.guardian-modal-hint {
+  font-size: 0.82rem;
+  color: #475569;
+  line-height: 1.45;
+  background: #f8fafc;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border-left: 3px solid #3b82f6;
+  margin-bottom: 14px;
+}
+
+.guardian-list-section {
+  margin-bottom: 16px;
+}
+
+.guardian-section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #1e293b;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.guardian-badge {
+  background: #e2e8f0;
+  color: #475569;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 10px;
+}
+
+.guardians-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.guardian-empty-state {
+  text-align: center;
+  padding: 14px;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 8px;
+  color: #64748b;
+  font-size: 0.8rem;
+}
+
+.guardian-item-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+}
+
+.guardian-item-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.guardian-rel-badge {
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 3px 6px;
+  border-radius: 4px;
+}
+
+.guardian-item-name {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.guardian-item-phone {
+  font-size: 0.76rem;
+  color: #64748b;
+  margin-top: 1px;
+}
+
+.guardian-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.guardian-call-link {
+  background: #dcfce7;
+  color: #15803d;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 0.8rem;
+}
+
+.guardian-del-btn {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+}
+
+/* Add Guardian Card */
+.guardian-add-card {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+
+.guardian-card-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: #0f172a;
+  margin-bottom: 12px;
+}
+
+.guardian-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-row {
+  display: flex;
+  width: 100%;
+}
+
+.guardian-input, .guardian-select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.guardian-input:focus, .guardian-select:focus {
+  border-color: #ef4444;
+}
+
+.phone-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.country-prefix {
+  position: absolute;
+  left: 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #475569;
+  pointer-events: none;
+}
+
+.phone-input {
+  padding-left: 75px;
+}
+
+.guardian-submit-btn {
+  background: #dc2626;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 11px 14px;
+  font-size: 0.88rem;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.15s ease;
+}
+
+.guardian-submit-btn:hover {
+  background: #b91c1c;
+}
+
+.guardian-cancel-btn {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 11px 16px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* OTP Verification View */
+.otp-view-header {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.otp-view-header h4 {
+  font-size: 1.1rem;
+  margin: 6px 0 4px;
+  color: #0f172a;
+}
+
+.otp-view-header p {
+  font-size: 0.82rem;
+  color: #64748b;
+}
+
+.otp-simulator-alert {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.otp-sim-badge {
+  background: #059669;
+  color: #ffffff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.otp-sim-body {
+  font-size: 0.78rem;
+  color: #065f46;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.otp-autofill-btn {
+  background: #059669;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.otp-inputs-row {
+  display: flex;
+  justify-content: center;
+}
+
+.otp-code-input {
+  width: 200px;
+  padding: 12px 16px;
+  font-size: 1.5rem;
+  font-weight: 900;
+  text-align: center;
+  letter-spacing: 8px;
+  border: 2px solid #cbd5e1;
+  border-radius: 10px;
+  outline: none;
+}
+
+.otp-code-input:focus {
+  border-color: #dc2626;
+}
+
+/* QR Code Share Box */
+.qr-share-box {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.qr-toggle-btn {
+  background: transparent;
+  border: 1px dashed #94a3b8;
+  color: #475569;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.qr-container {
+  margin-top: 12px;
+  padding: 12px;
+  background: #f8fafc;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.qr-svg-wrap {
+  background: #ffffff;
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+
 
 

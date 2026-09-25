@@ -13,9 +13,34 @@
   <link rel="icon" type="image/svg+xml" href="icons/icon.svg?v=6">
   <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=6">
   
-  <link rel="stylesheet" href="css/styles.css?v=6">
+  <link rel="stylesheet" href="css/styles.css?v=7">
 </head>
 <body>
+
+  <!-- Incoming Emergency Rescue Banner (Triggered via shared Live SOS link) -->
+  <aside id="incomingSosBanner" class="incoming-sos-banner" style="display: none;" role="alert">
+    <div class="container incoming-sos-inner">
+      <div class="incoming-sos-left">
+        <span class="incoming-sos-beacon">🚨</span>
+        <div>
+          <div class="incoming-sos-title">
+            <strong id="sosSenderName">EMERGENCY SOS ALERT RECEIVED</strong>
+            <span class="live-blink-tag">LIVE RESCUE PIN</span>
+          </div>
+          <div class="incoming-sos-desc" id="sosLocationDesc">Sender needs immediate emergency help at this location!</div>
+        </div>
+      </div>
+      <div class="incoming-sos-actions">
+        <a id="sosGoogleMapsBtn" href="#" target="_blank" class="sos-action-btn maps">
+          <span>🗺️</span> <span>Get Driving Directions</span>
+        </a>
+        <a id="sosCall112Btn" href="tel:112" class="sos-action-btn call">
+          <span>📞</span> <span>Call 112 Rescue</span>
+        </a>
+        <button id="dismissIncomingSos" class="sos-dismiss-pill" title="Dismiss Banner">✕</button>
+      </div>
+    </div>
+  </aside>
 
   <!-- Silent Emergency Dial Toast Notification -->
   <div id="silentEmergencyToast" class="silent-emergency-toast" role="status" aria-live="assertive">
@@ -195,6 +220,28 @@
         <button id="quickSmsShare" class="quick-share-btn sms" title="Send SMS with GPS coordinates">
           <span>📱</span> <span id="smsBtnText">SMS GPS</span>
         </button>
+      </div>
+
+      <!-- Emergency Guardians Row (Trusted Contacts & 1-Tap SOS) -->
+      <div class="guardian-action-bar">
+        <div class="guardian-bar-info">
+          <span class="guardian-shield-icon">🛡️</span>
+          <div>
+            <div class="guardian-bar-title">
+              <span id="guardianBarLabel">Trusted Emergency Guardians:</span>
+              <span id="guardianCountBadge" class="guardian-count-pill">0 Saved</span>
+            </div>
+            <div class="guardian-bar-sub" id="guardianBarSub">Register numbers with OTP for 1-Tap Live SOS alerts</div>
+          </div>
+        </div>
+        <div class="guardian-btn-group">
+          <button id="alertGuardiansBtn" class="guardian-alert-btn" title="Send 1-Tap Live GPS Alert to all registered guardians">
+            <span>🚨</span> <span id="alertGuardiansText">1-Tap Alert Guardians</span>
+          </button>
+          <button id="manageGuardiansBtn" class="guardian-manage-btn" title="Add or manage emergency contacts & OTP">
+            <span>⚙️</span> <span id="manageGuardiansText">Manage</span>
+          </button>
+        </div>
       </div>
     </div>
 
@@ -393,10 +440,118 @@
     <button id="dismissSosBtn" class="sos-dismiss-btn">Cancel / Close</button>
   </div>
 
+  <!-- Trusted Emergency Guardians & Mobile/OTP Verification Modal -->
+  <div id="guardiansModal" class="modal-overlay">
+    <div class="modal-content guardian-modal-content">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 1.3rem;">🛡️</span>
+          <h3 id="guardianModalTitle">Trusted Emergency Guardians</h3>
+        </div>
+        <button id="closeGuardiansModal" class="modal-close-btn">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- View 1: Guardian List & Registration Form -->
+        <div id="guardianMainView">
+          <p class="guardian-modal-hint" id="guardianModalHint">
+            Register your family, parents, or friends. In an emergency, tapping <strong>"1-Tap Alert Guardians"</strong> sends them your exact GPS coordinates and live map tracking link.
+          </p>
+
+          <!-- List of Registered Guardians -->
+          <div class="guardian-list-section">
+            <div class="guardian-section-title">
+              <span id="savedGuardiansLabel">Registered Guardians</span>
+              <span id="guardianListCount" class="guardian-badge">0 / 5</span>
+            </div>
+            <div id="guardiansList" class="guardians-list">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+
+          <!-- Add New Guardian Form -->
+          <div class="guardian-add-card">
+            <div class="guardian-card-header">
+              <span style="font-size: 1rem;">➕</span>
+              <span id="addNewGuardianLabel"><strong>Register Trusted Contact</strong> (With Mobile OTP)</span>
+            </div>
+
+            <form id="addGuardianForm" class="guardian-form">
+              <div class="form-row">
+                <input type="text" id="guardianNameInput" class="guardian-input" placeholder="Contact Name (e.g. Papa, Maa, Rahul, Doctor)" required maxlength="30">
+              </div>
+
+              <div class="form-row phone-row">
+                <span class="country-prefix">🇮🇳 +91</span>
+                <input type="tel" id="guardianPhoneInput" class="guardian-input phone-input" placeholder="10-digit mobile number" required pattern="[0-9]{10}" maxlength="10">
+              </div>
+
+              <div class="form-row">
+                <select id="guardianRelationSelect" class="guardian-select">
+                  <option value="Family">Family / Parents (परिवार)</option>
+                  <option value="Spouse">Spouse / Partner (जीवनसाथी)</option>
+                  <option value="Friend">Friend / Colleague (दोस्त)</option>
+                  <option value="Doctor">Doctor / Caretaker (चिकित्सक)</option>
+                  <option value="Neighbor">Neighbor / Other (पड़ोसी)</option>
+                </select>
+              </div>
+
+              <button type="submit" id="sendOtpBtn" class="guardian-submit-btn">
+                <span>📲</span> <span id="sendOtpBtnText">Send OTP to Verify Number</span>
+              </button>
+            </form>
+          </div>
+
+          <!-- QR Code Pair & Share Option -->
+          <div class="qr-share-box">
+            <button type="button" id="showQrBtn" class="qr-toggle-btn">
+              <span>📷</span> <span id="showQrBtnText">Share / Scan Emergency Contact QR</span>
+            </button>
+            <div id="qrContainer" class="qr-container" style="display: none;">
+              <p style="font-size: 0.75rem; color: #64748b; margin-bottom: 8px;">Let a family member scan this QR code on their phone to add your emergency contact card:</p>
+              <div id="qrCodeTarget" class="qr-svg-wrap"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- View 2: OTP Verification Screen -->
+        <div id="guardianOtpView" style="display: none;">
+          <div class="otp-view-header">
+            <span style="font-size: 2.2rem;">🔐</span>
+            <h4>Verify Mobile Number</h4>
+            <p>Enter the 6-digit verification code sent to <strong id="otpTargetPhone">+91 XXXXX XXXXX</strong></p>
+          </div>
+
+          <!-- Simulated SMS Notification Box (Instant Testing) -->
+          <div class="otp-simulator-alert" id="otpSimulatorAlert">
+            <div class="otp-sim-badge">SMS ARRIVED</div>
+            <div class="otp-sim-body">
+              <span>Your Helplines verification code is: <strong id="simulatedOtpCode">123456</strong></span>
+              <button type="button" id="autoFillOtpBtn" class="otp-autofill-btn">Auto-Fill</button>
+            </div>
+          </div>
+
+          <div class="otp-inputs-row">
+            <input type="text" id="otpInput" class="otp-code-input" placeholder="• • • • • •" maxlength="6" pattern="[0-9]{6}" inputmode="numeric">
+          </div>
+
+          <div style="display: flex; gap: 10px; margin-top: 18px;">
+            <button type="button" id="confirmOtpBtn" class="guardian-submit-btn" style="flex: 1;">
+              <span>✅</span> <span>Verify & Save Guardian</span>
+            </button>
+            <button type="button" id="cancelOtpBtn" class="guardian-cancel-btn">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Hidden Auto-Dial Anchor for Silent Emergency Shortcut Trigger -->
   <a id="emergencyAutoDialLink" href="tel:112" style="display: none;"></a>
 
   <!-- Core App Logic -->
-  <script type="module" src="js/app.js?v=6"></script>
+  <script type="module" src="js/app.js?v=7"></script>
 </body>
 </html>
