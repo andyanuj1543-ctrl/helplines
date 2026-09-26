@@ -1,5 +1,5 @@
 // Service Worker for Helplines Emergency App
-const CACHE_NAME = 'helplines-cache-v10';
+const CACHE_NAME = 'helplines-cache-v11';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -12,9 +12,16 @@ const ASSETS_TO_CACHE = [
   './js/i18n.js',
   './js/app.js',
   './manifest.json',
+  './favicon.ico',
+  './apple-touch-icon.png',
   './icons/icon.svg',
   './icons/icon-192.png',
-  './icons/icon-512.png'
+  './icons/icon-512.png',
+  './icons/icon-maskable-192.png',
+  './icons/icon-maskable-512.png',
+  './icons/apple-touch-icon.png',
+  './icons/favicon-32x32.png',
+  './icons/favicon-16x16.png'
 ];
 
 self.addEventListener('install', (event) => {
@@ -48,7 +55,7 @@ self.addEventListener('fetch', (event) => {
   if (!event.request.url.startsWith('http')) return;
 
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
+    caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
       if (cachedResponse) {
         // Fetch in background to update cache (stale-while-revalidate)
         fetch(event.request).then((networkResponse) => {
@@ -66,7 +73,7 @@ self.addEventListener('fetch', (event) => {
         return networkResponse;
       }).catch(() => {
         // Offline fallback if needed
-        return caches.match('/index.html');
+        return caches.match('./index.html') || caches.match('./');
       });
     })
   );
