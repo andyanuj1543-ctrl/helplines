@@ -1,3 +1,16 @@
+// Global Safety Net & Error Boundary (Reveals direct emergency fallback if JS crashes)
+window.addEventListener('error', (event) => {
+  console.error('Helplines runtime error caught:', event.error || event.message);
+  const fallback = document.getElementById('criticalEmergencyFallback');
+  if (fallback) fallback.style.display = 'flex';
+});
+
+window.addEventListener('unhandledrejection', (event) => {
+  console.error('Helplines unhandled rejection caught:', event.reason);
+  const fallback = document.getElementById('criticalEmergencyFallback');
+  if (fallback) fallback.style.display = 'flex';
+});
+
 // Main Application Controller with High-Speed Emergency Facility
 import { NATIONAL_HELPLINES, INDIA_STATES_DATA } from './data.js';
 import { SmartNLPService } from './nlp_matcher.js';
@@ -99,66 +112,23 @@ class HelplinesApp {
 
     // Language Switcher
     this.langToggleBtn = document.getElementById('langToggleBtn');
-    this.langBtnText = document.getElementById('langBtnText');
-    this.installBtnText = document.getElementById('installBtnText');
-    this.fastTitleText = document.getElementById('fastTitleText');
-    this.fastBadgeText = document.getElementById('fastBadgeText');
-    this.policeName = document.getElementById('policeName');
-    this.policeSub = document.getElementById('policeSub');
-    this.ambulanceName = document.getElementById('ambulanceName');
-    this.ambulanceSub = document.getElementById('ambulanceSub');
-    this.fireName = document.getElementById('fireName');
-    this.fireSub = document.getElementById('fireSub');
-    this.searchTitleText = document.getElementById('searchTitleText');
-    this.searchSubText = document.getElementById('searchSubText');
-    this.locLabelText = document.getElementById('locLabelText');
-    this.whatsappBtnText = document.getElementById('whatsappBtnText');
-    this.smsBtnText = document.getElementById('smsBtnText');
-    this.scenarioTitleText = document.getElementById('scenarioTitleText');
-    this.scStalkerText = document.getElementById('scStalkerText');
-    this.scHeartText = document.getElementById('scHeartText');
-    this.scAccidentText = document.getElementById('scAccidentText');
-    this.scFireText = document.getElementById('scFireText');
-    this.scFraudText = document.getElementById('scFraudText');
-    this.scSuicideText = document.getElementById('scSuicideText');
-    this.scHighwayText = document.getElementById('scHighwayText');
-    this.scChildText = document.getElementById('scChildText');
-    this.dockSosText = document.getElementById('dockSosText');
-    this.dockGpsText = document.getElementById('dockGpsText');
-    this.dockStatesText = document.getElementById('dockStatesText');
 
-    // Emergency Shortcuts & Overlays
-    this.volumeShortcutText = document.getElementById('volumeShortcutText');
+    // Emergency Shortcuts & Visual Overlays
     this.silentEmergencyToast = document.getElementById('silentEmergencyToast');
-    this.silentToastTitle = document.getElementById('silentToastTitle');
-    this.silentToastSub = document.getElementById('silentToastSub');
     this.holdProgressOverlay = document.getElementById('holdProgressOverlay');
-    this.holdProgressText = document.getElementById('holdProgressText');
 
-    // Direct Emergency SOS, Guardians & Unique Features
-    this.guardianBarLabel = document.getElementById('guardianBarLabel');
+    // Direct Emergency SOS & Guardians (Zero OTP)
     this.guardianCountBadge = document.getElementById('guardianCountBadge');
-    this.guardianBarSub = document.getElementById('guardianBarSub');
     this.alertGuardiansBtn = document.getElementById('alertGuardiansBtn');
     this.manageGuardiansBtn = document.getElementById('manageGuardiansBtn');
-    this.alertGuardiansText = document.getElementById('alertGuardiansText');
     this.manageGuardiansText = document.getElementById('manageGuardiansText');
     this.guardianBtnCount = document.getElementById('guardianBtnCount');
     this.directSosPhoneInput = document.getElementById('directSosPhoneInput');
     this.directSosRelationSelect = document.getElementById('directSosRelationSelect');
     this.quickSaveGuardianBtn = document.getElementById('quickSaveGuardianBtn');
-    this.quickSaveText = document.getElementById('quickSaveText');
 
     this.guardiansModal = document.getElementById('guardiansModal');
     this.closeGuardiansModal = document.getElementById('closeGuardiansModal');
-    this.guardianModalTitle = document.getElementById('guardianModalTitle');
-    this.guardianModalHint = document.getElementById('guardianModalHint');
-    this.savedGuardiansLabel = document.getElementById('savedGuardiansLabel');
-    this.addNewGuardianLabel = document.getElementById('addNewGuardianLabel');
-    this.saveGuardianBtn = document.getElementById('saveGuardianBtn');
-    this.saveGuardianBtnText = document.getElementById('saveGuardianBtnText');
-    this.showQrBtnText = document.getElementById('showQrBtnText');
-
     this.guardianMainView = document.getElementById('guardianMainView');
     this.guardiansList = document.getElementById('guardiansList');
     this.guardianListCount = document.getElementById('guardianListCount');
@@ -170,23 +140,6 @@ class HelplinesApp {
     this.showQrBtn = document.getElementById('showQrBtn');
     this.qrContainer = document.getElementById('qrContainer');
     this.qrCodeTarget = document.getElementById('qrCodeTarget');
-
-    // Unique Life-Saving Features Showcase elements
-    this.featuresTag = document.getElementById('featuresTag');
-    this.featuresTitle = document.getElementById('featuresTitle');
-    this.featuresSub = document.getElementById('featuresSub');
-    this.feat1Title = document.getElementById('feat1Title');
-    this.feat1Desc = document.getElementById('feat1Desc');
-    this.feat2Title = document.getElementById('feat2Title');
-    this.feat2Desc = document.getElementById('feat2Desc');
-    this.feat3Title = document.getElementById('feat3Title');
-    this.feat3Desc = document.getElementById('feat3Desc');
-    this.feat4Title = document.getElementById('feat4Title');
-    this.feat4Desc = document.getElementById('feat4Desc');
-    this.feat5Title = document.getElementById('feat5Title');
-    this.feat5Desc = document.getElementById('feat5Desc');
-    this.feat6Title = document.getElementById('feat6Title');
-    this.feat6Desc = document.getElementById('feat6Desc');
 
     this.incomingSosBanner = document.getElementById('incomingSosBanner');
     this.sosSenderName = document.getElementById('sosSenderName');
@@ -554,88 +507,32 @@ class HelplinesApp {
 
   /**
    * Applies selected language strings across the entire user interface
+   * using declarative [data-i18n], [data-i18n-html], and [data-i18n-placeholder] attributes.
    */
   applyLanguage(lang = 'en') {
     const s = I18N_STRINGS[lang] || I18N_STRINGS.en;
 
-    if (this.langBtnText) this.langBtnText.textContent = s.langBtn;
-    if (this.installBtnText) this.installBtnText.textContent = s.installBtn;
-    if (this.fastTitleText) this.fastTitleText.textContent = s.fastTitle;
-    if (this.fastBadgeText) this.fastBadgeText.textContent = s.fastBadge;
-    if (this.policeName) this.policeName.textContent = s.policeTitle;
-    if (this.policeSub) this.policeSub.textContent = s.policeSub;
-    if (this.ambulanceName) this.ambulanceName.textContent = s.ambulanceTitle;
-    if (this.ambulanceSub) this.ambulanceSub.textContent = s.ambulanceSub;
-    if (this.fireName) this.fireName.textContent = s.fireTitle;
-    if (this.fireSub) this.fireSub.textContent = s.fireSub;
+    document.querySelectorAll('[data-i18n]').forEach((el) => {
+      const key = el.getAttribute('data-i18n');
+      if (s[key]) el.textContent = s[key];
+    });
 
-    if (this.volumeShortcutText && s.volumeShortcutText) {
-      this.volumeShortcutText.innerHTML = s.volumeShortcutText;
+    document.querySelectorAll('[data-i18n-html]').forEach((el) => {
+      const key = el.getAttribute('data-i18n-html');
+      if (s[key]) el.innerHTML = s[key];
+    });
+
+    document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+      const key = el.getAttribute('data-i18n-placeholder');
+      if (s[key]) el.placeholder = s[key];
+    });
+
+    if (this.manageGuardiansText) {
+      this.manageGuardiansText.textContent = `${s.manageGuardiansText || 'Contacts'} (${this.guardianService.getGuardians().length})`;
     }
-    if (this.silentToastTitle && s.silentToastTitle) {
-      this.silentToastTitle.textContent = s.silentToastTitle;
-    }
-    if (this.silentToastSub && s.silentToastSub) {
-      this.silentToastSub.textContent = s.silentToastSub;
-    }
-    if (this.holdProgressText && s.holdProgressText) {
-      this.holdProgressText.textContent = s.holdProgressText;
-    }
-
-    if (this.searchTitleText) this.searchTitleText.textContent = s.searchTitle;
-    if (this.searchSubText) this.searchSubText.textContent = s.searchSub;
-    if (this.needInput) this.needInput.placeholder = s.searchPlaceholder;
-
-    if (this.locLabelText) this.locLabelText.textContent = s.locLabel;
-    if (this.whatsappBtnText) this.whatsappBtnText.textContent = s.whatsappBtn;
-    if (this.smsBtnText) this.smsBtnText.textContent = s.smsBtn;
-
-    if (this.scenarioTitleText) this.scenarioTitleText.textContent = s.scenarioTitle;
-    if (this.scStalkerText) this.scStalkerText.textContent = s.scStalker;
-    if (this.scHeartText) this.scHeartText.textContent = s.scHeart;
-    if (this.scAccidentText) this.scAccidentText.textContent = s.scAccident;
-    if (this.scFireText) this.scFireText.textContent = s.scFire;
-    if (this.scFraudText) this.scFraudText.textContent = s.scFraud;
-    if (this.scSuicideText) this.scSuicideText.textContent = s.scSuicide;
-    if (this.scHighwayText) this.scHighwayText.textContent = s.scHighway;
-    if (this.scChildText) this.scChildText.textContent = s.scChild;
-
-    if (this.dockSosText) this.dockSosText.textContent = s.dockSos;
-    if (this.dockGpsText) this.dockGpsText.textContent = s.dockGps;
-    if (this.dockStatesText) this.dockStatesText.textContent = s.dockStates;
 
     // Update state-specific women line with proper language
     this.updateFastDialWomenButton(this.locationService.currentLocation.state);
-
-    // Guardian Action Bar & Modal strings (Zero OTP)
-    if (this.guardianBarLabel && s.guardianBarLabel) this.guardianBarLabel.textContent = s.guardianBarLabel;
-    if (this.guardianBarSub && s.guardianBarSub) this.guardianBarSub.textContent = s.guardianBarSub;
-    if (this.alertGuardiansText && s.alertGuardiansText) this.alertGuardiansText.textContent = s.alertGuardiansText;
-    if (this.manageGuardiansText && s.manageGuardiansText) this.manageGuardiansText.textContent = `${s.manageGuardiansText} (${this.guardianService.getGuardians().length})`;
-    if (this.quickSaveText && s.quickSaveText) this.quickSaveText.textContent = s.quickSaveText;
-    if (this.guardianModalTitle && s.guardianModalTitle) this.guardianModalTitle.textContent = s.guardianModalTitle;
-    if (this.guardianModalHint && s.guardianModalHint) this.guardianModalHint.innerHTML = s.guardianModalHint;
-    if (this.savedGuardiansLabel && s.savedGuardiansLabel) this.savedGuardiansLabel.textContent = s.savedGuardiansLabel;
-    if (this.addNewGuardianLabel && s.addNewGuardianLabel) this.addNewGuardianLabel.innerHTML = s.addNewGuardianLabel;
-    if (this.saveGuardianBtnText && s.saveGuardianBtnText) this.saveGuardianBtnText.textContent = s.saveGuardianBtnText;
-    if (this.showQrBtnText && s.showQrBtnText) this.showQrBtnText.textContent = s.showQrBtnText;
-
-    // Unique Life-Saving Features Showcase strings
-    if (this.featuresTag && s.featuresTag) this.featuresTag.textContent = s.featuresTag;
-    if (this.featuresTitle && s.featuresTitle) this.featuresTitle.textContent = s.featuresTitle;
-    if (this.featuresSub && s.featuresSub) this.featuresSub.textContent = s.featuresSub;
-    if (this.feat1Title && s.feat1Title) this.feat1Title.textContent = s.feat1Title;
-    if (this.feat1Desc && s.feat1Desc) this.feat1Desc.textContent = s.feat1Desc;
-    if (this.feat2Title && s.feat2Title) this.feat2Title.textContent = s.feat2Title;
-    if (this.feat2Desc && s.feat2Desc) this.feat2Desc.textContent = s.feat2Desc;
-    if (this.feat3Title && s.feat3Title) this.feat3Title.textContent = s.feat3Title;
-    if (this.feat3Desc && s.feat3Desc) this.feat3Desc.textContent = s.feat3Desc;
-    if (this.feat4Title && s.feat4Title) this.feat4Title.textContent = s.feat4Title;
-    if (this.feat4Desc && s.feat4Desc) this.feat4Desc.textContent = s.feat4Desc;
-    if (this.feat5Title && s.feat5Title) this.feat5Title.textContent = s.feat5Title;
-    if (this.feat5Desc && s.feat5Desc) this.feat5Desc.textContent = s.feat5Desc;
-    if (this.feat6Title && s.feat6Title) this.feat6Title.textContent = s.feat6Title;
-    if (this.feat6Desc && s.feat6Desc) this.feat6Desc.textContent = s.feat6Desc;
   }
 
   initPWAInstallation() {

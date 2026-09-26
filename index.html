@@ -21,14 +21,29 @@
   <meta name="twitter:image" content="https://andyanuj1543-ctrl.github.io/helplines/icons/icon-512.png">
   
   <!-- PWA & Mobile App Support -->
-  <link rel="manifest" href="manifest.json?v=7">
-  <link rel="apple-touch-icon" href="icons/icon-192.png?v=7">
-  <link rel="icon" type="image/svg+xml" href="icons/icon.svg?v=7">
-  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=7">
+  <link rel="manifest" href="manifest.json?v=8">
+  <link rel="apple-touch-icon" href="icons/icon-192.png?v=8">
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg?v=8">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=8">
   
-  <link rel="stylesheet" href="css/styles.css?v=8">
+  <link rel="stylesheet" href="css/styles.css?v=9">
 </head>
 <body>
+  <!-- Guaranteed Zero-JS / Critical Error Fallback Banner -->
+  <noscript>
+    <div style="background: #dc2626; color: #fff; padding: 12px; text-align: center; font-weight: bold; font-family: -apple-system, BlinkMacSystemFont, sans-serif;">
+      ⚠️ JavaScript is off! Direct emergency dial: <a href="tel:112" style="color: #fff; text-decoration: underline; margin: 0 8px;">📞 Call 112 (Police)</a> | <a href="tel:108" style="color: #fff; text-decoration: underline; margin: 0 8px;">🚑 Call 108 (Ambulance)</a>
+    </div>
+  </noscript>
+  <div id="criticalEmergencyFallback" style="display: none; background: #dc2626; color: #fff; padding: 14px 16px; text-align: center; font-family: -apple-system, BlinkMacSystemFont, sans-serif; box-shadow: 0 4px 12px rgba(0,0,0,0.3); position: sticky; top: 0; z-index: 999999;">
+    <div style="max-width: 600px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
+      <span style="font-size: 0.9rem; font-weight: 700;">🚨 BACKUP EMERGENCY DIALER:</span>
+      <div style="display: flex; gap: 8px;">
+        <a href="tel:112" style="background: #fff; color: #dc2626; padding: 8px 16px; border-radius: 6px; font-weight: 900; text-decoration: none;">📞 CALL 112</a>
+        <a href="tel:108" style="background: #fff; color: #16a34a; padding: 8px 16px; border-radius: 6px; font-weight: 900; text-decoration: none;">🚑 CALL 108</a>
+      </div>
+    </div>
+  </div>
 
   <!-- Incoming Emergency Rescue Banner (Triggered via shared Live SOS link) -->
   <aside id="incomingSosBanner" class="incoming-sos-banner" style="display: none;" role="alert">
@@ -59,8 +74,8 @@
   <div id="silentEmergencyToast" class="silent-emergency-toast" role="status" aria-live="assertive">
     <div class="silent-toast-badge">⚡</div>
     <div>
-      <div class="silent-toast-text" id="silentToastTitle">Emergency Trigger: Dialing 112</div>
-      <div class="silent-toast-sub" id="silentToastSub">Silent emergency call initiated without siren</div>
+      <div class="silent-toast-text" id="silentToastTitle" data-i18n="silentToastTitle">Emergency Trigger: Dialing 112</div>
+      <div class="silent-toast-sub" id="silentToastSub" data-i18n="silentToastSub">Silent emergency call initiated without siren</div>
     </div>
   </div>
 
@@ -73,7 +88,7 @@
       </svg>
       <div class="hold-content">
         <span class="hold-icon">⚡</span>
-        <div class="hold-title" id="holdProgressText">HOLD FOR 112</div>
+        <div class="hold-title" id="holdProgressText" data-i18n="holdProgressText">HOLD FOR 112</div>
         <div class="hold-sub">Release to cancel</div>
       </div>
     </div>
@@ -114,7 +129,7 @@
         <!-- Language Switcher Button -->
         <button id="langToggleBtn" class="lang-toggle-btn" title="हिंदी / English भाषा बदलें">
           <span style="font-size: 0.95rem;">🌐</span>
-          <span id="langBtnText">हिंदी</span>
+          <span id="langBtnText" data-i18n="langBtn">हिंदी</span>
         </button>
 
         <!-- State & GPS Pill -->
@@ -126,7 +141,7 @@
 
         <!-- Install App Button (Positioned at the side of location) -->
         <button id="pwaInstallBtn" class="pwa-install-btn" title="Install Helplines as an App on your phone">
-          <span>📲</span> <strong id="installBtnText">Install App</strong>
+          <span>📲</span> <strong id="installBtnText" data-i18n="installBtn">Install App</strong>
         </button>
       </div>
     </div>
@@ -137,8 +152,8 @@
     <!-- FAST ACCESS HERO: 4 Instant Dial Emergency Buttons -->
     <section class="fast-dial-section">
       <div class="fast-dial-title">
-        <span id="fastTitleText">⚡ INSTANT 1-TAP EMERGENCY DIAL</span>
-        <span id="fastBadgeText" class="live-pulse-badge">TAP TO CALL NOW</span>
+        <span id="fastTitleText" data-i18n="fastTitle">⚡ INSTANT 1-TAP EMERGENCY DIAL</span>
+        <span id="fastBadgeText" data-i18n="fastBadge" class="live-pulse-badge">TAP TO CALL NOW</span>
       </div>
       <div class="fast-dial-grid">
         <!-- 112 Unified / Police -->
@@ -148,8 +163,8 @@
             <div class="fast-btn-num">112</div>
           </div>
           <div class="fast-btn-info">
-            <div id="policeName" class="fast-btn-name">POLICE</div>
-            <div id="policeSub" class="fast-btn-sub">Emergency & Patrol</div>
+            <div id="policeName" data-i18n="policeTitle" class="fast-btn-name">POLICE</div>
+            <div id="policeSub" data-i18n="policeSub" class="fast-btn-sub">Emergency & Patrol</div>
           </div>
         </a>
 
@@ -160,8 +175,8 @@
             <div class="fast-btn-num">108</div>
           </div>
           <div class="fast-btn-info">
-            <div id="ambulanceName" class="fast-btn-name">AMBULANCE</div>
-            <div id="ambulanceSub" class="fast-btn-sub">Medical & Hospital</div>
+            <div id="ambulanceName" data-i18n="ambulanceTitle" class="fast-btn-name">AMBULANCE</div>
+            <div id="ambulanceSub" data-i18n="ambulanceSub" class="fast-btn-sub">Medical & Hospital</div>
           </div>
         </a>
 
@@ -172,8 +187,8 @@
             <div id="fastWomenNum" class="fast-btn-num">1090</div>
           </div>
           <div class="fast-btn-info">
-            <div id="fastWomenName" class="fast-btn-name">WOMEN SAFETY</div>
-            <div id="fastWomenSub" class="fast-btn-sub">Anti-Harassment</div>
+            <div id="fastWomenName" data-i18n="womenTitle" class="fast-btn-name">WOMEN SAFETY</div>
+            <div id="fastWomenSub" data-i18n="womenSub" class="fast-btn-sub">Anti-Harassment</div>
           </div>
         </a>
 
@@ -184,8 +199,8 @@
             <div class="fast-btn-num">101</div>
           </div>
           <div class="fast-btn-info">
-            <div id="fireName" class="fast-btn-name">FIRE</div>
-            <div id="fireSub" class="fast-btn-sub">Rescue & Gas Leak</div>
+            <div id="fireName" data-i18n="fireTitle" class="fast-btn-name">FIRE</div>
+            <div id="fireSub" data-i18n="fireSub" class="fast-btn-sub">Rescue & Gas Leak</div>
           </div>
         </a>
       </div>
@@ -194,21 +209,22 @@
     <!-- ⚡ EMERGENCY SHORTCUT TIP: Hold Screen for 2s or Shake Phone to auto-dial 112 silently -->
     <div class="volume-shortcut-bar" id="volumeShortcutBar">
       <span class="volume-shortcut-icon">⚡</span>
-      <span id="volumeShortcutText" class="volume-shortcut-text"><strong>Emergency Shortcuts:</strong> <strong>Hold screen anywhere for 2s</strong> or <strong>Shake phone</strong> to dial <strong>112</strong> instantly without sirens. <em>(On Lock Screen: Press Power button 5 times)</em></span>
+      <span id="volumeShortcutText" data-i18n-html="volumeShortcutText" class="volume-shortcut-text"><strong>Emergency Shortcuts:</strong> <strong>Hold screen anywhere for 2s</strong> or <strong>Shake phone</strong> to dial <strong>112</strong> instantly without sirens. <em>(On Lock Screen: Press Power button 5 times)</em></span>
     </div>
 
     <!-- SMART TEXT SEARCH SECTION (Immediate Discovery) -->
     <section class="search-hero">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-        <h2 id="searchTitleText">Describe what help you need:</h2>
+        <h2 id="searchTitleText" data-i18n="searchTitle">Describe what help you need:</h2>
       </div>
-      <p id="searchSubText">Type in English or Hindi (e.g., "chori ho gayi", "accident", "fire", "fraud").</p>
+      <p id="searchSubText" data-i18n="searchSub">Type in English or Hindi (e.g., "chori ho gayi", "accident", "fire", "fraud").</p>
 
       <div class="search-input-wrap">
         <span class="search-icon">🔍</span>
         <input 
           type="text" 
           id="needInput" 
+          data-i18n-placeholder="searchPlaceholder"
           class="search-input" 
           placeholder="Type what happened (police, accident, hospital, crime)..."
           autocomplete="off"
@@ -221,17 +237,17 @@
       <div class="loc-card-left">
         <span class="loc-pin-icon">📍</span>
         <div>
-          <div id="locLabelText" class="loc-label">YOUR EXACT LOCATION (FOR POLICE / AMBULANCE):</div>
+          <div id="locLabelText" data-i18n="locLabel" class="loc-label">YOUR EXACT LOCATION (FOR POLICE / AMBULANCE):</div>
           <div id="exactAddressText" class="loc-address">Detecting street & GPS coordinates...</div>
           <div id="exactCoordsText" class="loc-coords">Lat: --, Lng: --</div>
         </div>
       </div>
       <div class="loc-card-actions">
         <button id="quickWhatsappShare" class="quick-share-btn whatsapp" title="Share live GPS pin on WhatsApp">
-          <span>💬</span> <span id="whatsappBtnText">WhatsApp GPS</span>
+          <span>💬</span> <span id="whatsappBtnText" data-i18n="whatsappBtn">WhatsApp GPS</span>
         </button>
         <button id="quickSmsShare" class="quick-share-btn sms" title="Send SMS with GPS coordinates">
-          <span>📱</span> <span id="smsBtnText">SMS GPS</span>
+          <span>📱</span> <span id="smsBtnText" data-i18n="smsBtn">SMS GPS</span>
         </button>
       </div>
 
@@ -242,10 +258,10 @@
             <span class="guardian-shield-icon">🛡️</span>
             <div>
               <div class="guardian-bar-title">
-                <span id="guardianBarLabel">Direct Emergency SOS to Family:</span>
+                <span id="guardianBarLabel" data-i18n="guardianBarLabel">Direct Emergency SOS to Family:</span>
                 <span id="guardianCountBadge" class="guardian-count-pill">0 Saved</span>
               </div>
-              <div class="guardian-bar-sub" id="guardianBarSub">No OTP needed — enter number & send live GPS in 1 click</div>
+              <div class="guardian-bar-sub" id="guardianBarSub" data-i18n="guardianBarSub">No OTP needed — enter number & send live GPS in 1 click</div>
             </div>
           </div>
           <button id="manageGuardiansBtn" class="guardian-manage-btn" title="View or manage saved contacts">
@@ -268,10 +284,10 @@
             <option value="Doctor">Doctor (डॉक्टर)</option>
           </select>
           <button id="alertGuardiansBtn" class="guardian-alert-btn" title="Send Live GPS alert immediately in 1 click">
-            <span>🚨</span> <span id="alertGuardiansText">1-Click Send SOS</span>
+            <span>🚨</span> <span id="alertGuardiansText" data-i18n="alertGuardiansText">1-Click Send SOS</span>
           </button>
           <button id="quickSaveGuardianBtn" class="guardian-save-quick-btn" title="Save this number to contacts (No OTP)">
-            <span>💾</span> <span id="quickSaveText">Save</span>
+            <span>💾</span> <span id="quickSaveText" data-i18n="quickSaveText">Save</span>
           </button>
         </div>
       </div>
@@ -280,57 +296,57 @@
     <!-- 🌟 UNIQUE LIFE-SAVING FEATURES SHOWCASE (Prominently Highlighted) -->
     <section class="features-showcase-section">
       <div class="features-header">
-        <span class="features-tag" id="featuresTag">🌟 UNIQUE APP CAPABILITIES</span>
-        <h3 id="featuresTitle">Engineered to Save Lives When Every Second Counts</h3>
-        <p id="featuresSub">Zero OTP friction, 1-click family SOS, silent panic triggers, and 100% offline emergency readiness.</p>
+        <span class="features-tag" id="featuresTag" data-i18n="featuresTag">🌟 UNIQUE APP CAPABILITIES</span>
+        <h3 id="featuresTitle" data-i18n="featuresTitle">Engineered to Save Lives When Every Second Counts</h3>
+        <p id="featuresSub" data-i18n="featuresSub">Zero OTP friction, 1-click family SOS, silent panic triggers, and 100% offline emergency readiness.</p>
       </div>
 
       <div class="features-grid">
         <div class="feature-card">
           <div class="feature-icon-wrap feat-red">🛡️</div>
           <div class="feature-info">
-            <h4 id="feat1Title">1-Click Direct SOS (No OTP)</h4>
-            <p id="feat1Desc">Type any number or save family contacts with zero OTP friction. 1 click instantly sends your exact GPS coordinates, address, and live tracking map link.</p>
+            <h4 id="feat1Title" data-i18n="feat1Title">1-Click Direct SOS (No OTP)</h4>
+            <p id="feat1Desc" data-i18n="feat1Desc">Type any number or save family contacts with zero OTP friction. 1 click instantly sends your exact GPS coordinates, address, and live tracking map link.</p>
           </div>
         </div>
 
         <div class="feature-card">
           <div class="feature-icon-wrap feat-amber">⚡</div>
           <div class="feature-info">
-            <h4 id="feat2Title">Silent Panic Triggers (No Sirens)</h4>
-            <p id="feat2Desc">Hold the screen anywhere for 2s or shake your phone to silently dial 112 with zero alarm sounds—keeping you safe from attackers in distress.</p>
+            <h4 id="feat2Title" data-i18n="feat2Title">Silent Panic Triggers (No Sirens)</h4>
+            <p id="feat2Desc" data-i18n="feat2Desc">Hold the screen anywhere for 2s or shake your phone to silently dial 112 with zero alarm sounds—keeping you safe from attackers in distress.</p>
           </div>
         </div>
 
         <div class="feature-card">
           <div class="feature-icon-wrap feat-blue">📍</div>
           <div class="feature-info">
-            <h4 id="feat3Title">Live GPS & Rescue Route Link</h4>
-            <p id="feat3Desc">Automatically detects your exact street & coordinates, providing family with a direct Google Maps turn-by-turn driving route straight to your location.</p>
+            <h4 id="feat3Title" data-i18n="feat3Title">Live GPS & Rescue Route Link</h4>
+            <p id="feat3Desc" data-i18n="feat3Desc">Automatically detects your exact street & coordinates, providing family with a direct Google Maps turn-by-turn driving route straight to your location.</p>
           </div>
         </div>
 
         <div class="feature-card">
           <div class="feature-icon-wrap feat-pink">🌸</div>
           <div class="feature-info">
-            <h4 id="feat4Title">Auto State Helpline Adaptation</h4>
-            <p id="feat4Desc">Smart GPS automatically configures local state hotlines (such as UP 1090 Women Power Line, Delhi 1091) so you always reach the right regional authorities.</p>
+            <h4 id="feat4Title" data-i18n="feat4Title">Auto State Helpline Adaptation</h4>
+            <p id="feat4Desc" data-i18n="feat4Desc">Smart GPS automatically configures local state hotlines (such as UP 1090 Women Power Line, Delhi 1091) so you always reach the right regional authorities.</p>
           </div>
         </div>
 
         <div class="feature-card">
           <div class="feature-icon-wrap feat-green">📴</div>
           <div class="feature-info">
-            <h4 id="feat5Title">100% Offline Emergency Ready</h4>
-            <p id="feat5Desc">Works completely without internet! 112 auto-dialing, the full emergency directory, and native SMS GPS dispatch function even in network blackouts.</p>
+            <h4 id="feat5Title" data-i18n="feat5Title">100% Offline Emergency Ready</h4>
+            <p id="feat5Desc" data-i18n="feat5Desc">Works completely without internet! 112 auto-dialing, the full emergency directory, and native SMS GPS dispatch function even in network blackouts.</p>
           </div>
         </div>
 
         <div class="feature-card">
           <div class="feature-icon-wrap feat-purple">🌐</div>
           <div class="feature-info">
-            <h4 id="feat6Title">Dual-Language Fast Accessibility</h4>
-            <p id="feat6Desc">Instantly switch the entire interface between English and हिन्दी with 1 tap so anyone under panic can navigate without language obstacles.</p>
+            <h4 id="feat6Title" data-i18n="feat6Title">Dual-Language Fast Accessibility</h4>
+            <p id="feat6Desc" data-i18n="feat6Desc">Instantly switch the entire interface between English and हिन्दी with 1 tap so anyone under panic can navigate without language obstacles.</p>
           </div>
         </div>
       </div>
@@ -347,39 +363,39 @@
 
     <!-- 1-TAP SCENARIO EMERGENCY BUTTONS (Zero Typing Needed!) -->
     <section class="scenario-section">
-      <div id="scenarioTitleText" class="scenario-title">⚡ QUICK SCENARIOS (1-TAP TO RESOLVE):</div>
+      <div id="scenarioTitleText" data-i18n="scenarioTitle" class="scenario-title">⚡ QUICK SCENARIOS (1-TAP TO RESOLVE):</div>
       <div class="scenario-grid">
         <button class="scenario-btn" data-query="Someone is following me and harassing girl women">
           <span class="sc-icon">🏃‍♀️</span>
-          <span id="scStalkerText" class="sc-text">Stalker / Harassed</span>
+          <span id="scStalkerText" data-i18n="scStalker" class="sc-text">Stalker / Harassed</span>
         </button>
         <button class="scenario-btn" data-query="Heart attack chest pain uncle unconscious collapsed">
           <span class="sc-icon">💔</span>
-          <span id="scHeartText" class="sc-text">Heart Attack / Collapsed</span>
+          <span id="scHeartText" data-i18n="scHeart" class="sc-text">Heart Attack / Collapsed</span>
         </button>
         <button class="scenario-btn" data-query="Road accident severe bleeding injured on road">
           <span class="sc-icon">🩸</span>
-          <span id="scAccidentText" class="sc-text">Road Accident / Bleeding</span>
+          <span id="scAccidentText" data-i18n="scAccident" class="sc-text">Road Accident / Bleeding</span>
         </button>
         <button class="scenario-btn" data-query="Fire in kitchen building cylinder blast smoke">
           <span class="sc-icon">🔥</span>
-          <span id="scFireText" class="sc-text">Fire / Cylinder Leak</span>
+          <span id="scFireText" data-i18n="scFire" class="sc-text">Fire / Cylinder Leak</span>
         </button>
         <button class="scenario-btn" data-query="Money stolen from bank account online fraud UPI scam">
           <span class="sc-icon">💳</span>
-          <span id="scFraudText" class="sc-text">Bank / Cyber Fraud (1930)</span>
+          <span id="scFraudText" data-i18n="scFraud" class="sc-text">Bank / Cyber Fraud (1930)</span>
         </button>
         <button class="scenario-btn" data-query="Feeling suicidal depressed want to end life help">
           <span class="sc-icon">🧠</span>
-          <span id="scSuicideText" class="sc-text">Suicide / Mental Help</span>
+          <span id="scSuicideText" data-i18n="scSuicide" class="sc-text">Suicide / Mental Help</span>
         </button>
         <button class="scenario-btn" data-query="Highway car breakdown flat tyre towing accident">
           <span class="sc-icon">🚗</span>
-          <span id="scHighwayText" class="sc-text">Highway Breakdown (1033)</span>
+          <span id="scHighwayText" data-i18n="scHighway" class="sc-text">Highway Breakdown (1033)</span>
         </button>
         <button class="scenario-btn" data-query="Child abuse minor kid lost orphan baby">
           <span class="sc-icon">👶</span>
-          <span id="scChildText" class="sc-text">Child in Danger (1098)</span>
+          <span id="scChildText" data-i18n="scChild" class="sc-text">Child in Danger (1098)</span>
         </button>
       </div>
     </section>
@@ -470,22 +486,22 @@
     <div class="dock-inner">
       <a href="tel:112" class="dock-sos-btn" title="Tap to call 112 immediately">
         <span>🚨</span>
-        <span id="dockSosText">CALL 112</span>
+        <span id="dockSosText" data-i18n="dockSos">CALL 112</span>
       </a>
 
       <button id="dockSirenBtn" class="dock-action-btn" title="Play loud siren to alert nearby public">
         <span style="font-size: 1.2rem;">📢</span>
-        <span id="sirenLabel">Siren</span>
+        <span id="sirenLabel" data-i18n="dockSiren">Siren</span>
       </button>
 
       <button id="dockGpsBtn" class="dock-action-btn">
         <span style="font-size: 1.2rem;">📍</span>
-        <span id="dockGpsText">My GPS</span>
+        <span id="dockGpsText" data-i18n="dockGps">My GPS</span>
       </button>
 
       <button id="dockStateBtn" class="dock-action-btn">
         <span style="font-size: 1.2rem;">🗺️</span>
-        <span id="dockStatesText">States</span>
+        <span id="dockStatesText" data-i18n="dockStates">States</span>
       </button>
     </div>
   </footer>
@@ -494,12 +510,12 @@
   <div id="stateModal" class="modal-overlay">
     <div class="modal-content">
       <div class="modal-header">
-        <h3>Select Region / State (28 States & 8 UTs)</h3>
+        <h3 id="stateModalTitle" data-i18n="stateModalTitle">Select Region / State (28 States & 8 UTs)</h3>
         <button id="closeStateModal" class="modal-close-btn">✕</button>
       </div>
       <div class="modal-body">
-        <input type="text" id="stateSearchInput" class="state-search-input" placeholder="Search state (e.g. Uttar Pradesh, Delhi, Maharashtra...)">
-        <button id="triggerGpsModalBtn" style="width: 100%; padding: 12px; margin-bottom: 12px; background: #eff6ff; color: #1d4ed8; border: 1px dashed #3b82f6; border-radius: 8px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+        <input type="text" id="stateSearchInput" data-i18n-placeholder="stateSearchPlaceholder" class="state-search-input" placeholder="Search state (e.g. Uttar Pradesh, Delhi, Maharashtra...)">
+        <button id="triggerGpsModalBtn" data-i18n="stateDetectBtn" style="width: 100%; padding: 12px; margin-bottom: 12px; background: #eff6ff; color: #1d4ed8; border: 1px dashed #3b82f6; border-radius: 8px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
           🛰️ Auto-Detect My Live Location via GPS
         </button>
         <div id="stateListGrid" class="state-list-grid">
@@ -511,8 +527,8 @@
 
   <!-- Full-screen Emergency SOS Alert Overlay -->
   <div id="sosOverlay" class="sos-overlay">
-    <div class="sos-overlay-title">🚨 EMERGENCY SOS 🚨</div>
-    <p class="sos-overlay-sub">Immediate All-in-One Emergency Response</p>
+    <div class="sos-overlay-title" id="sosOverlayTitle" data-i18n="sosModalTitle">🚨 EMERGENCY SOS 🚨</div>
+    <p class="sos-overlay-sub" id="sosOverlaySub" data-i18n="sosModalSub">Immediate All-in-One Emergency Response</p>
     <a id="sosDirectCallLink" href="tel:112" class="sos-big-call">
       <span>📞</span>
       <span>CALL 112 NOW</span>
@@ -528,7 +544,7 @@
         📢 Play Siren
       </button>
     </div>
-    <button id="dismissSosBtn" class="sos-dismiss-btn">Cancel / Close</button>
+    <button id="dismissSosBtn" class="sos-dismiss-btn" data-i18n="sosCloseBtn">Cancel / Close</button>
   </div>
 
   <!-- Trusted Emergency Contacts Modal (Zero OTP - 1-Click Save) -->
@@ -537,21 +553,21 @@
       <div class="modal-header">
         <div style="display: flex; align-items: center; gap: 8px;">
           <span style="font-size: 1.3rem;">🛡️</span>
-          <h3 id="guardianModalTitle">Trusted Emergency Contacts</h3>
+          <h3 id="guardianModalTitle" data-i18n="guardianModalTitle">Trusted Emergency Contacts</h3>
         </div>
         <button id="closeGuardiansModal" class="modal-close-btn">✕</button>
       </div>
 
       <div class="modal-body">
         <div id="guardianMainView">
-          <p class="guardian-modal-hint" id="guardianModalHint">
+          <p class="guardian-modal-hint" id="guardianModalHint" data-i18n-html="guardianModalHint">
             Add your family, parents, or friends. In an emergency, tapping <strong>"1-Click Send SOS"</strong> sends them your exact GPS coordinates and live map tracking link.
           </p>
 
           <!-- List of Registered Guardians -->
           <div class="guardian-list-section">
             <div class="guardian-section-title">
-              <span id="savedGuardiansLabel">Registered Contacts</span>
+              <span id="savedGuardiansLabel" data-i18n="savedGuardiansLabel">Registered Contacts</span>
               <span id="guardianListCount" class="guardian-badge">0 / 5</span>
             </div>
             <div id="guardiansList" class="guardians-list">
@@ -563,7 +579,7 @@
           <div class="guardian-add-card">
             <div class="guardian-card-header">
               <span style="font-size: 1rem;">➕</span>
-              <span id="addNewGuardianLabel"><strong>Add Emergency Contact</strong> (Instant Save - No OTP)</span>
+              <span id="addNewGuardianLabel" data-i18n-html="addNewGuardianLabel"><strong>Add Emergency Contact</strong> (Instant Save - No OTP)</span>
             </div>
 
             <form id="addGuardianForm" class="guardian-form">
@@ -589,7 +605,7 @@
               </div>
 
               <button type="submit" id="saveGuardianBtn" class="guardian-submit-btn">
-                <span>💾</span> <span id="saveGuardianBtnText">Save Emergency Contact (No OTP)</span>
+                <span>💾</span> <span id="saveGuardianBtnText" data-i18n="saveGuardianBtnText">Save Emergency Contact (No OTP)</span>
               </button>
             </form>
           </div>
@@ -597,7 +613,7 @@
           <!-- QR Code Pair & Share Option -->
           <div class="qr-share-box">
             <button type="button" id="showQrBtn" class="qr-toggle-btn">
-              <span>📷</span> <span id="showQrBtnText">Share / Scan Emergency Contact QR</span>
+              <span>📷</span> <span id="showQrBtnText" data-i18n="showQrBtnText">Share / Scan Emergency Contact QR</span>
             </button>
             <div id="qrContainer" class="qr-container" style="display: none;">
               <p style="font-size: 0.75rem; color: #64748b; margin-bottom: 8px;">Let a family member scan this QR code on their phone to add your emergency contact card:</p>
@@ -613,6 +629,6 @@
   <a id="emergencyAutoDialLink" href="tel:112" style="display: none;"></a>
 
   <!-- Core App Logic -->
-  <script type="module" src="js/app.js?v=8"></script>
+  <script type="module" src="js/app.js?v=9"></script>
 </body>
 </html>
