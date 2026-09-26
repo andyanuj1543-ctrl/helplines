@@ -43,7 +43,7 @@
   <!-- Manifest -->
   <link rel="manifest" href="manifest.json">
   
-  <link rel="stylesheet" href="css/styles.css?v=10">
+  <link rel="stylesheet" href="css/styles.css?v=11">
 </head>
 <body>
   <!-- Guaranteed Zero-JS / Critical Error Fallback Banner -->
@@ -93,21 +93,6 @@
     <div>
       <div class="silent-toast-text" id="silentToastTitle" data-i18n="silentToastTitle">Emergency Trigger: Dialing 112</div>
       <div class="silent-toast-sub" id="silentToastSub" data-i18n="silentToastSub">Silent emergency call initiated without siren</div>
-    </div>
-  </div>
-
-  <!-- Hold Screen Emergency Indicator (2s Circular Countdown) -->
-  <div id="holdProgressOverlay" class="hold-progress-overlay">
-    <div class="hold-progress-box">
-      <svg class="hold-progress-svg" viewBox="0 0 100 100">
-        <circle class="hold-circle-bg" cx="50" cy="50" r="42"></circle>
-        <circle id="holdCircleBar" class="hold-circle-bar" cx="50" cy="50" r="42"></circle>
-      </svg>
-      <div class="hold-content">
-        <span class="hold-icon">⚡</span>
-        <div class="hold-title" id="holdProgressText" data-i18n="holdProgressText">HOLD FOR 112</div>
-        <div class="hold-sub">Release to cancel</div>
-      </div>
     </div>
   </div>
 
@@ -223,10 +208,10 @@
       </div>
     </section>
 
-    <!-- ⚡ EMERGENCY SHORTCUT TIP: Hold Screen for 2s or Shake Phone to auto-dial 112 silently -->
+    <!-- ⚡ EMERGENCY SHORTCUT TIP: Shake Phone to auto-dial 112 silently -->
     <div class="volume-shortcut-bar" id="volumeShortcutBar">
       <span class="volume-shortcut-icon">⚡</span>
-      <span id="volumeShortcutText" data-i18n-html="volumeShortcutText" class="volume-shortcut-text"><strong>Emergency Shortcuts:</strong> <strong>Hold screen anywhere for 2s</strong> or <strong>Shake phone</strong> to dial <strong>112</strong> instantly without sirens. <em>(On Lock Screen: Press Power button 5 times)</em></span>
+      <span id="volumeShortcutText" data-i18n-html="volumeShortcutText" class="volume-shortcut-text"><strong>Emergency Shortcut:</strong> <strong>Shake phone vigorously</strong> to dial <strong>112</strong> instantly without sirens. <em>(On Lock Screen: Press Power button 5 times)</em></span>
     </div>
 
     <!-- SMART TEXT SEARCH SECTION (Immediate Discovery) -->
@@ -330,8 +315,8 @@
         <div class="feature-card">
           <div class="feature-icon-wrap feat-amber">⚡</div>
           <div class="feature-info">
-            <h4 id="feat2Title" data-i18n="feat2Title">Silent Panic Triggers (No Sirens)</h4>
-            <p id="feat2Desc" data-i18n="feat2Desc">Hold the screen anywhere for 2s or shake your phone to silently dial 112 with zero alarm sounds—keeping you safe from attackers in distress.</p>
+            <h4 id="feat2Title" data-i18n="feat2Title">Silent Shake Panic Trigger</h4>
+            <p id="feat2Desc" data-i18n="feat2Desc">Shake your phone vigorously to silently dial 112 with zero alarm sounds—keeping you safe from attackers in distress.</p>
           </div>
         </div>
 
@@ -646,6 +631,6 @@
   <a id="emergencyAutoDialLink" href="tel:112" style="display: none;"></a>
 
   <!-- Core App Logic -->
-  <script type="module" src="js/app.js?v=9"></script>
+  <script type="module" src="js/app.js?v=11"></script>
 </body>
 </html>

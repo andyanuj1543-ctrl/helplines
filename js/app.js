@@ -115,7 +115,6 @@ class HelplinesApp {
 
     // Emergency Shortcuts & Visual Overlays
     this.silentEmergencyToast = document.getElementById('silentEmergencyToast');
-    this.holdProgressOverlay = document.getElementById('holdProgressOverlay');
 
     // Direct Emergency SOS & Guardians (Zero OTP)
     this.guardianCountBadge = document.getElementById('guardianCountBadge');
@@ -151,78 +150,13 @@ class HelplinesApp {
   }
 
   /**
-   * Initializes all redundant emergency shortcuts:
-   * 1. Hold Screen anywhere for 1.8s (Foolproof in dark/panic)
-   * 2. Shake Phone vigorously 3 times (Accelerometer)
-   * 3. Volume Up + Down combo (Hardware buttons)
+   * Initializes emergency silent shortcuts:
+   * 1. Shake Phone vigorously 3 times (Accelerometer)
+   * 2. Volume Up + Down combo (Hardware buttons)
    */
   initEmergencyShortcuts() {
-    this.initHoldScreenTrigger();
     this.initShakeTrigger();
     this.initVolumeEmergencyTrigger();
-  }
-
-  /**
-   * 1. ⚡ Hold Screen for 1.8s: Press & hold finger anywhere on screen
-   * Circular countdown visual & haptic pulse; at 1.8s, automatically dials 112 silently!
-   * Releasing finger before 1.8s immediately cancels with zero false alarms.
-   */
-  initHoldScreenTrigger() {
-    let holdTimer = null;
-    let startX = 0, startY = 0;
-
-    const startHold = (e) => {
-      // Don't trigger if user is interacting with buttons, inputs, links or modals
-      if (e.target.closest('button, a, input, select, textarea, .modal-content, #dismissSosBtn')) {
-        return;
-      }
-
-      startX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
-      startY = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : 0);
-
-      if (this.holdProgressOverlay) {
-        this.holdProgressOverlay.classList.add('active');
-      }
-
-      if ('vibrate' in navigator) {
-        try { navigator.vibrate(40); } catch(err) {}
-      }
-
-      holdTimer = setTimeout(() => {
-        cancelHold();
-        this.triggerSilentEmergencyCall("Hold Screen for 2s");
-      }, 1800);
-    };
-
-    const cancelHold = () => {
-      if (holdTimer) {
-        clearTimeout(holdTimer);
-        holdTimer = null;
-      }
-      if (this.holdProgressOverlay) {
-        this.holdProgressOverlay.classList.remove('active');
-      }
-    };
-
-    const checkMove = (e) => {
-      if (!holdTimer) return;
-      const curX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
-      const curY = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : 0);
-      if (Math.abs(curX - startX) > 16 || Math.abs(curY - startY) > 16) {
-        cancelHold();
-      }
-    };
-
-    // Mobile touch listeners
-    document.addEventListener('touchstart', startHold, { passive: true });
-    document.addEventListener('touchmove', checkMove, { passive: true });
-    document.addEventListener('touchend', cancelHold, { passive: true });
-    document.addEventListener('touchcancel', cancelHold, { passive: true });
-
-    // Desktop mouse/pointer fallback
-    document.addEventListener('mousedown', startHold);
-    document.addEventListener('mousemove', checkMove);
-    document.addEventListener('mouseup', cancelHold);
   }
 
   /**
