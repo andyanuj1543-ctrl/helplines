@@ -31,65 +31,35 @@ export class GuardianService {
   }
 
   /**
-   * Initiates mobile registration & generates a 6-digit OTP
+   * Adds an emergency contact directly without requiring OTP verification
    */
-  initiateRegistration(name, phone, relation = 'Family') {
+  addGuardian(name, phone, relation = 'Family') {
     const cleanPhone = phone.replace(/[^0-9]/g, '');
     if (cleanPhone.length < 10) {
       throw new Error("Please enter a valid 10-digit mobile number");
     }
 
-    const cleanName = (name || "Contact").trim();
-    // Generate secure 6-digit OTP
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const numberToSave = cleanPhone.slice(-10);
+    const cleanName = (name || relation || "Family").trim();
+    const guardians = this.getGuardians();
 
-    this.pendingVerification = {
+    const existingIndex = guardians.findIndex(g => g.phone === numberToSave);
+    const newContact = {
+      id: 'g_' + Date.now(),
       name: cleanName,
-      phone: cleanPhone.slice(-10),
+      phone: numberToSave,
       relation: relation || 'Family',
-      otp: otp,
-      timestamp: Date.now()
+      savedAt: new Date().toISOString()
     };
 
-    return this.pendingVerification;
-  }
-
-  /**
-   * Verifies the entered OTP code
-   */
-  verifyOTP(enteredCode) {
-    if (!this.pendingVerification) {
-      return { success: false, message: "No registration in progress" };
-    }
-
-    const cleanCode = enteredCode.toString().trim();
-    if (cleanCode === this.pendingVerification.otp) {
-      const guardians = this.getGuardians();
-      
-      // Check if contact already exists
-      const existingIndex = guardians.findIndex(g => g.phone === this.pendingVerification.phone);
-      const newContact = {
-        id: 'g_' + Date.now(),
-        name: this.pendingVerification.name,
-        phone: this.pendingVerification.phone,
-        relation: this.pendingVerification.relation,
-        verifiedAt: new Date().toISOString()
-      };
-
-      if (existingIndex >= 0) {
-        guardians[existingIndex] = newContact;
-      } else {
-        guardians.push(newContact);
-      }
-
-      this.saveGuardians(guardians);
-      const verifiedContact = { ...this.pendingVerification };
-      this.pendingVerification = null;
-
-      return { success: true, contact: verifiedContact };
+    if (existingIndex >= 0) {
+      guardians[existingIndex] = newContact;
     } else {
-      return { success: false, message: "Incorrect OTP. Please enter the valid 6-digit code." };
+      guardians.push(newContact);
     }
+
+    this.saveGuardians(guardians);
+    return newContact;
   }
 
   /**
@@ -126,15 +96,22 @@ export class GuardianService {
   }
 
   /**
-   * 1-Tap Alert to all registered guardians via Native SMS (Offline support)
+   * 1-Tap Alert to registered guardians (or direct custom number) via Native SMS (Offline support)
    */
-  dispatchSMSToGuardians(location, userName = "Me") {
-    const guardians = this.getGuardians();
-    if (guardians.length === 0) return false;
+  dispatchSMSToGuardians(location, userName = "Me", customNumber = null) {
+    let numbers = '';
+    if (customNumber) {
+      const clean = customNumber.replace(/[^0-9]/g, '').slice(-10);
+      if (clean.length === 10) numbers = clean;
+    }
 
-    const numbers = guardians.map(g => g.phone).join(',');
+    if (!numbers) {
+      const guardians = this.getGuardians();
+      if (guardians.length === 0) return false;
+      numbers = guardians.map(g => g.phone).join(',');
+    }
+
     const text = encodeURIComponent(this.formatGuardianSOSMessage(location, userName));
-    
     // Cross-platform multi-recipient SMS syntax
     window.location.href = `sms:${numbers}?body=${text}`;
     return true;
@@ -143,10 +120,21 @@ export class GuardianService {
   /**
    * 1-Tap Alert to guardians via WhatsApp
    */
-  dispatchWhatsAppToGuardians(location, userName = "Me") {
-    const guardians = this.getGuardians();
+  dispatchWhatsAppToGuardians(location, userName = "Me", customNumber = null) {
+    let phone = '';
+    if (customNumber) {
+      const clean = customNumber.replace(/[^0-9]/g, '').slice(-10);
+      if (clean.length === 10) phone = clean;
+    }
+
     const text = encodeURIComponent(this.formatGuardianSOSMessage(location, userName));
 
+    if (phone) {
+      window.open(`https://api.whatsapp.com/send?phone=91${phone}&text=${text}`, '_blank');
+      return true;
+    }
+
+    const guardians = this.getGuardians();
     if (guardians.length === 1) {
       // Send directly to the primary guardian's WhatsApp chat
       window.open(`https://api.whatsapp.com/send?phone=91${guardians[0].phone}&text=${text}`, '_blank');
@@ -154,6 +142,7 @@ export class GuardianService {
       // Open WhatsApp share chooser
       window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
     }
+    return true;
   }
 
   /**

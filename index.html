@@ -13,7 +13,7 @@
   <link rel="icon" type="image/svg+xml" href="icons/icon.svg?v=6">
   <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=6">
   
-  <link rel="stylesheet" href="css/styles.css?v=7">
+  <link rel="stylesheet" href="css/styles.css?v=8">
 </head>
 <body>
 
@@ -222,28 +222,106 @@
         </button>
       </div>
 
-      <!-- Emergency Guardians Row (Trusted Contacts & 1-Tap SOS) -->
+      <!-- Emergency Guardians Row (Trusted Contacts & 1-Tap SOS - Zero OTP) -->
       <div class="guardian-action-bar">
-        <div class="guardian-bar-info">
-          <span class="guardian-shield-icon">🛡️</span>
-          <div>
-            <div class="guardian-bar-title">
-              <span id="guardianBarLabel">Trusted Emergency Guardians:</span>
-              <span id="guardianCountBadge" class="guardian-count-pill">0 Saved</span>
+        <div class="guardian-bar-top">
+          <div class="guardian-bar-info">
+            <span class="guardian-shield-icon">🛡️</span>
+            <div>
+              <div class="guardian-bar-title">
+                <span id="guardianBarLabel">Direct Emergency SOS to Family:</span>
+                <span id="guardianCountBadge" class="guardian-count-pill">0 Saved</span>
+              </div>
+              <div class="guardian-bar-sub" id="guardianBarSub">No OTP needed — enter number & send live GPS in 1 click</div>
             </div>
-            <div class="guardian-bar-sub" id="guardianBarSub">Register numbers with OTP for 1-Tap Live SOS alerts</div>
           </div>
-        </div>
-        <div class="guardian-btn-group">
-          <button id="alertGuardiansBtn" class="guardian-alert-btn" title="Send 1-Tap Live GPS Alert to all registered guardians">
-            <span>🚨</span> <span id="alertGuardiansText">1-Tap Alert Guardians</span>
+          <button id="manageGuardiansBtn" class="guardian-manage-btn" title="View or manage saved contacts">
+            <span>⚙️</span> <span id="manageGuardiansText">Contacts (<span id="guardianBtnCount">0</span>)</span>
           </button>
-          <button id="manageGuardiansBtn" class="guardian-manage-btn" title="Add or manage emergency contacts & OTP">
-            <span>⚙️</span> <span id="manageGuardiansText">Manage</span>
+        </div>
+
+        <!-- Fast 1-Click Direct Number Entry & SOS Row -->
+        <div class="guardian-fast-row">
+          <div class="fast-phone-input-wrap">
+            <span class="fast-phone-prefix">🇮🇳 +91</span>
+            <input type="tel" id="directSosPhoneInput" class="fast-phone-input" placeholder="Enter 10-digit number..." maxlength="10">
+          </div>
+          <select id="directSosRelationSelect" class="fast-relation-select" title="Relationship">
+            <option value="Family">Family (परिवार)</option>
+            <option value="Papa">Papa (पिताजी)</option>
+            <option value="Maa">Maa (माताजी)</option>
+            <option value="Spouse">Spouse (जीवनसाथी)</option>
+            <option value="Friend">Friend (दोस्त)</option>
+            <option value="Doctor">Doctor (डॉक्टर)</option>
+          </select>
+          <button id="alertGuardiansBtn" class="guardian-alert-btn" title="Send Live GPS alert immediately in 1 click">
+            <span>🚨</span> <span id="alertGuardiansText">1-Click Send SOS</span>
+          </button>
+          <button id="quickSaveGuardianBtn" class="guardian-save-quick-btn" title="Save this number to contacts (No OTP)">
+            <span>💾</span> <span id="quickSaveText">Save</span>
           </button>
         </div>
       </div>
     </div>
+
+    <!-- 🌟 UNIQUE LIFE-SAVING FEATURES SHOWCASE (Prominently Highlighted) -->
+    <section class="features-showcase-section">
+      <div class="features-header">
+        <span class="features-tag" id="featuresTag">🌟 UNIQUE APP CAPABILITIES</span>
+        <h3 id="featuresTitle">Engineered to Save Lives When Every Second Counts</h3>
+        <p id="featuresSub">Zero OTP friction, 1-click family SOS, silent panic triggers, and 100% offline emergency readiness.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon-wrap feat-red">🛡️</div>
+          <div class="feature-info">
+            <h4 id="feat1Title">1-Click Direct SOS (No OTP)</h4>
+            <p id="feat1Desc">Type any number or save family contacts with zero OTP friction. 1 click instantly sends your exact GPS coordinates, address, and live tracking map link.</p>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrap feat-amber">⚡</div>
+          <div class="feature-info">
+            <h4 id="feat2Title">Silent Panic Triggers (No Sirens)</h4>
+            <p id="feat2Desc">Hold the screen anywhere for 2s or shake your phone to silently dial 112 with zero alarm sounds—keeping you safe from attackers in distress.</p>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrap feat-blue">📍</div>
+          <div class="feature-info">
+            <h4 id="feat3Title">Live GPS & Rescue Route Link</h4>
+            <p id="feat3Desc">Automatically detects your exact street & coordinates, providing family with a direct Google Maps turn-by-turn driving route straight to your location.</p>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrap feat-pink">🌸</div>
+          <div class="feature-info">
+            <h4 id="feat4Title">Auto State Helpline Adaptation</h4>
+            <p id="feat4Desc">Smart GPS automatically configures local state hotlines (such as UP 1090 Women Power Line, Delhi 1091) so you always reach the right regional authorities.</p>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrap feat-green">📴</div>
+          <div class="feature-info">
+            <h4 id="feat5Title">100% Offline Emergency Ready</h4>
+            <p id="feat5Desc">Works completely without internet! 112 auto-dialing, the full emergency directory, and native SMS GPS dispatch function even in network blackouts.</p>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrap feat-purple">🌐</div>
+          <div class="feature-info">
+            <h4 id="feat6Title">Dual-Language Fast Accessibility</h4>
+            <p id="feat6Desc">Instantly switch the entire interface between English and हिन्दी with 1 tap so anyone under panic can navigate without language obstacles.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- Hidden region banner (kept in DOM for JS updates without pushing UI) -->
     <div id="regionBanner" class="region-banner" style="display: none;">
@@ -440,28 +518,27 @@
     <button id="dismissSosBtn" class="sos-dismiss-btn">Cancel / Close</button>
   </div>
 
-  <!-- Trusted Emergency Guardians & Mobile/OTP Verification Modal -->
+  <!-- Trusted Emergency Contacts Modal (Zero OTP - 1-Click Save) -->
   <div id="guardiansModal" class="modal-overlay">
     <div class="modal-content guardian-modal-content">
       <div class="modal-header">
         <div style="display: flex; align-items: center; gap: 8px;">
           <span style="font-size: 1.3rem;">🛡️</span>
-          <h3 id="guardianModalTitle">Trusted Emergency Guardians</h3>
+          <h3 id="guardianModalTitle">Trusted Emergency Contacts</h3>
         </div>
         <button id="closeGuardiansModal" class="modal-close-btn">✕</button>
       </div>
 
       <div class="modal-body">
-        <!-- View 1: Guardian List & Registration Form -->
         <div id="guardianMainView">
           <p class="guardian-modal-hint" id="guardianModalHint">
-            Register your family, parents, or friends. In an emergency, tapping <strong>"1-Tap Alert Guardians"</strong> sends them your exact GPS coordinates and live map tracking link.
+            Add your family, parents, or friends. In an emergency, tapping <strong>"1-Click Send SOS"</strong> sends them your exact GPS coordinates and live map tracking link.
           </p>
 
           <!-- List of Registered Guardians -->
           <div class="guardian-list-section">
             <div class="guardian-section-title">
-              <span id="savedGuardiansLabel">Registered Guardians</span>
+              <span id="savedGuardiansLabel">Registered Contacts</span>
               <span id="guardianListCount" class="guardian-badge">0 / 5</span>
             </div>
             <div id="guardiansList" class="guardians-list">
@@ -469,16 +546,16 @@
             </div>
           </div>
 
-          <!-- Add New Guardian Form -->
+          <!-- Add New Guardian Form (Direct 1-Click Save - No OTP) -->
           <div class="guardian-add-card">
             <div class="guardian-card-header">
               <span style="font-size: 1rem;">➕</span>
-              <span id="addNewGuardianLabel"><strong>Register Trusted Contact</strong> (With Mobile OTP)</span>
+              <span id="addNewGuardianLabel"><strong>Add Emergency Contact</strong> (Instant Save - No OTP)</span>
             </div>
 
             <form id="addGuardianForm" class="guardian-form">
               <div class="form-row">
-                <input type="text" id="guardianNameInput" class="guardian-input" placeholder="Contact Name (e.g. Papa, Maa, Rahul, Doctor)" required maxlength="30">
+                <input type="text" id="guardianNameInput" class="guardian-input" placeholder="Contact Name (e.g. Papa, Maa, Rahul, Doctor)" maxlength="30">
               </div>
 
               <div class="form-row phone-row">
@@ -489,6 +566,8 @@
               <div class="form-row">
                 <select id="guardianRelationSelect" class="guardian-select">
                   <option value="Family">Family / Parents (परिवार)</option>
+                  <option value="Papa">Papa (पिताजी)</option>
+                  <option value="Maa">Maa (माताजी)</option>
                   <option value="Spouse">Spouse / Partner (जीवनसाथी)</option>
                   <option value="Friend">Friend / Colleague (दोस्त)</option>
                   <option value="Doctor">Doctor / Caretaker (चिकित्सक)</option>
@@ -496,8 +575,8 @@
                 </select>
               </div>
 
-              <button type="submit" id="sendOtpBtn" class="guardian-submit-btn">
-                <span>📲</span> <span id="sendOtpBtnText">Send OTP to Verify Number</span>
+              <button type="submit" id="saveGuardianBtn" class="guardian-submit-btn">
+                <span>💾</span> <span id="saveGuardianBtnText">Save Emergency Contact (No OTP)</span>
               </button>
             </form>
           </div>
@@ -513,37 +592,6 @@
             </div>
           </div>
         </div>
-
-        <!-- View 2: OTP Verification Screen -->
-        <div id="guardianOtpView" style="display: none;">
-          <div class="otp-view-header">
-            <span style="font-size: 2.2rem;">🔐</span>
-            <h4>Verify Mobile Number</h4>
-            <p>Enter the 6-digit verification code sent to <strong id="otpTargetPhone">+91 XXXXX XXXXX</strong></p>
-          </div>
-
-          <!-- Simulated SMS Notification Box (Instant Testing) -->
-          <div class="otp-simulator-alert" id="otpSimulatorAlert">
-            <div class="otp-sim-badge">SMS ARRIVED</div>
-            <div class="otp-sim-body">
-              <span>Your Helplines verification code is: <strong id="simulatedOtpCode">123456</strong></span>
-              <button type="button" id="autoFillOtpBtn" class="otp-autofill-btn">Auto-Fill</button>
-            </div>
-          </div>
-
-          <div class="otp-inputs-row">
-            <input type="text" id="otpInput" class="otp-code-input" placeholder="• • • • • •" maxlength="6" pattern="[0-9]{6}" inputmode="numeric">
-          </div>
-
-          <div style="display: flex; gap: 10px; margin-top: 18px;">
-            <button type="button" id="confirmOtpBtn" class="guardian-submit-btn" style="flex: 1;">
-              <span>✅</span> <span>Verify & Save Guardian</span>
-            </button>
-            <button type="button" id="cancelOtpBtn" class="guardian-cancel-btn">
-              Cancel
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -552,6 +600,6 @@
   <a id="emergencyAutoDialLink" href="tel:112" style="display: none;"></a>
 
   <!-- Core App Logic -->
-  <script type="module" src="js/app.js?v=7"></script>
+  <script type="module" src="js/app.js?v=8"></script>
 </body>
 </html>

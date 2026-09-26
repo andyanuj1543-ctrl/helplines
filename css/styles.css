@@ -1778,6 +1778,89 @@ body {
   margin-top: 2px;
 }
 
+.guardian-bar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.guardian-fast-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.fast-phone-input-wrap {
+  position: relative;
+  flex: 1 1 180px;
+  display: flex;
+  align-items: center;
+}
+
+.fast-phone-prefix {
+  position: absolute;
+  left: 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #475569;
+  pointer-events: none;
+}
+
+.fast-phone-input {
+  width: 100%;
+  padding: 8px 10px 8px 65px;
+  border: 1px solid #cbd5e1;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  font-family: inherit;
+  font-weight: 600;
+  outline: none;
+  background: #ffffff;
+  color: #0f172a;
+  transition: border-color 0.15s ease;
+}
+
+.fast-phone-input:focus {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15);
+}
+
+.fast-relation-select {
+  padding: 8px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-family: inherit;
+  font-weight: 600;
+  background: #ffffff;
+  color: #334155;
+  outline: none;
+  cursor: pointer;
+}
+
+.guardian-save-quick-btn {
+  background: #0f766e;
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: background 0.15s ease;
+}
+
+.guardian-save-quick-btn:hover {
+  background: #0d9488;
+}
+
 .guardian-btn-group {
   display: flex;
   align-items: center;
@@ -1823,6 +1906,125 @@ body {
 
 .guardian-manage-btn:hover {
   background: #f1f5f9;
+}
+
+/* ==========================================================================
+   🌟 UNIQUE LIFE-SAVING FEATURES SHOWCASE
+   ========================================================================== */
+.features-showcase-section {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-md);
+  padding: 20px 18px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.features-header {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.features-tag {
+  display: inline-block;
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.8px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.features-header h3 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 4px;
+}
+
+.features-header p {
+  font-size: 0.82rem;
+  color: #64748b;
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.feature-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  border-color: #cbd5e1;
+}
+
+.feature-icon-wrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.feat-red { background: #fee2e2; color: #dc2626; }
+.feat-amber { background: #fef3c7; color: #d97706; }
+.feat-blue { background: #e0f2fe; color: #0284c7; }
+.feat-pink { background: #fce7f3; color: #db2777; }
+.feat-green { background: #dcfce7; color: #16a34a; }
+.feat-purple { background: #f3e8ff; color: #9333ea; }
+
+.feature-info {
+  flex: 1;
+}
+
+.feature-info h4 {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 4px;
+}
+
+.feature-info p {
+  font-size: 0.78rem;
+  color: #475569;
+  line-height: 1.45;
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+  .features-showcase-section {
+    padding: 16px 12px;
+  }
+  .fast-phone-input-wrap {
+    flex: 1 1 100%;
+  }
+  .fast-relation-select {
+    flex: 1;
+  }
 }
 
 /* ==========================================================================

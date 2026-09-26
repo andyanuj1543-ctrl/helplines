@@ -135,7 +135,7 @@ class HelplinesApp {
     this.holdProgressOverlay = document.getElementById('holdProgressOverlay');
     this.holdProgressText = document.getElementById('holdProgressText');
 
-    // Guardians, OTP Modal & Incoming SOS Banner
+    // Direct Emergency SOS, Guardians & Unique Features
     this.guardianBarLabel = document.getElementById('guardianBarLabel');
     this.guardianCountBadge = document.getElementById('guardianCountBadge');
     this.guardianBarSub = document.getElementById('guardianBarSub');
@@ -143,6 +143,11 @@ class HelplinesApp {
     this.manageGuardiansBtn = document.getElementById('manageGuardiansBtn');
     this.alertGuardiansText = document.getElementById('alertGuardiansText');
     this.manageGuardiansText = document.getElementById('manageGuardiansText');
+    this.guardianBtnCount = document.getElementById('guardianBtnCount');
+    this.directSosPhoneInput = document.getElementById('directSosPhoneInput');
+    this.directSosRelationSelect = document.getElementById('directSosRelationSelect');
+    this.quickSaveGuardianBtn = document.getElementById('quickSaveGuardianBtn');
+    this.quickSaveText = document.getElementById('quickSaveText');
 
     this.guardiansModal = document.getElementById('guardiansModal');
     this.closeGuardiansModal = document.getElementById('closeGuardiansModal');
@@ -150,29 +155,38 @@ class HelplinesApp {
     this.guardianModalHint = document.getElementById('guardianModalHint');
     this.savedGuardiansLabel = document.getElementById('savedGuardiansLabel');
     this.addNewGuardianLabel = document.getElementById('addNewGuardianLabel');
-    this.sendOtpBtnText = document.getElementById('sendOtpBtnText');
+    this.saveGuardianBtn = document.getElementById('saveGuardianBtn');
+    this.saveGuardianBtnText = document.getElementById('saveGuardianBtnText');
     this.showQrBtnText = document.getElementById('showQrBtnText');
 
     this.guardianMainView = document.getElementById('guardianMainView');
-    this.guardianOtpView = document.getElementById('guardianOtpView');
     this.guardiansList = document.getElementById('guardiansList');
     this.guardianListCount = document.getElementById('guardianListCount');
     this.addGuardianForm = document.getElementById('addGuardianForm');
     this.guardianNameInput = document.getElementById('guardianNameInput');
     this.guardianPhoneInput = document.getElementById('guardianPhoneInput');
     this.guardianRelationSelect = document.getElementById('guardianRelationSelect');
-    this.sendOtpBtn = document.getElementById('sendOtpBtn');
-
-    this.otpTargetPhone = document.getElementById('otpTargetPhone');
-    this.simulatedOtpCode = document.getElementById('simulatedOtpCode');
-    this.autoFillOtpBtn = document.getElementById('autoFillOtpBtn');
-    this.otpInput = document.getElementById('otpInput');
-    this.confirmOtpBtn = document.getElementById('confirmOtpBtn');
-    this.cancelOtpBtn = document.getElementById('cancelOtpBtn');
 
     this.showQrBtn = document.getElementById('showQrBtn');
     this.qrContainer = document.getElementById('qrContainer');
     this.qrCodeTarget = document.getElementById('qrCodeTarget');
+
+    // Unique Life-Saving Features Showcase elements
+    this.featuresTag = document.getElementById('featuresTag');
+    this.featuresTitle = document.getElementById('featuresTitle');
+    this.featuresSub = document.getElementById('featuresSub');
+    this.feat1Title = document.getElementById('feat1Title');
+    this.feat1Desc = document.getElementById('feat1Desc');
+    this.feat2Title = document.getElementById('feat2Title');
+    this.feat2Desc = document.getElementById('feat2Desc');
+    this.feat3Title = document.getElementById('feat3Title');
+    this.feat3Desc = document.getElementById('feat3Desc');
+    this.feat4Title = document.getElementById('feat4Title');
+    this.feat4Desc = document.getElementById('feat4Desc');
+    this.feat5Title = document.getElementById('feat5Title');
+    this.feat5Desc = document.getElementById('feat5Desc');
+    this.feat6Title = document.getElementById('feat6Title');
+    this.feat6Desc = document.getElementById('feat6Desc');
 
     this.incomingSosBanner = document.getElementById('incomingSosBanner');
     this.sosSenderName = document.getElementById('sosSenderName');
@@ -593,17 +607,35 @@ class HelplinesApp {
     // Update state-specific women line with proper language
     this.updateFastDialWomenButton(this.locationService.currentLocation.state);
 
-    // Guardian Action Bar & Modal strings
+    // Guardian Action Bar & Modal strings (Zero OTP)
     if (this.guardianBarLabel && s.guardianBarLabel) this.guardianBarLabel.textContent = s.guardianBarLabel;
     if (this.guardianBarSub && s.guardianBarSub) this.guardianBarSub.textContent = s.guardianBarSub;
     if (this.alertGuardiansText && s.alertGuardiansText) this.alertGuardiansText.textContent = s.alertGuardiansText;
-    if (this.manageGuardiansText && s.manageGuardiansText) this.manageGuardiansText.textContent = s.manageGuardiansText;
+    if (this.manageGuardiansText && s.manageGuardiansText) this.manageGuardiansText.textContent = `${s.manageGuardiansText} (${this.guardianService.getGuardians().length})`;
+    if (this.quickSaveText && s.quickSaveText) this.quickSaveText.textContent = s.quickSaveText;
     if (this.guardianModalTitle && s.guardianModalTitle) this.guardianModalTitle.textContent = s.guardianModalTitle;
     if (this.guardianModalHint && s.guardianModalHint) this.guardianModalHint.innerHTML = s.guardianModalHint;
     if (this.savedGuardiansLabel && s.savedGuardiansLabel) this.savedGuardiansLabel.textContent = s.savedGuardiansLabel;
     if (this.addNewGuardianLabel && s.addNewGuardianLabel) this.addNewGuardianLabel.innerHTML = s.addNewGuardianLabel;
-    if (this.sendOtpBtnText && s.sendOtpBtnText) this.sendOtpBtnText.textContent = s.sendOtpBtnText;
+    if (this.saveGuardianBtnText && s.saveGuardianBtnText) this.saveGuardianBtnText.textContent = s.saveGuardianBtnText;
     if (this.showQrBtnText && s.showQrBtnText) this.showQrBtnText.textContent = s.showQrBtnText;
+
+    // Unique Life-Saving Features Showcase strings
+    if (this.featuresTag && s.featuresTag) this.featuresTag.textContent = s.featuresTag;
+    if (this.featuresTitle && s.featuresTitle) this.featuresTitle.textContent = s.featuresTitle;
+    if (this.featuresSub && s.featuresSub) this.featuresSub.textContent = s.featuresSub;
+    if (this.feat1Title && s.feat1Title) this.feat1Title.textContent = s.feat1Title;
+    if (this.feat1Desc && s.feat1Desc) this.feat1Desc.textContent = s.feat1Desc;
+    if (this.feat2Title && s.feat2Title) this.feat2Title.textContent = s.feat2Title;
+    if (this.feat2Desc && s.feat2Desc) this.feat2Desc.textContent = s.feat2Desc;
+    if (this.feat3Title && s.feat3Title) this.feat3Title.textContent = s.feat3Title;
+    if (this.feat3Desc && s.feat3Desc) this.feat3Desc.textContent = s.feat3Desc;
+    if (this.feat4Title && s.feat4Title) this.feat4Title.textContent = s.feat4Title;
+    if (this.feat4Desc && s.feat4Desc) this.feat4Desc.textContent = s.feat4Desc;
+    if (this.feat5Title && s.feat5Title) this.feat5Title.textContent = s.feat5Title;
+    if (this.feat5Desc && s.feat5Desc) this.feat5Desc.textContent = s.feat5Desc;
+    if (this.feat6Title && s.feat6Title) this.feat6Title.textContent = s.feat6Title;
+    if (this.feat6Desc && s.feat6Desc) this.feat6Desc.textContent = s.feat6Desc;
   }
 
   initPWAInstallation() {
@@ -892,15 +924,22 @@ class HelplinesApp {
     this.stateModal.style.display = 'none';
   }
 
-  // --- Trusted Emergency Guardians & Live SOS Methods ---
+  // --- Trusted Emergency Guardians & Live SOS Methods (Zero OTP) ---
 
   initGuardianFeatures() {
     this.updateGuardianUI();
 
-    // Alert Guardians Button (1-Tap)
+    // Alert Guardians Button (1-Click Direct SOS)
     if (this.alertGuardiansBtn) {
       this.alertGuardiansBtn.addEventListener('click', () => {
         this.handleAlertGuardians();
+      });
+    }
+
+    // Quick Save Guardian Button on front page card
+    if (this.quickSaveGuardianBtn) {
+      this.quickSaveGuardianBtn.addEventListener('click', () => {
+        this.handleQuickSaveGuardian();
       });
     }
 
@@ -924,33 +963,10 @@ class HelplinesApp {
       });
     }
 
-    // Form submit -> Initiate registration & OTP
+    // Form submit -> Direct Add without OTP
     if (this.addGuardianForm) {
       this.addGuardianForm.addEventListener('submit', (e) => {
-        this.handleInitiateRegistration(e);
-      });
-    }
-
-    // OTP Verify button
-    if (this.confirmOtpBtn) {
-      this.confirmOtpBtn.addEventListener('click', () => {
-        this.handleVerifyOtp();
-      });
-    }
-
-    // OTP Auto-fill button
-    if (this.autoFillOtpBtn) {
-      this.autoFillOtpBtn.addEventListener('click', () => {
-        if (this.guardianService.pendingVerification && this.otpInput) {
-          this.otpInput.value = this.guardianService.pendingVerification.otp;
-        }
-      });
-    }
-
-    // OTP Cancel button
-    if (this.cancelOtpBtn) {
-      this.cancelOtpBtn.addEventListener('click', () => {
-        this.cancelOtpVerification();
+        this.handleAddGuardian(e);
       });
     }
 
@@ -970,6 +986,10 @@ class HelplinesApp {
       this.guardianCountBadge.textContent = this.currentLang === 'hi'
         ? `${count} सुरक्षित`
         : `${count} Saved`;
+    }
+
+    if (this.guardianBtnCount) {
+      this.guardianBtnCount.textContent = count;
     }
 
     if (this.guardianListCount) {
@@ -997,110 +1017,125 @@ class HelplinesApp {
         <div class="guardian-item-info">
           <div class="guardian-item-name">
             <strong>${g.name}</strong>
-            <span class="guardian-relation-tag">${g.relation || 'Contact'}</span>
+            <span class="guardian-rel-badge">${g.relation || 'Contact'}</span>
           </div>
           <div class="guardian-item-phone">
-            📞 +91 ${g.phone} <span class="verified-tag">✓ OTP Verified</span>
+            📞 +91 ${g.phone}
           </div>
         </div>
         <div class="guardian-item-actions">
-          <a href="tel:${g.phone}" class="guardian-call-btn" title="Call">📞</a>
-          <button type="button" class="guardian-delete-btn" data-id="${g.id}" title="Remove">✕</button>
+          <button type="button" class="guardian-direct-sos-btn" data-phone="${g.phone}" title="Send SOS immediately">🚨 SOS</button>
+          <a href="tel:${g.phone}" class="guardian-call-link" title="Call">📞</a>
+          <button type="button" class="guardian-del-btn" data-id="${g.id}" title="Remove">✕</button>
         </div>
       `;
 
-      const deleteBtn = item.querySelector('.guardian-delete-btn');
-      deleteBtn.addEventListener('click', () => {
-        this.guardianService.removeGuardian(g.id);
-        this.updateGuardianUI();
-      });
+      // 1-Click SOS directly to this contact
+      const sosBtn = item.querySelector('.guardian-direct-sos-btn');
+      if (sosBtn) {
+        sosBtn.addEventListener('click', () => {
+          if ('vibrate' in navigator) {
+            try { navigator.vibrate([150, 75, 150]); } catch(e) {}
+          }
+          this.guardianService.dispatchSMSToGuardians(this.locationService.currentLocation, "Me", g.phone);
+          this.showSilentEmergencyToast();
+        });
+      }
+
+      // Delete contact
+      const deleteBtn = item.querySelector('.guardian-del-btn');
+      if (deleteBtn) {
+        deleteBtn.addEventListener('click', () => {
+          this.guardianService.removeGuardian(g.id);
+          this.updateGuardianUI();
+        });
+      }
 
       this.guardiansList.appendChild(item);
     });
   }
 
   handleAlertGuardians() {
-    const guardians = this.guardianService.getGuardians();
-    if (guardians.length === 0) {
-      alert(this.currentLang === 'hi'
-        ? 'कृपया पहले कम से कम 1 आपातकालीन संपर्क (Guardian) जोड़ें!'
-        : 'Please register at least 1 emergency contact (Guardian) first!');
-      this.openGuardiansModal();
-      return;
+    let directPhone = '';
+    if (this.directSosPhoneInput && this.directSosPhoneInput.value.trim().length >= 10) {
+      directPhone = this.directSosPhoneInput.value.trim();
+      // Auto-save this number if not already saved
+      const relation = this.directSosRelationSelect ? this.directSosRelationSelect.value : 'Family';
+      try {
+        this.guardianService.addGuardian(relation, directPhone, relation);
+        this.updateGuardianUI();
+      } catch(e) {}
+    }
+
+    if (!directPhone) {
+      const guardians = this.guardianService.getGuardians();
+      if (guardians.length === 0) {
+        if (this.directSosPhoneInput) {
+          this.directSosPhoneInput.focus();
+        }
+        alert(this.currentLang === 'hi'
+          ? 'कृपया पहले 10-अंकों का मोबाइल नंबर दर्ज करें या संपर्क जोड़ें!'
+          : 'Please enter a 10-digit mobile number or add an emergency contact first!');
+        return;
+      }
     }
 
     if ('vibrate' in navigator) {
       try { navigator.vibrate([150, 75, 150]); } catch(e) {}
     }
 
-    // Trigger multi-recipient native SMS
-    const sent = this.guardianService.dispatchSMSToGuardians(this.locationService.currentLocation);
+    // Trigger 1-Click multi-recipient native SMS
+    const sent = this.guardianService.dispatchSMSToGuardians(this.locationService.currentLocation, "Me", directPhone || null);
     if (sent) {
       this.showSilentEmergencyToast();
     }
   }
 
-  handleInitiateRegistration(e) {
+  handleQuickSaveGuardian() {
+    if (!this.directSosPhoneInput) return;
+    const phone = this.directSosPhoneInput.value.trim();
+    const clean = phone.replace(/[^0-9]/g, '');
+
+    if (clean.length < 10) {
+      alert(this.currentLang === 'hi' 
+        ? 'कृपया सही 10-अंकों का मोबाइल नंबर दर्ज करें' 
+        : 'Please enter a valid 10-digit mobile number');
+      this.directSosPhoneInput.focus();
+      return;
+    }
+
+    const relation = this.directSosRelationSelect ? this.directSosRelationSelect.value : 'Family';
+    try {
+      const contact = this.guardianService.addGuardian(relation, clean, relation);
+      this.directSosPhoneInput.value = '';
+      this.updateGuardianUI();
+      alert(this.currentLang === 'hi'
+        ? `✅ ${contact.name} (+91 ${contact.phone}) संपर्क सहेज लिया गया!`
+        : `✅ ${contact.name} (+91 ${contact.phone}) saved! You can now send 1-click SOS anytime.`);
+    } catch (err) {
+      alert(err.message || 'Error saving contact');
+    }
+  }
+
+  handleAddGuardian(e) {
     e.preventDefault();
     const name = this.guardianNameInput ? this.guardianNameInput.value.trim() : '';
     const phone = this.guardianPhoneInput ? this.guardianPhoneInput.value.trim() : '';
     const relation = this.guardianRelationSelect ? this.guardianRelationSelect.value : 'Family';
 
     try {
-      const pending = this.guardianService.initiateRegistration(name, phone, relation);
-      
-      // Update OTP view
-      if (this.otpTargetPhone) {
-        this.otpTargetPhone.textContent = `+91 ${pending.phone}`;
-      }
-      if (this.simulatedOtpCode) {
-        this.simulatedOtpCode.textContent = pending.otp;
-      }
-      if (this.otpInput) {
-        this.otpInput.value = '';
-      }
-
-      // Switch views
-      if (this.guardianMainView) this.guardianMainView.style.display = 'none';
-      if (this.guardianOtpView) this.guardianOtpView.style.display = 'block';
-      if (this.otpInput) this.otpInput.focus();
+      const contact = this.guardianService.addGuardian(name, phone, relation);
+      if (this.addGuardianForm) this.addGuardianForm.reset();
+      this.updateGuardianUI();
+      alert(this.currentLang === 'hi'
+        ? `✅ ${contact.name} को आपातकालीन संपर्क में सहेज लिया गया (बिना OTP)!`
+        : `✅ ${contact.name} saved as emergency contact (No OTP needed)!`);
     } catch (err) {
       alert(err.message || "Invalid contact details");
     }
   }
 
-  handleVerifyOtp() {
-    if (!this.otpInput) return;
-    const code = this.otpInput.value.trim();
-    const result = this.guardianService.verifyOTP(code);
-
-    if (result.success) {
-      alert(this.currentLang === 'hi'
-        ? `✅ ${result.contact.name} को आपातकालीन संपर्क में सफलतापूर्वक जोड़ा गया!`
-        : `✅ ${result.contact.name} successfully registered as Emergency Guardian!`);
-      
-      // Reset form
-      if (this.addGuardianForm) this.addGuardianForm.reset();
-      
-      // Switch back to main view
-      if (this.guardianOtpView) this.guardianOtpView.style.display = 'none';
-      if (this.guardianMainView) this.guardianMainView.style.display = 'block';
-      
-      this.updateGuardianUI();
-    } else {
-      alert(result.message || "Verification failed");
-    }
-  }
-
-  cancelOtpVerification() {
-    this.guardianService.pendingVerification = null;
-    if (this.guardianOtpView) this.guardianOtpView.style.display = 'none';
-    if (this.guardianMainView) this.guardianMainView.style.display = 'block';
-  }
-
   openGuardiansModal() {
-    if (this.guardianOtpView) this.guardianOtpView.style.display = 'none';
-    if (this.guardianMainView) this.guardianMainView.style.display = 'block';
     this.updateGuardianUI();
     if (this.guardiansModal) this.guardiansModal.style.display = 'flex';
   }
