@@ -33,13 +33,13 @@
       "name": "Call 112 Police",
       "short_name": "Police",
       "description": "Emergency Unified Police Helpline",
-      "url": "/#fast112Btn"
+      "url": "./#fast112Btn"
     },
     {
       "name": "Call 108 Ambulance",
       "short_name": "Ambulance",
       "description": "Emergency Medical Response",
-      "url": "/#fast108Btn"
+      "url": "./#fastAmbulanceBtn"
     }
   ]
 }
