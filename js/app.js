@@ -136,6 +136,7 @@ class HelplinesApp {
     this.sosOverlayWhatsapp = document.getElementById('sosOverlayWhatsapp');
     this.sosOverlaySms = document.getElementById('sosOverlaySms');
     this.sosOverlaySiren = document.getElementById('sosOverlaySiren');
+    this.sosOverlayFamilyAlertBtn = document.getElementById('sosOverlayFamilyAlertBtn');
     this.sosDirectCallLink = document.getElementById('sosDirectCallLink');
     this.emergencyAutoDialLink = document.getElementById('emergencyAutoDialLink');
 
@@ -521,6 +522,12 @@ class HelplinesApp {
     this.sosOverlaySms.addEventListener('click', () => {
       this.sosService.sendSmsSOS(this.locationService.currentLocation);
     });
+
+    if (this.sosOverlayFamilyAlertBtn) {
+      this.sosOverlayFamilyAlertBtn.addEventListener('click', () => {
+        this.handleAlertGuardians();
+      });
+    }
 
     // Language Toggle Click
     if (this.langToggleBtn) {
