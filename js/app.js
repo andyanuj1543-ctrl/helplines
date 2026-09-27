@@ -66,6 +66,18 @@ class HelplinesApp {
     this.reflexShareWhatsapp = document.getElementById('reflexShareWhatsapp');
     this.reflexShareSms = document.getElementById('reflexShareSms');
 
+    // Instant Inline Reflex Pop-up Elements
+    this.inlineSearchPopUp = document.getElementById('inlineSearchPopUp');
+    this.inlinePopupBadge = document.getElementById('inlinePopupBadge');
+    this.inlinePopupStateBadge = document.getElementById('inlinePopupStateBadge');
+    this.closeInlinePopUpBtn = document.getElementById('closeInlinePopUpBtn');
+    this.inlinePopupName = document.getElementById('inlinePopupName');
+    this.inlinePopupDesc = document.getElementById('inlinePopupDesc');
+    this.inlinePopupNumber = document.getElementById('inlinePopupNumber');
+    this.inlinePopupCallBtn = document.getElementById('inlinePopupCallBtn');
+    this.inlinePopupCallBtnText = document.getElementById('inlinePopupCallBtnText');
+    this.clearSearchBtn = document.getElementById('clearSearchBtn');
+
     // Fast Dial Buttons
     this.fast112Btn = document.getElementById('fast112Btn');
     this.fastAmbulanceBtn = document.getElementById('fastAmbulanceBtn');
@@ -360,6 +372,25 @@ class HelplinesApp {
       });
     }
 
+    // Close Inline Search Pop-Up
+    if (this.closeInlinePopUpBtn) {
+      this.closeInlinePopUpBtn.addEventListener('click', () => {
+        if (this.inlineSearchPopUp) this.inlineSearchPopUp.style.display = 'none';
+      });
+    }
+
+    // Clear Search Input Button
+    if (this.clearSearchBtn) {
+      this.clearSearchBtn.addEventListener('click', () => {
+        this.needInput.value = '';
+        this.clearSearchBtn.style.display = 'none';
+        if (this.searchResultsSection) this.searchResultsSection.style.display = 'none';
+        if (this.inlineSearchPopUp) this.inlineSearchPopUp.style.display = 'none';
+        if (this.searchMatchModal) this.searchMatchModal.style.display = 'none';
+        this.needInput.focus();
+      });
+    }
+
     if (this.reflexShareWhatsapp) {
       this.reflexShareWhatsapp.addEventListener('click', () => {
         this.sosService.sendWhatsAppSOS(this.locationService.currentLocation);
@@ -381,18 +412,27 @@ class HelplinesApp {
       this.sosService.sendSmsSOS(this.locationService.currentLocation);
     });
 
-    // Search Input with debouncing
+    // Search Input with fast debouncing & direct reflex
     let debounceTimer;
     this.needInput.addEventListener('input', (e) => {
       clearTimeout(debounceTimer);
       const val = e.target.value;
-      if (val.trim().length === 0) {
-        this.searchResultsSection.style.display = 'none';
+      if (this.clearSearchBtn) {
+        this.clearSearchBtn.style.display = val.length > 0 ? 'block' : 'none';
       }
 
+      if (val.trim().length === 0) {
+        if (this.searchResultsSection) this.searchResultsSection.style.display = 'none';
+        if (this.inlineSearchPopUp) this.inlineSearchPopUp.style.display = 'none';
+        if (this.searchMatchModal) this.searchMatchModal.style.display = 'none';
+        return;
+      }
+
+      // If length >= 3 or ends with space, trigger instantly (50ms); else 100ms
+      const delay = val.trim().length >= 3 ? 50 : 100;
       debounceTimer = setTimeout(() => {
         this.handleSearch(val.trim());
-      }, 120);
+      }, delay);
     });
 
     // Category Filter Chips
@@ -683,7 +723,24 @@ class HelplinesApp {
     this.matchNumber.textContent = p.number;
     this.primaryCallBtn.href = `tel:${p.number}`;
 
-    // Trigger Instant Emergency Search Reflex Pop-up Modal
+    // 1. Instant Inline Reflex Pop-Up directly under search bar
+    if (this.inlineSearchPopUp) {
+      if (this.inlinePopupBadge) {
+        this.inlinePopupBadge.textContent = `${match.urgency} ACTION`;
+        this.inlinePopupBadge.style.background = match.urgency === 'CRITICAL' ? '#dc2626' : (match.urgency === 'HIGH' ? '#ea580c' : '#2563eb');
+      }
+      if (this.inlinePopupStateBadge) {
+        this.inlinePopupStateBadge.textContent = `${match.categoryLabel} • ${match.effectiveState}`;
+      }
+      if (this.inlinePopupName) this.inlinePopupName.textContent = p.name;
+      if (this.inlinePopupDesc) this.inlinePopupDesc.textContent = p.description || match.querySummary;
+      if (this.inlinePopupNumber) this.inlinePopupNumber.textContent = p.number;
+      if (this.inlinePopupCallBtn) this.inlinePopupCallBtn.href = `tel:${p.number}`;
+      if (this.inlinePopupCallBtnText) this.inlinePopupCallBtnText.textContent = `CALL ${p.number} NOW`;
+      this.inlineSearchPopUp.style.display = 'block';
+    }
+
+    // 2. Trigger Instant Emergency Search Reflex Pop-up Modal (Full Screen Overlay)
     if (this.searchMatchModal) {
       this.reflexUrgencyBadge.textContent = `${match.urgency} ACTION`;
       this.reflexUrgencyBadge.style.background = match.urgency === 'CRITICAL' ? '#dc2626' : (match.urgency === 'HIGH' ? '#ea580c' : '#2563eb');

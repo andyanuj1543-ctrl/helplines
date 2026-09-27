@@ -1,5 +1,5 @@
 // Service Worker for Helplines Emergency App
-const CACHE_NAME = 'helplines-cache-v16';
+const CACHE_NAME = 'helplines-cache-v17';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -48,33 +48,54 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// Cache-first strategy for fast offline emergency availability
+// Network-first for HTML & core JS so updates take immediate effect, cache fallback for offline readiness
 self.addEventListener('fetch', (event) => {
-  // Only handle GET requests and http/https
   if (event.request.method !== 'GET') return;
   if (!event.request.url.startsWith('http')) return;
 
-  event.respondWith(
-    caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
-      if (cachedResponse) {
-        // Fetch in background to update cache (stale-while-revalidate)
-        fetch(event.request).then((networkResponse) => {
-          if (networkResponse && networkResponse.status === 200) {
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, networkResponse));
-          }
-        }).catch(() => {});
-        return cachedResponse;
-      }
-      return fetch(event.request).then((networkResponse) => {
+  const url = new URL(event.request.url);
+  const isHtmlOrScript = event.request.mode === 'navigate' || 
+                         url.pathname.endsWith('.html') || 
+                         url.pathname.endsWith('/') || 
+                         url.pathname.includes('/js/');
+
+  if (isHtmlOrScript) {
+    // Network first, fallback to cache
+    event.respondWith(
+      fetch(event.request).then((networkResponse) => {
         if (networkResponse && networkResponse.status === 200) {
           const responseToCache = networkResponse.clone();
           caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseToCache));
         }
         return networkResponse;
       }).catch(() => {
-        // Offline fallback if needed
-        return caches.match('./index.html') || caches.match('./');
-      });
-    })
-  );
+        return caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
+          return cachedResponse || caches.match('./index.html') || caches.match('./');
+        });
+      })
+    );
+  } else {
+    // Cache first, update in background (stale-while-revalidate for static assets/icons/styles)
+    event.respondWith(
+      caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
+        if (cachedResponse) {
+          fetch(event.request).then((networkResponse) => {
+            if (networkResponse && networkResponse.status === 200) {
+              caches.open(CACHE_NAME).then((cache) => cache.put(event.request, networkResponse));
+            }
+          }).catch(() => {});
+          return cachedResponse;
+        }
+        return fetch(event.request).then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            const responseToCache = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseToCache));
+          }
+          return networkResponse;
+        }).catch(() => {
+          return caches.match('./index.html') || caches.match('./');
+        });
+      })
+    );
+  }
 });
