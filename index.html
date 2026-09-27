@@ -43,7 +43,7 @@
   <!-- Manifest -->
   <link rel="manifest" href="manifest.json">
   
-  <link rel="stylesheet" href="css/styles.css?v=12">
+  <link rel="stylesheet" href="css/styles.css?v=13">
 </head>
 <body>
   <!-- Guaranteed Zero-JS / Critical Error Fallback Banner -->
@@ -54,10 +54,10 @@
   </noscript>
   <div id="criticalEmergencyFallback" style="display: none; background: #dc2626; color: #fff; padding: 14px 16px; text-align: center; font-family: -apple-system, BlinkMacSystemFont, sans-serif; box-shadow: 0 4px 12px rgba(0,0,0,0.3); position: sticky; top: 0; z-index: 999999;">
     <div style="max-width: 600px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
-      <span style="font-size: 0.9rem; font-weight: 700;">🚨 BACKUP EMERGENCY DIALER:</span>
+      <span style="font-size: 0.9rem; font-weight: 700;">EMERGENCY BACKUP DIALER:</span>
       <div style="display: flex; gap: 8px;">
-        <a href="tel:112" style="background: #fff; color: #dc2626; padding: 8px 16px; border-radius: 6px; font-weight: 900; text-decoration: none;">📞 CALL 112</a>
-        <a href="tel:108" style="background: #fff; color: #16a34a; padding: 8px 16px; border-radius: 6px; font-weight: 900; text-decoration: none;">🚑 CALL 108</a>
+        <a href="tel:112" style="background: #fff; color: #dc2626; padding: 8px 16px; border-radius: 6px; font-weight: 900; text-decoration: none;">CALL 112</a>
+        <a href="tel:108" style="background: #fff; color: #16a34a; padding: 8px 16px; border-radius: 6px; font-weight: 900; text-decoration: none;">CALL 108</a>
       </div>
     </div>
   </div>
@@ -66,7 +66,7 @@
   <aside id="incomingSosBanner" class="incoming-sos-banner" style="display: none;" role="alert">
     <div class="container incoming-sos-inner">
       <div class="incoming-sos-left">
-        <span class="incoming-sos-beacon">🚨</span>
+        <span class="incoming-sos-beacon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18v-6a5 5 0 1 1 10 0v6"/><path d="M5 21h14"/><path d="M12 2v2"/><path d="M4 4l1.5 1.5"/><path d="M20 4l-1.5 1.5"/></svg></span>
         <div>
           <div class="incoming-sos-title">
             <strong id="sosSenderName">EMERGENCY SOS ALERT RECEIVED</strong>
@@ -77,10 +77,10 @@
       </div>
       <div class="incoming-sos-actions">
         <a id="sosGoogleMapsBtn" href="#" target="_blank" class="sos-action-btn maps">
-          <span>🗺️</span> <span>Get Driving Directions</span>
+          <span>Get Driving Directions</span>
         </a>
         <a id="sosCall112Btn" href="tel:112" class="sos-action-btn call">
-          <span>📞</span> <span>Call 112 Rescue</span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> <span>Call 112 Rescue</span>
         </a>
         <button id="dismissIncomingSos" class="sos-dismiss-pill" title="Dismiss Banner">✕</button>
       </div>
@@ -130,7 +130,7 @@
       <div class="header-controls">
         <!-- Language Switcher Button -->
         <button id="langToggleBtn" class="lang-toggle-btn" title="हिंदी / English भाषा बदलें">
-          <span style="font-size: 0.95rem;">🌐</span>
+          <span class="btn-icon-svg"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
           <span id="langBtnText" data-i18n="langBtn">हिंदी</span>
         </button>
 
@@ -143,7 +143,7 @@
 
         <!-- Install App Button (Positioned at the side of location) -->
         <button id="pwaInstallBtn" class="pwa-install-btn" title="Install Helplines as an App on your phone">
-          <span>📲</span> <strong id="installBtnText" data-i18n="installBtn">Install App</strong>
+          <span class="btn-icon-svg"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></span> <strong id="installBtnText" data-i18n="installBtn">Install App</strong>
         </button>
       </div>
     </div>
@@ -154,14 +154,14 @@
     <!-- FAST ACCESS HERO: 4 Instant Dial Emergency Buttons -->
     <section class="fast-dial-section">
       <div class="fast-dial-title">
-        <span id="fastTitleText" data-i18n="fastTitle">⚡ INSTANT 1-TAP EMERGENCY DIAL</span>
-        <span id="fastBadgeText" data-i18n="fastBadge" class="live-pulse-badge">TAP TO CALL NOW</span>
+        <span id="fastTitleText" data-i18n="fastTitle">Instant Emergency Services</span>
+        <span id="fastBadgeText" data-i18n="fastBadge" class="live-pulse-badge">24x7 Direct Dispatch</span>
       </div>
       <div class="fast-dial-grid">
         <!-- 112 Unified / Police -->
         <a id="fast112Btn" href="tel:112" class="fast-btn btn-police">
           <div class="fast-btn-header">
-            <span class="fast-btn-icon">🚨</span>
+            <span class="fast-btn-icon"><svg class="fast-svg-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><circle cx="12" cy="11" r="3"/></svg></span>
             <div class="fast-btn-num">112</div>
           </div>
           <div class="fast-btn-info">
@@ -173,7 +173,7 @@
         <!-- Ambulance -->
         <a id="fastAmbulanceBtn" href="tel:108" class="fast-btn btn-ambulance">
           <div class="fast-btn-header">
-            <span class="fast-btn-icon">🚑</span>
+            <span class="fast-btn-icon"><svg class="fast-svg-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 16v1a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/><line x1="8" y1="10" x2="12" y2="10"/><line x1="10" y1="8" x2="10" y2="12"/></svg></span>
             <div class="fast-btn-num">108</div>
           </div>
           <div class="fast-btn-info">
@@ -185,7 +185,7 @@
         <!-- Women Safety (State-Specific Override e.g. UP 1090) -->
         <a id="fastWomenBtn" href="tel:1090" class="fast-btn btn-women">
           <div class="fast-btn-header">
-            <span class="fast-btn-icon">🌸</span>
+            <span class="fast-btn-icon"><svg class="fast-svg-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v8"/><path d="M8 12h8"/></svg></span>
             <div id="fastWomenNum" class="fast-btn-num">1090</div>
           </div>
           <div class="fast-btn-info">
@@ -197,7 +197,7 @@
         <!-- Fire Brigade -->
         <a id="fastFireBtn" href="tel:101" class="fast-btn btn-fire">
           <div class="fast-btn-header">
-            <span class="fast-btn-icon">🔥</span>
+            <span class="fast-btn-icon"><svg class="fast-svg-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 3z"/></svg></span>
             <div class="fast-btn-num">101</div>
           </div>
           <div class="fast-btn-info">
@@ -216,7 +216,7 @@
       <p id="searchSubText" data-i18n="searchSub">Type in English or Hindi (e.g., "chori ho gayi", "accident", "fire", "fraud").</p>
 
       <div class="search-input-wrap">
-        <span class="search-icon">🔍</span>
+        <span class="search-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
         <input 
           type="text" 
           id="needInput" 
@@ -231,7 +231,7 @@
     <!-- LIVE GPS LOCATION PIN BAR -->
     <div class="live-location-card">
       <div class="loc-card-left">
-        <span class="loc-pin-icon">📍</span>
+        <span class="loc-pin-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
         <div>
           <div id="locLabelText" data-i18n="locLabel" class="loc-label">YOUR EXACT LOCATION (FOR POLICE / AMBULANCE):</div>
           <div id="exactAddressText" class="loc-address">Detecting street & GPS coordinates...</div>
@@ -240,10 +240,10 @@
       </div>
       <div class="loc-card-actions">
         <button id="quickWhatsappShare" class="quick-share-btn whatsapp" title="Share live GPS pin on WhatsApp">
-          <span>💬</span> <span id="whatsappBtnText" data-i18n="whatsappBtn">WhatsApp GPS</span>
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg> <span id="whatsappBtnText" data-i18n="whatsappBtn">WhatsApp GPS</span>
         </button>
         <button id="quickSmsShare" class="quick-share-btn sms" title="Send SMS with GPS coordinates">
-          <span>📱</span> <span id="smsBtnText" data-i18n="smsBtn">SMS GPS</span>
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> <span id="smsBtnText" data-i18n="smsBtn">SMS GPS</span>
         </button>
       </div>
 
@@ -251,7 +251,7 @@
       <div class="guardian-action-bar">
         <div class="guardian-bar-top">
           <div class="guardian-bar-info">
-            <span class="guardian-shield-icon">🛡️</span>
+            <span class="guardian-shield-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
             <div>
               <div class="guardian-bar-title">
                 <span id="guardianBarLabel" data-i18n="guardianBarLabel">Direct Emergency SOS to Family:</span>
@@ -261,7 +261,7 @@
             </div>
           </div>
           <button id="manageGuardiansBtn" class="guardian-manage-btn" title="View or manage saved contacts">
-            <span>⚙️</span> <span id="manageGuardiansText">Contacts (<span id="guardianBtnCount">0</span>)</span>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> <span id="manageGuardiansText">Contacts (<span id="guardianBtnCount">0</span>)</span>
           </button>
         </div>
 
@@ -280,73 +280,14 @@
             <option value="Doctor">Doctor (डॉक्टर)</option>
           </select>
           <button id="alertGuardiansBtn" class="guardian-alert-btn" title="Send Live GPS alert immediately in 1 click">
-            <span>🚨</span> <span id="alertGuardiansText" data-i18n="alertGuardiansText">1-Click Send SOS</span>
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> <span id="alertGuardiansText" data-i18n="alertGuardiansText">1-Click Send SOS</span>
           </button>
           <button id="quickSaveGuardianBtn" class="guardian-save-quick-btn" title="Save this number to contacts (No OTP)">
-            <span>💾</span> <span id="quickSaveText" data-i18n="quickSaveText">Save</span>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> <span id="quickSaveText" data-i18n="quickSaveText">Save</span>
           </button>
         </div>
       </div>
     </div>
-
-    <!-- 🌟 UNIQUE LIFE-SAVING FEATURES SHOWCASE (Prominently Highlighted) -->
-    <section class="features-showcase-section">
-      <div class="features-header">
-        <span class="features-tag" id="featuresTag" data-i18n="featuresTag">🌟 UNIQUE APP CAPABILITIES</span>
-        <h3 id="featuresTitle" data-i18n="featuresTitle">Engineered to Save Lives When Every Second Counts</h3>
-        <p id="featuresSub" data-i18n="featuresSub">Zero OTP friction, 1-click family SOS, silent panic triggers, and 100% offline emergency readiness.</p>
-      </div>
-
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon-wrap feat-red">🛡️</div>
-          <div class="feature-info">
-            <h4 id="feat1Title" data-i18n="feat1Title">1-Click Direct SOS (No OTP)</h4>
-            <p id="feat1Desc" data-i18n="feat1Desc">Type any number or save family contacts with zero OTP friction. 1 click instantly sends your exact GPS coordinates, address, and live tracking map link.</p>
-          </div>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon-wrap feat-amber">⚡</div>
-          <div class="feature-info">
-            <h4 id="feat2Title" data-i18n="feat2Title">Silent Shake Panic Trigger</h4>
-            <p id="feat2Desc" data-i18n="feat2Desc">Shake your phone vigorously to silently dial 112 with zero alarm sounds—keeping you safe from attackers in distress.</p>
-          </div>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon-wrap feat-blue">📍</div>
-          <div class="feature-info">
-            <h4 id="feat3Title" data-i18n="feat3Title">Live GPS & Rescue Route Link</h4>
-            <p id="feat3Desc" data-i18n="feat3Desc">Automatically detects your exact street & coordinates, providing family with a direct Google Maps turn-by-turn driving route straight to your location.</p>
-          </div>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon-wrap feat-pink">🌸</div>
-          <div class="feature-info">
-            <h4 id="feat4Title" data-i18n="feat4Title">Auto State Helpline Adaptation</h4>
-            <p id="feat4Desc" data-i18n="feat4Desc">Smart GPS automatically configures local state hotlines (such as UP 1090 Women Power Line, Delhi 1091) so you always reach the right regional authorities.</p>
-          </div>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon-wrap feat-green">📴</div>
-          <div class="feature-info">
-            <h4 id="feat5Title" data-i18n="feat5Title">100% Offline Emergency Ready</h4>
-            <p id="feat5Desc" data-i18n="feat5Desc">Works completely without internet! 112 auto-dialing, the full emergency directory, and native SMS GPS dispatch function even in network blackouts.</p>
-          </div>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon-wrap feat-purple">🌐</div>
-          <div class="feature-info">
-            <h4 id="feat6Title" data-i18n="feat6Title">Dual-Language Fast Accessibility</h4>
-            <p id="feat6Desc" data-i18n="feat6Desc">Instantly switch the entire interface between English and हिन्दी with 1 tap so anyone under panic can navigate without language obstacles.</p>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <!-- Hidden region banner (kept in DOM for JS updates without pushing UI) -->
     <div id="regionBanner" class="region-banner" style="display: none;">
@@ -359,38 +300,38 @@
 
     <!-- 1-TAP SCENARIO EMERGENCY BUTTONS (Zero Typing Needed!) -->
     <section class="scenario-section">
-      <div id="scenarioTitleText" data-i18n="scenarioTitle" class="scenario-title">⚡ QUICK SCENARIOS (1-TAP TO RESOLVE):</div>
+      <div id="scenarioTitleText" data-i18n="scenarioTitle" class="scenario-title">Quick Emergency Scenarios</div>
       <div class="scenario-grid">
         <button class="scenario-btn" data-query="Someone is following me and harassing girl women">
-          <span class="sc-icon">🏃‍♀️</span>
+          <span class="sc-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v8"/><path d="M8 12h8"/></svg></span>
           <span id="scStalkerText" data-i18n="scStalker" class="sc-text">Stalker / Harassed</span>
         </button>
         <button class="scenario-btn" data-query="Heart attack chest pain uncle unconscious collapsed">
-          <span class="sc-icon">💔</span>
+          <span class="sc-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
           <span id="scHeartText" data-i18n="scHeart" class="sc-text">Heart Attack / Collapsed</span>
         </button>
         <button class="scenario-btn" data-query="Road accident severe bleeding injured on road">
-          <span class="sc-icon">🩸</span>
+          <span class="sc-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg></span>
           <span id="scAccidentText" data-i18n="scAccident" class="sc-text">Road Accident / Bleeding</span>
         </button>
         <button class="scenario-btn" data-query="Fire in kitchen building cylinder blast smoke">
-          <span class="sc-icon">🔥</span>
+          <span class="sc-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 3z"/></svg></span>
           <span id="scFireText" data-i18n="scFire" class="sc-text">Fire / Cylinder Leak</span>
         </button>
         <button class="scenario-btn" data-query="Money stolen from bank account online fraud UPI scam">
-          <span class="sc-icon">💳</span>
+          <span class="sc-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></span>
           <span id="scFraudText" data-i18n="scFraud" class="sc-text">Bank / Cyber Fraud (1930)</span>
         </button>
         <button class="scenario-btn" data-query="Feeling suicidal depressed want to end life help">
-          <span class="sc-icon">🧠</span>
+          <span class="sc-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></span>
           <span id="scSuicideText" data-i18n="scSuicide" class="sc-text">Suicide / Mental Help</span>
         </button>
         <button class="scenario-btn" data-query="Highway car breakdown flat tyre towing accident">
-          <span class="sc-icon">🚗</span>
+          <span class="sc-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span>
           <span id="scHighwayText" data-i18n="scHighway" class="sc-text">Highway Breakdown (1033)</span>
         </button>
         <button class="scenario-btn" data-query="Child abuse minor kid lost orphan baby">
-          <span class="sc-icon">👶</span>
+          <span class="sc-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="15" r="0.5" fill="currentColor"/></svg></span>
           <span id="scChildText" data-i18n="scChild" class="sc-text">Child in Danger (1098)</span>
         </button>
       </div>
@@ -416,7 +357,7 @@
             <div id="matchNumber" class="match-number-display">1090</div>
           </div>
           <a id="primaryCallBtn" href="tel:1090" class="primary-call-btn">
-            <span>📞</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
             <span>CALL NOW</span>
           </a>
         </div>
@@ -454,19 +395,19 @@
 
       <div class="category-chips-list">
         <button class="cat-chip active" data-category="all">All Helplines</button>
-        <button class="cat-chip" data-category="unified">🚨 ERSS 112</button>
-        <button class="cat-chip" data-category="police">👮 Police (100)</button>
-        <button class="cat-chip" data-category="women">🌸 Women (1090 / 181)</button>
-        <button class="cat-chip" data-category="ambulance">🚑 Ambulance (108 / 102)</button>
-        <button class="cat-chip" data-category="fire">🔥 Fire (101)</button>
-        <button class="cat-chip" data-category="cyber">💻 Cyber Crime (1930)</button>
-        <button class="cat-chip" data-category="mental_health">🧠 Mental Health (14416)</button>
-        <button class="cat-chip" data-category="child">👶 Childline (1098)</button>
-        <button class="cat-chip" data-category="road">🛣️ Highway & Road (1033)</button>
-        <button class="cat-chip" data-category="senior">👴 Senior Citizens (14567)</button>
-        <button class="cat-chip" data-category="disaster">🌪️ Disaster (1078)</button>
-        <button class="cat-chip" data-category="poison">☠️ Poison Control</button>
-        <button class="cat-chip" data-category="railway">🚆 Railway (139)</button>
+        <button class="cat-chip" data-category="unified">ERSS 112</button>
+        <button class="cat-chip" data-category="police">Police (100)</button>
+        <button class="cat-chip" data-category="women">Women (1090 / 181)</button>
+        <button class="cat-chip" data-category="ambulance">Ambulance (108 / 102)</button>
+        <button class="cat-chip" data-category="fire">Fire (101)</button>
+        <button class="cat-chip" data-category="cyber">Cyber Crime (1930)</button>
+        <button class="cat-chip" data-category="mental_health">Mental Health (14416)</button>
+        <button class="cat-chip" data-category="child">Childline (1098)</button>
+        <button class="cat-chip" data-category="road">Highway & Road (1033)</button>
+        <button class="cat-chip" data-category="senior">Senior Citizens (14567)</button>
+        <button class="cat-chip" data-category="disaster">Disaster (1078)</button>
+        <button class="cat-chip" data-category="poison">Poison Control</button>
+        <button class="cat-chip" data-category="railway">Railway (139)</button>
       </div>
     </section>
 
@@ -481,22 +422,22 @@
   <footer class="bottom-dock">
     <div class="dock-inner">
       <a href="tel:112" class="dock-sos-btn" title="Tap to call 112 immediately">
-        <span>🚨</span>
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
         <span id="dockSosText" data-i18n="dockSos">CALL 112</span>
       </a>
 
       <button id="dockSirenBtn" class="dock-action-btn" title="Play loud siren to alert nearby public">
-        <span style="font-size: 1.2rem;">📢</span>
+        <span class="dock-icon-svg"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18v-6a5 5 0 1 1 10 0v6"/><path d="M5 21h14"/><path d="M12 2v2"/><path d="M4 4l1.5 1.5"/><path d="M20 4l-1.5 1.5"/></svg></span>
         <span id="sirenLabel" data-i18n="dockSiren">Siren</span>
       </button>
 
       <button id="dockGpsBtn" class="dock-action-btn">
-        <span style="font-size: 1.2rem;">📍</span>
+        <span class="dock-icon-svg"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
         <span id="dockGpsText" data-i18n="dockGps">My GPS</span>
       </button>
 
       <button id="dockStateBtn" class="dock-action-btn">
-        <span style="font-size: 1.2rem;">🗺️</span>
+        <span class="dock-icon-svg"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></span>
         <span id="dockStatesText" data-i18n="dockStates">States</span>
       </button>
     </div>
@@ -523,10 +464,10 @@
 
   <!-- Full-screen Emergency SOS Alert Overlay -->
   <div id="sosOverlay" class="sos-overlay">
-    <div class="sos-overlay-title" id="sosOverlayTitle" data-i18n="sosModalTitle">🚨 EMERGENCY SOS 🚨</div>
+    <div class="sos-overlay-title" id="sosOverlayTitle" data-i18n="sosModalTitle">Emergency SOS Center</div>
     <p class="sos-overlay-sub" id="sosOverlaySub" data-i18n="sosModalSub">Immediate All-in-One Emergency Response</p>
     <a id="sosDirectCallLink" href="tel:112" class="sos-big-call">
-      <span>📞</span>
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
       <span>CALL 112 NOW</span>
     </a>
     <div style="display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; justify-content: center;">
@@ -537,7 +478,7 @@
         Send SOS SMS with Coordinates
       </button>
       <button id="sosOverlaySiren" class="gps-share-btn" style="padding: 12px 20px; background: #fef08a; color: #854d0e; border: 1px solid #facc15;">
-        📢 Play Siren
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18v-6a5 5 0 1 1 10 0v6"/><path d="M5 21h14"/><path d="M12 2v2"/><path d="M4 4l1.5 1.5"/><path d="M20 4l-1.5 1.5"/></svg> Play Siren
       </button>
     </div>
     <button id="dismissSosBtn" class="sos-dismiss-btn" data-i18n="sosCloseBtn">Cancel / Close</button>
@@ -548,7 +489,7 @@
     <div class="modal-content guardian-modal-content">
       <div class="modal-header">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span style="font-size: 1.3rem;">🛡️</span>
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           <h3 id="guardianModalTitle" data-i18n="guardianModalTitle">Trusted Emergency Contacts</h3>
         </div>
         <button id="closeGuardiansModal" class="modal-close-btn">✕</button>
@@ -601,7 +542,7 @@
               </div>
 
               <button type="submit" id="saveGuardianBtn" class="guardian-submit-btn">
-                <span>💾</span> <span id="saveGuardianBtnText" data-i18n="saveGuardianBtnText">Save Emergency Contact (No OTP)</span>
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> <span id="saveGuardianBtnText" data-i18n="saveGuardianBtnText">Save Emergency Contact (No OTP)</span>
               </button>
             </form>
           </div>
@@ -609,7 +550,7 @@
           <!-- QR Code Pair & Share Option -->
           <div class="qr-share-box">
             <button type="button" id="showQrBtn" class="qr-toggle-btn">
-              <span>📷</span> <span id="showQrBtnText" data-i18n="showQrBtnText">Share / Scan Emergency Contact QR</span>
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> <span id="showQrBtnText" data-i18n="showQrBtnText">Share / Scan Emergency Contact QR</span>
             </button>
             <div id="qrContainer" class="qr-container" style="display: none;">
               <p style="font-size: 0.75rem; color: #64748b; margin-bottom: 8px;">Let a family member scan this QR code on their phone to add your emergency contact card:</p>
@@ -625,6 +566,6 @@
   <a id="emergencyAutoDialLink" href="tel:112" style="display: none;"></a>
 
   <!-- Core App Logic -->
-  <script type="module" src="js/app.js?v=12"></script>
+  <script type="module" src="js/app.js?v=13"></script>
 </body>
 </html>

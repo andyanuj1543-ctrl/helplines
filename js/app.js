@@ -548,7 +548,7 @@ class HelplinesApp {
   updateLocationUI(loc) {
     const isLive = loc.isLiveGPS;
     this.gpsDot.className = isLive ? "gps-dot" : "gps-dot manual";
-    this.locationText.textContent = `📍 ${loc.district ? loc.district + ', ' : ''}${loc.state}`;
+    this.locationText.textContent = `${loc.district ? loc.district + ', ' : ''}${loc.state}`;
     this.locationText.title = isLive ? "Real-time GPS Active" : "Manually selected state";
 
     // Update Live GPS Location Card
@@ -693,7 +693,7 @@ class HelplinesApp {
         <div class="card-top">
           <div class="card-badge-row">
             <span class="card-cat-tag">${item.categoryLabel || item.category}</span>
-            ${item.isStateSpecial ? `<span class="card-special-tag">📍 ${item.tag || currentState}</span>` : '<span style="font-size: 0.68rem; color: #10b981; font-weight: 700;">● 24x7 Active</span>'}
+            ${item.isStateSpecial ? `<span class="card-special-tag">${item.tag || currentState}</span>` : '<span class="card-status-pill">Active</span>'}
           </div>
           <h4 class="card-name">${item.name}</h4>
           <p class="card-desc">${item.description || ''}</p>
@@ -701,7 +701,7 @@ class HelplinesApp {
         <div class="card-bottom">
           <span class="card-number">${item.number}</span>
           <a href="tel:${item.number}" class="card-call-btn">
-            <span>📞</span>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
             <span>CALL</span>
           </a>
         </div>
@@ -850,13 +850,11 @@ class HelplinesApp {
             <strong>${g.name}</strong>
             <span class="guardian-rel-badge">${g.relation || 'Contact'}</span>
           </div>
-          <div class="guardian-item-phone">
-            📞 +91 ${g.phone}
-          </div>
+          <div class="guardian-item-phone">+91 ${g.phone}</div>
         </div>
         <div class="guardian-item-actions">
-          <button type="button" class="guardian-direct-sos-btn" data-phone="${g.phone}" title="Send SOS immediately">🚨 SOS</button>
-          <a href="tel:${g.phone}" class="guardian-call-link" title="Call">📞</a>
+          <button type="button" class="guardian-direct-sos-btn" data-phone="${g.phone}" title="Send SOS immediately">SOS</button>
+          <a href="tel:${g.phone}" class="guardian-call-link" title="Call"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></a>
           <button type="button" class="guardian-del-btn" data-id="${g.id}" title="Remove">✕</button>
         </div>
       `;
