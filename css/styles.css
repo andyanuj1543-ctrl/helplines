@@ -2381,3 +2381,200 @@ body {
   border-color: #cbd5e1;
   color: #0f172a;
 }
+
+/* Top Emergency SOS Button */
+.top-sos-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #dc2626;
+  color: #ffffff;
+  border: 1px solid #b91c1c;
+  padding: 4px 10px;
+  border-radius: 14px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  box-shadow: 0 1px 4px rgba(220, 38, 38, 0.25);
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.top-sos-pill-btn:hover {
+  background: #b91c1c;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(220, 38, 38, 0.35);
+}
+
+.top-sos-pill-btn:active {
+  transform: scale(0.95);
+}
+
+.top-sos-pill-btn svg {
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+/* Instant Emergency Search Reflex Pop-up Modal */
+.search-reflex-modal {
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9999;
+}
+
+.reflex-modal-content {
+  max-width: 480px;
+  width: 94%;
+  border-radius: 18px;
+  border: 1px solid #fecaca;
+  box-shadow: 0 25px 50px -12px rgba(220, 38, 38, 0.25);
+}
+
+.reflex-modal-header {
+  padding: 14px 18px;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+}
+
+.reflex-badge-group {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.reflex-modal-body {
+  padding: 16px 18px 20px;
+  overflow-y: auto;
+  max-height: 78vh;
+}
+
+.reflex-primary-banner {
+  background: #fff5f5;
+  border: 1px solid #fee2e2;
+  border-radius: 14px;
+  padding: 16px;
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+.reflex-advice-tag {
+  display: inline-block;
+  background: #fee2e2;
+  color: #dc2626;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  padding: 2px 8px;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.reflex-service-name {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #991b1b;
+  margin-bottom: 4px;
+}
+
+.reflex-service-desc {
+  font-size: 0.8rem;
+  color: #475569;
+  line-height: 1.35;
+  margin-bottom: 10px;
+}
+
+.reflex-number-display {
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: #dc2626;
+  letter-spacing: -0.02em;
+  font-feature-settings: 'tnum' on;
+  line-height: 1;
+  margin-bottom: 14px;
+}
+
+.reflex-call-now-btn {
+  background: #dc2626;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 12px;
+  padding: 13px 20px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 14px rgba(220, 38, 38, 0.4);
+  transition: all 0.15s ease;
+}
+
+.reflex-call-now-btn:hover {
+  background: #b91c1c;
+  transform: translateY(-1px);
+}
+
+.reflex-call-now-btn:active {
+  transform: scale(0.97);
+}
+
+.reflex-alt-wrap {
+  margin-bottom: 14px;
+}
+
+.reflex-alt-title {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+}
+
+.reflex-alt-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 8px;
+}
+
+.reflex-tips-box {
+  background: #f8fafc;
+  border-left: 3px solid #f59e0b;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 14px;
+}
+
+.reflex-tips-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #b45309;
+  margin-bottom: 4px;
+}
+
+.reflex-tips-box ul {
+  padding-left: 16px;
+  font-size: 0.75rem;
+  color: #334155;
+  margin: 0;
+}
+
+.reflex-tips-box li {
+  margin-bottom: 2px;
+}
+
+.reflex-share-row {
+  display: flex;
+  gap: 8px;
+}
+
+.reflex-share-row .quick-share-btn {
+  flex: 1;
+  justify-content: center;
+}

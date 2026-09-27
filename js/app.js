@@ -49,6 +49,23 @@ class HelplinesApp {
     this.regionBannerTitle = document.getElementById('regionBannerTitle');
     this.regionBannerText = document.getElementById('regionBannerText');
 
+    this.topSosTriggerBtn = document.getElementById('topSosTriggerBtn');
+    this.searchMatchModal = document.getElementById('searchMatchModal');
+    this.closeSearchMatchModal = document.getElementById('closeSearchMatchModal');
+    this.reflexUrgencyBadge = document.getElementById('reflexUrgencyBadge');
+    this.reflexCategoryBadge = document.getElementById('reflexCategoryBadge');
+    this.reflexName = document.getElementById('reflexName');
+    this.reflexDesc = document.getElementById('reflexDesc');
+    this.reflexNumber = document.getElementById('reflexNumber');
+    this.reflexCallBtn = document.getElementById('reflexCallBtn');
+    this.reflexCallBtnText = document.getElementById('reflexCallBtnText');
+    this.reflexAltNumbersWrap = document.getElementById('reflexAltNumbersWrap');
+    this.reflexAltNumbersGrid = document.getElementById('reflexAltNumbersGrid');
+    this.reflexActionTipsBox = document.getElementById('reflexActionTipsBox');
+    this.reflexActionTipsList = document.getElementById('reflexActionTipsList');
+    this.reflexShareWhatsapp = document.getElementById('reflexShareWhatsapp');
+    this.reflexShareSms = document.getElementById('reflexShareSms');
+
     // Fast Dial Buttons
     this.fast112Btn = document.getElementById('fast112Btn');
     this.fastAmbulanceBtn = document.getElementById('fastAmbulanceBtn');
@@ -315,6 +332,45 @@ class HelplinesApp {
         this.scrollToSearchResults();
       });
     });
+
+    // Top SOS Button Trigger
+    if (this.topSosTriggerBtn) {
+      this.topSosTriggerBtn.addEventListener('click', () => {
+        if ('vibrate' in navigator) {
+          try { navigator.vibrate([100, 50, 100]); } catch(e) {}
+        }
+        if (this.sosOverlay) {
+          this.sosOverlay.classList.add('active');
+        }
+      });
+    }
+
+    // Close Search Match Reflex Modal
+    if (this.closeSearchMatchModal) {
+      this.closeSearchMatchModal.addEventListener('click', () => {
+        if (this.searchMatchModal) this.searchMatchModal.style.display = 'none';
+      });
+    }
+
+    if (this.searchMatchModal) {
+      this.searchMatchModal.addEventListener('click', (e) => {
+        if (e.target === this.searchMatchModal) {
+          this.searchMatchModal.style.display = 'none';
+        }
+      });
+    }
+
+    if (this.reflexShareWhatsapp) {
+      this.reflexShareWhatsapp.addEventListener('click', () => {
+        this.sosService.sendWhatsAppSOS(this.locationService.currentLocation);
+      });
+    }
+
+    if (this.reflexShareSms) {
+      this.reflexShareSms.addEventListener('click', () => {
+        this.sosService.sendSmsSOS(this.locationService.currentLocation);
+      });
+    }
 
     // Quick GPS location card shares
     this.quickWhatsappShare.addEventListener('click', () => {
@@ -626,6 +682,62 @@ class HelplinesApp {
     this.matchDesc.textContent = p.description || match.querySummary;
     this.matchNumber.textContent = p.number;
     this.primaryCallBtn.href = `tel:${p.number}`;
+
+    // Trigger Instant Emergency Search Reflex Pop-up Modal
+    if (this.searchMatchModal) {
+      this.reflexUrgencyBadge.textContent = `${match.urgency} ACTION`;
+      this.reflexUrgencyBadge.style.background = match.urgency === 'CRITICAL' ? '#dc2626' : (match.urgency === 'HIGH' ? '#ea580c' : '#2563eb');
+      this.reflexCategoryBadge.textContent = match.categoryLabel;
+      this.reflexName.textContent = p.name;
+      this.reflexDesc.textContent = p.description || match.querySummary;
+      this.reflexNumber.textContent = p.number;
+      this.reflexCallBtn.href = `tel:${p.number}`;
+      if (this.reflexCallBtnText) {
+        this.reflexCallBtnText.textContent = `CALL ${p.number} NOW`;
+      }
+
+      // Reflex secondary numbers
+      if (this.reflexAltNumbersGrid && this.reflexAltNumbersWrap) {
+        this.reflexAltNumbersGrid.innerHTML = '';
+        if (match.alternativeHelplines && match.alternativeHelplines.length > 0) {
+          this.reflexAltNumbersWrap.style.display = 'block';
+          match.alternativeHelplines.forEach(alt => {
+            const div = document.createElement('div');
+            div.className = 'alt-card';
+            div.innerHTML = `
+              <div>
+                <div class="alt-name">${alt.name}</div>
+                <div class="alt-num">${alt.number}</div>
+              </div>
+              <a href="tel:${alt.number}" class="alt-call-btn">CALL</a>
+            `;
+            this.reflexAltNumbersGrid.appendChild(div);
+          });
+        } else {
+          this.reflexAltNumbersWrap.style.display = 'none';
+        }
+      }
+
+      // Reflex action tips
+      if (this.reflexActionTipsList && this.reflexActionTipsBox) {
+        this.reflexActionTipsList.innerHTML = '';
+        if (match.actionTips && match.actionTips.length > 0) {
+          match.actionTips.forEach(tip => {
+            const li = document.createElement('li');
+            li.textContent = tip;
+            this.reflexActionTipsList.appendChild(li);
+          });
+          this.reflexActionTipsBox.style.display = 'block';
+        } else {
+          this.reflexActionTipsBox.style.display = 'none';
+        }
+      }
+
+      this.searchMatchModal.style.display = 'flex';
+      if ('vibrate' in navigator) {
+        try { navigator.vibrate(80); } catch(e) {}
+      }
+    }
 
     // Alternative Numbers
     this.altNumbersGrid.innerHTML = '';

@@ -43,7 +43,7 @@
   <!-- Manifest -->
   <link rel="manifest" href="manifest.json">
   
-  <link rel="stylesheet" href="css/styles.css?v=14">
+  <link rel="stylesheet" href="css/styles.css?v=15">
 </head>
 <body>
   <!-- Guaranteed Zero-JS / Critical Error Fallback Banner -->
@@ -155,7 +155,10 @@
     <section class="fast-dial-section">
       <div class="fast-dial-title">
         <span id="fastTitleText" data-i18n="fastTitle">Instant Emergency Services</span>
-        <span id="fastBadgeText" data-i18n="fastBadge" class="live-pulse-badge">24x7 Direct Dispatch</span>
+        <button id="topSosTriggerBtn" class="top-sos-pill-btn" title="Immediate Emergency SOS">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><circle cx="12" cy="11" r="3"/></svg>
+          <span id="fastBadgeText" data-i18n="topSosBtn">Emergency SOS</span>
+        </button>
       </div>
       <div class="fast-dial-grid">
         <!-- 112 Unified / Police -->
@@ -561,10 +564,56 @@
     </div>
   </div>
 
+    <!-- Instant Emergency Search Reflex Pop-up Modal -->
+  <div id="searchMatchModal" class="modal-overlay search-reflex-modal" role="dialog" aria-modal="true">
+    <div class="modal-content reflex-modal-content">
+      <div class="reflex-modal-header">
+        <div class="reflex-badge-group">
+          <span id="reflexUrgencyBadge" class="urgency-badge">CRITICAL ACTION</span>
+          <span id="reflexCategoryBadge" class="state-badge">Emergency Service</span>
+        </div>
+        <button id="closeSearchMatchModal" class="modal-close-btn" title="Close">✕</button>
+      </div>
+      <div class="reflex-modal-body">
+        <div class="reflex-primary-banner">
+          <div class="reflex-advice-tag" id="reflexAdviceTag">RECOMMENDED EMERGENCY RESPONSE</div>
+          <h2 id="reflexName" class="reflex-service-name">Police & Emergency</h2>
+          <p id="reflexDesc" class="reflex-service-desc">Immediate emergency patrol and response</p>
+          <div id="reflexNumber" class="reflex-number-display">112</div>
+          <a id="reflexCallBtn" href="tel:112" class="reflex-call-now-btn">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <span id="reflexCallBtnText">CALL 112 NOW</span>
+          </a>
+        </div>
+
+        <div id="reflexAltNumbersWrap" class="reflex-alt-wrap" style="display: none;">
+          <div class="reflex-alt-title">Backup / Secondary Helplines:</div>
+          <div id="reflexAltNumbersGrid" class="reflex-alt-grid"></div>
+        </div>
+
+        <div id="reflexActionTipsBox" class="reflex-tips-box" style="display: none;">
+          <div class="reflex-tips-title">Safety Guidance While Calling:</div>
+          <ul id="reflexActionTipsList"></ul>
+        </div>
+
+        <div class="reflex-share-row">
+          <button id="reflexShareWhatsapp" class="quick-share-btn whatsapp">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+            <span>Share GPS via WhatsApp</span>
+          </button>
+          <button id="reflexShareSms" class="quick-share-btn sms">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <span>Share GPS via SMS</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Hidden Auto-Dial Anchor for Silent Emergency Shortcut Trigger -->
   <a id="emergencyAutoDialLink" href="tel:112" style="display: none;"></a>
 
   <!-- Core App Logic -->
-  <script type="module" src="js/app.js?v=14"></script>
+  <script type="module" src="js/app.js?v=15"></script>
 </body>
 </html>
