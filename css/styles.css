@@ -2259,3 +2259,125 @@ body {
   padding: 1px 7px;
   border-radius: 10px;
 }
+
+/* Apple / Google Tier-1 Font Stack & Tabular Numerals */
+* {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', Roboto, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.fast-btn-num, .match-number-display, .card-number {
+  font-feature-settings: 'tnum' on, 'lnum' on;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+/* Native Micro-Interaction: Haptic Press Feel */
+.fast-btn:active, .scenario-chip:active, .quick-share-btn:active, .dock-action-btn:active, .dock-sos-btn:active {
+  transform: scale(0.96) !important;
+  transition: transform 0.08s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+}
+
+/* Spotlight Style Search Hero */
+.search-hero {
+  background: #ffffff;
+  border: 1px solid var(--border-hairline, #e2e8f0);
+  border-radius: 16px;
+  padding: 16px 18px;
+  margin: 12px 0 10px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+}
+
+.search-hero h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.01em;
+}
+
+.search-hero p {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-bottom: 10px;
+}
+
+.search-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  color: #94a3b8;
+  display: inline-flex;
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 14px 12px 42px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  outline: none;
+  background: #f1f5f9;
+  color: #0f172a;
+  transition: all 0.2s ease;
+}
+
+.search-input:focus {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  box-shadow: 0 0 0 3px rgba(226, 232, 240, 0.8);
+}
+
+/* Horizontal Capsule Chips (Google Maps / iOS Spotlight Style) */
+.scenario-scroll-container {
+  margin: 4px 0 14px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.scenario-scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.scenario-capsules-strip {
+  display: flex;
+  gap: 8px;
+  padding: 2px 2px 6px;
+  white-space: nowrap;
+}
+
+.scenario-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 7px 13px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.scenario-chip svg {
+  color: #64748b;
+  flex-shrink: 0;
+}
+
+.scenario-chip:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}

@@ -65,7 +65,7 @@ class HelplinesApp {
     this.quickSmsShare = document.getElementById('quickSmsShare');
 
     // Scenario buttons
-    this.scenarioBtns = document.querySelectorAll('.scenario-btn');
+    this.scenarioBtns = document.querySelectorAll('.scenario-btn, .scenario-chip');
 
     // Search & Need Input
     this.needInput = document.getElementById('needInput');
