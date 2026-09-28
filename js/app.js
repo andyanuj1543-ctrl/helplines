@@ -77,6 +77,7 @@ class HelplinesApp {
     this.inlinePopupCallBtn = document.getElementById('inlinePopupCallBtn');
     this.inlinePopupCallBtnText = document.getElementById('inlinePopupCallBtnText');
     this.clearSearchBtn = document.getElementById('clearSearchBtn');
+    this.searchSubmitBtn = document.getElementById('searchSubmitBtn');
 
     // Fast Dial Buttons
     this.fast112Btn = document.getElementById('fast112Btn');
@@ -336,12 +337,13 @@ class HelplinesApp {
       }
     });
 
-    // 1-Tap Scenario Buttons
+    // 1-Tap Scenario Buttons (Direct full emergency reflex modal)
     this.scenarioBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         const query = btn.getAttribute('data-query');
         this.needInput.value = query;
-        this.handleSearch(query);
+        if (this.clearSearchBtn) this.clearSearchBtn.style.display = 'block';
+        this.handleSearch(query, { openModal: true, isExplicitSubmit: true });
         this.scrollToSearchResults();
       });
     });
@@ -375,8 +377,22 @@ class HelplinesApp {
 
     // Close Inline Search Pop-Up
     if (this.closeInlinePopUpBtn) {
-      this.closeInlinePopUpBtn.addEventListener('click', () => {
+      this.closeInlinePopUpBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
         if (this.inlineSearchPopUp) this.inlineSearchPopUp.style.display = 'none';
+      });
+    }
+
+    // Tapping on the Inline Search Pop-Up Card opens the full detailed reflex modal (except direct call button)
+    if (this.inlineSearchPopUp) {
+      this.inlineSearchPopUp.addEventListener('click', (e) => {
+        if (e.target.closest('#inlinePopupCallBtn') || e.target.closest('#closeInlinePopUpBtn')) {
+          return;
+        }
+        const val = this.needInput.value.trim();
+        if (val.length >= 2) {
+          this.handleSearch(val, { openModal: true, isExplicitSubmit: true });
+        }
       });
     }
 
@@ -413,7 +429,8 @@ class HelplinesApp {
       this.sosService.sendSmsSOS(this.locationService.currentLocation);
     });
 
-    // Search Input with fast debouncing & direct reflex
+    // Search Input with smooth debouncing & non-intrusive reflex
+    // NEVER interrupts active typing with a full-screen modal
     let debounceTimer;
     this.needInput.addEventListener('input', (e) => {
       clearTimeout(debounceTimer);
@@ -429,12 +446,45 @@ class HelplinesApp {
         return;
       }
 
-      // If length >= 3 or ends with space, trigger instantly (50ms); else 100ms
-      const delay = val.trim().length >= 3 ? 50 : 100;
+      // If user is just starting to type (<3 letters), do not trigger popups prematurely
+      if (val.trim().length < 3 && val.trim() !== "102" && val.trim() !== "112" && val.trim() !== "108" && val.trim() !== "101" && val.trim() !== "100") {
+        if (this.searchResultsSection) this.searchResultsSection.style.display = 'none';
+        if (this.inlineSearchPopUp) this.inlineSearchPopUp.style.display = 'none';
+        return;
+      }
+
+      // 350ms pause after typing before showing the inline reflex card
       debounceTimer = setTimeout(() => {
-        this.handleSearch(val.trim());
-      }, delay);
+        this.handleSearch(val.trim(), { openModal: false, isExplicitSubmit: false });
+      }, 350);
     });
+
+    // Enter Key Search - Explicitly triggers full reflex modal
+    this.needInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        clearTimeout(debounceTimer);
+        const val = this.needInput.value.trim();
+        if (val.length >= 2) {
+          this.handleSearch(val, { openModal: true, isExplicitSubmit: true });
+          this.scrollToSearchResults();
+        }
+      }
+    });
+
+    // Explicit Search / Find Help Button
+    if (this.searchSubmitBtn) {
+      this.searchSubmitBtn.addEventListener('click', () => {
+        clearTimeout(debounceTimer);
+        const val = this.needInput.value.trim();
+        if (val.length >= 2) {
+          this.handleSearch(val, { openModal: true, isExplicitSubmit: true });
+          this.scrollToSearchResults();
+        } else {
+          this.needInput.focus();
+        }
+      });
+    }
 
     // Category Filter Chips
     this.categoryChips.forEach(chip => {
@@ -703,15 +753,19 @@ class HelplinesApp {
     }
   }
 
-  handleSearch(query) {
+  handleSearch(query, { openModal = false, isExplicitSubmit = false } = {}) {
     if (!query || query.length === 0) {
-      this.searchResultsSection.style.display = 'none';
+      if (this.searchResultsSection) this.searchResultsSection.style.display = 'none';
+      if (this.inlineSearchPopUp) this.inlineSearchPopUp.style.display = 'none';
+      if (this.searchMatchModal) this.searchMatchModal.style.display = 'none';
       return;
     }
 
-    const match = SmartNLPService.matchNeed(query, this.locationService.currentLocation.state);
+    const match = SmartNLPService.matchNeed(query, this.locationService.currentLocation.state, isExplicitSubmit);
     if (!match) {
-      this.searchResultsSection.style.display = 'none';
+      if (this.searchResultsSection) this.searchResultsSection.style.display = 'none';
+      if (this.inlineSearchPopUp) this.inlineSearchPopUp.style.display = 'none';
+      if (this.searchMatchModal) this.searchMatchModal.style.display = 'none';
       return;
     }
 
@@ -747,7 +801,7 @@ class HelplinesApp {
       this.inlineSearchPopUp.style.display = 'block';
     }
 
-    // 2. Trigger Instant Emergency Search Reflex Pop-up Modal (Full Screen Overlay)
+    // 2. Emergency Search Reflex Pop-up Modal (Full Screen Overlay) - Only on explicit trigger or openModal=true
     if (this.searchMatchModal) {
       this.reflexUrgencyBadge.textContent = `${match.urgency} ACTION`;
       this.reflexUrgencyBadge.style.background = match.urgency === 'CRITICAL' ? '#dc2626' : (match.urgency === 'HIGH' ? '#ea580c' : '#2563eb');
@@ -797,9 +851,11 @@ class HelplinesApp {
         }
       }
 
-      this.searchMatchModal.style.display = 'flex';
-      if ('vibrate' in navigator) {
-        try { navigator.vibrate(80); } catch(e) {}
+      if (openModal) {
+        this.searchMatchModal.style.display = 'flex';
+        if ('vibrate' in navigator) {
+          try { navigator.vibrate(80); } catch(e) {}
+        }
       }
     }
 

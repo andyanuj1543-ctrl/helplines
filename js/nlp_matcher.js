@@ -111,6 +111,25 @@ const CATEGORY_RULES = [
     ]
   },
   {
+    category: "maternity",
+    label: "Maternity & Pregnancy Ambulance (Janani Shishu)",
+    urgency: "CRITICAL",
+    primaryNationalId: "nat-102",
+    icon: "ambulance",
+    actionTips: [
+      "Keep the expecting mother calm, resting on her left side with fresh airflow.",
+      "Keep Mother & Child Protection (MCP) card, ID card, and hospital medical records ready.",
+      "Dial 102 for free government Janani Shishu ambulance for delivery and newborn care."
+    ],
+    triggers: [
+      "pregnant", "pregnancy", "delivery", "labor pain", "labour pain", "labour", "labor",
+      "bacha hone wala", "bachha hone wala", "prasav", "delivery pain", "water broke",
+      "contractions", "maternity", "maternal", "new mother", "janani", "shishu",
+      "pregnant woman", "expecting mother", "garbhvati", "garbhwati", "102",
+      "childbirth", "baby birth", "hospital delivery", "pregnancy emergency"
+    ]
+  },
+  {
     category: "ambulance",
     label: "Medical Emergency & Ambulance",
     urgency: "CRITICAL",
@@ -125,8 +144,8 @@ const CATEGORY_RULES = [
       "ambulance", "medical", "doctor", "hospital", "heart attack", "chest pain",
       "unconscious", "fainted", "collapsed", "bleeding", "blood", "accident", "injured",
       "chot", "khoon", "stroke", "paralysis", "breathing issue", "breathless", "asthma attack",
-      "fracture", "head injury", "pregnant", "delivery", "labor pain", "labour", "poisoning",
-      "snake bite", "choking", "seizure", "fit", "dora", "oxygen", "emergency patient", "mar raha hai", "bachao"
+      "fracture", "head injury", "poisoning", "snake bite", "choking", "seizure", "fit", "dora",
+      "oxygen", "emergency patient", "mar raha hai", "bachao"
     ]
   },
   {
@@ -288,13 +307,20 @@ export class SmartNLPService {
    * Matches user input text to best emergency helplines taking state/location into account
    * @param {string} rawQuery User typed query
    * @param {string} activeState Current selected or detected Indian State/UT (e.g. "Uttar Pradesh")
+   * @param {boolean} isExplicitSubmit True when user pressed Enter, clicked Search or Scenario button
    */
-  static matchNeed(rawQuery, activeState = "Uttar Pradesh") {
+  static matchNeed(rawQuery, activeState = "Uttar Pradesh", isExplicitSubmit = false) {
     if (!rawQuery || rawQuery.trim().length === 0) {
       return null;
     }
 
-    const query = rawQuery.toLowerCase().trim();
+    const trimmed = rawQuery.trim();
+    // Do not match single random characters while typing
+    if (!isExplicitSubmit && trimmed.length < 3 && trimmed !== "102" && trimmed !== "112" && trimmed !== "108" && trimmed !== "101" && trimmed !== "100") {
+      return null;
+    }
+
+    const query = trimmed.toLowerCase();
 
     // 1. Detect if the user explicitly mentioned a city or state in their query
     let detectedState = null;
@@ -332,8 +358,13 @@ export class SmartNLPService {
       }
     }
 
-    // Default to ERSS unified emergency 112 if no specific pattern is found or score is very low
+    // Default to ERSS unified emergency 112 ONLY on explicit search submit when no pattern matches
     if (!bestRule || maxScore === 0) {
+      if (!isExplicitSubmit) {
+        // While user is typing, do NOT interrupt them with a fallback emergency pop-up
+        return null;
+      }
+
       const nat112 = NATIONAL_HELPLINES.find(h => h.id === "nat-112");
       return {
         matched: false,
@@ -357,16 +388,20 @@ export class SmartNLPService {
 
     // 3. Find primary and alternative helplines
     // Check if the state has a specialized line for this category!
-    // Example: If in UP and category is "women", UP has 1090 (Women Power Line)!
+    // Example: If in UP and category is "maternity", UP has 102 (Matri Shishu Ambulance)!
+    // If in UP and category is "women", UP has 1090 (Women Power Line)!
     // If in Delhi and category is "women", Delhi has 181 (DCW) and 1091!
-    // If in Gujarat and category is "women", Gujarat has 181 (Abhayam)!
     const stateHelplines = stateData.helplines || [];
-    const stateMatch = stateHelplines.find(h => h.category === bestRule.category || (bestRule.category === "police" && h.category === "unified"));
+    const stateMatch = stateHelplines.find(h => 
+      h.category === bestRule.category || 
+      (bestRule.category === "police" && h.category === "unified") ||
+      (bestRule.category === "maternity" && (h.number === "102" || (h.id && h.id.includes("102")) || (h.tag && h.tag.toLowerCase().includes("maternal")) || (h.name && h.name.includes("102")) || (h.name && h.name.toLowerCase().includes("shishu"))))
+    );
 
     let primaryHelpline = null;
     let specialNote = null;
 
-    if (stateMatch && stateMatch.isStateSpecial) {
+    if (stateMatch && (stateMatch.isStateSpecial || stateMatch.number === "102")) {
       primaryHelpline = stateMatch;
       specialNote = `Recommended for ${effectiveState}: ${stateMatch.name} (${stateMatch.tag || 'Special State Emergency Line'})`;
     } else {
@@ -376,16 +411,24 @@ export class SmartNLPService {
     // Secondary / Alternative Helplines
     const alternativeHelplines = [];
 
+    // For maternity, ensure 108 (General Emergency Ambulance) is prioritized as backup
+    if (bestRule.category === "maternity") {
+      const nat108 = NATIONAL_HELPLINES.find(h => h.id === "nat-108");
+      if (nat108 && primaryHelpline.number !== nat108.number) {
+        alternativeHelplines.push(nat108);
+      }
+    }
+
     // Always include 112 if 112 is not already the primary
     const nat112 = NATIONAL_HELPLINES.find(h => h.id === "nat-112");
-    if (primaryHelpline.number !== "112" && nat112) {
+    if (primaryHelpline.number !== "112" && nat112 && !alternativeHelplines.some(a => a.number === "112")) {
       alternativeHelplines.push(nat112);
     }
 
     // Add state lines if available
     for (const sh of stateHelplines) {
-      if (sh.id !== primaryHelpline.id && !alternativeHelplines.some(a => a.number === sh.number)) {
-        if (sh.category === bestRule.category || sh.category === "unified") {
+      if (sh.id !== primaryHelpline.id && sh.number !== primaryHelpline.number && !alternativeHelplines.some(a => a.number === sh.number)) {
+        if (sh.category === bestRule.category || sh.category === "unified" || (bestRule.category === "maternity" && sh.category === "ambulance")) {
           alternativeHelplines.push(sh);
         }
       }
@@ -393,7 +436,7 @@ export class SmartNLPService {
 
     // Add remaining national lines in same category
     for (const nh of NATIONAL_HELPLINES) {
-      if (nh.id !== primaryHelpline.id && nh.category === bestRule.category && !alternativeHelplines.some(a => a.number === nh.number)) {
+      if (nh.id !== primaryHelpline.id && nh.number !== primaryHelpline.number && nh.category === bestRule.category && !alternativeHelplines.some(a => a.number === nh.number)) {
         alternativeHelplines.push(nh);
       }
     }

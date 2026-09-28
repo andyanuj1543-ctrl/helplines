@@ -53,7 +53,21 @@ export const NATIONAL_HELPLINES = [
     description: "GVK EMRI / National Health Mission 24x7 Emergency Medical Response & Advanced Life Support Ambulance.",
     priority: 2,
     available24x7: true,
-    keywords: ["ambulance", "medical", "hospital", "heart attack", "chest pain", "unconscious", "stroke", "bleeding", "accident", "patient", "doctor", "injured", "delivery", "pregnant", "khoon"]
+    keywords: ["ambulance", "medical", "hospital", "heart attack", "chest pain", "unconscious", "stroke", "bleeding", "accident", "patient", "doctor", "injured", "khoon"]
+  },
+  {
+    id: "nat-102",
+    name: "Janani Shishu & Maternity Ambulance",
+    shortName: "Pregnancy & Child Ambulance (102)",
+    number: "102",
+    altNumber: "108",
+    category: "maternity",
+    categoryLabel: "Maternity & Pregnancy (102)",
+    icon: "ambulance",
+    description: "National Health Mission 24x7 free dedicated ambulance transport for pregnant women, childbirth delivery, and sick newborns.",
+    priority: 1,
+    available24x7: true,
+    keywords: ["pregnant", "pregnancy", "delivery", "labor pain", "labour", "maternity", "maternal", "prasav", "garbhvati", "garbhwati", "janani", "shishu", "102", "childbirth", "contractions"]
   },
   {
     id: "nat-1090",

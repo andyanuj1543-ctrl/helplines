@@ -229,6 +229,10 @@
           autocomplete="off"
         >
         <button type="button" id="clearSearchBtn" class="clear-search-btn" title="Clear input" style="display: none;">✕</button>
+        <button type="button" id="searchSubmitBtn" class="search-submit-btn" title="Find Emergency Helpline">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <span class="search-submit-btn-text">Find Help</span>
+        </button>
 
         <!-- Instant Inline Reflex Pop-Up (Drops immediately beneath input) -->
         <div id="inlineSearchPopUp" class="inline-search-popup" style="display: none;">
@@ -268,6 +272,10 @@
         <button class="scenario-chip" data-query="Road accident severe bleeding injured on road">
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
           <span id="scAccidentText" data-i18n="scAccident">Road Collision</span>
+        </button>
+        <button class="scenario-chip" data-query="Pregnant woman delivery pain labor hospital bacha hone maternity">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a5 5 0 0 0-5 5v2a5 5 0 0 0 10 0V7a5 5 0 0 0-5-5z"/><path d="M12 14c-4.42 0-8 3.58-8 8h16c0-4.42-3.58-8-8-8z"/></svg>
+          <span id="scPregnancyText" data-i18n="scPregnancy">Pregnancy / Delivery (102)</span>
         </button>
         <button class="scenario-chip" data-query="Fire in kitchen building cylinder blast smoke">
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 3z"/></svg>
@@ -717,6 +725,6 @@
   <a id="emergencyAutoDialLink" href="tel:112" style="display: none;"></a>
 
   <!-- Core App Logic -->
-  <script type="module" src="js/app.js?v=18"></script>
+  <script type="module" src="js/app.js?v=19"></script>
 </body>
 </html>
